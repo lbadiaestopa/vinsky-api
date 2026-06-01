@@ -23,6 +23,7 @@ it('registers a user successfully', function () {
             'name',
             'email',
         ],
+        'token',
     ]);
 
     $this->assertDatabaseHas('users', [
@@ -32,4 +33,12 @@ it('registers a user successfully', function () {
     $user = User::where('email', 'john@example.com')->first();
 
     expect($user)->not->toBeNull();
+
+    $response->assertJson([
+        'user' => [
+            'email' => 'john@example.com',
+        ],
+    ]);
+
+    $this->assertNotEmpty($response->json('token'));
 });
