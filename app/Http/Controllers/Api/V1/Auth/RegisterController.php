@@ -3,32 +3,28 @@
 namespace App\Http\Controllers\Api\V1\Auth;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Http\Requests\Api\V1\Auth\RegisterRequest;
-use App\Models\User;
-use Illuminate\Support\Facades\Hash;
-use Laravel\Passport\HasApiTokens;
+use App\Services\Auth\RegisterService;
+use App\Http\Resources\UserResource;
+use App\Services\Auth\AuthService;
 
 class RegisterController extends Controller
 {
+    public function __construct(
+        private RegisterService $registerService,
+        private AuthService $authService
+    ) {}
+
     public function store(RegisterRequest $request)
     {
-        $data = $request->validated();
+        $user = $this->registerService->register(
+            $request->validated()
+        );
 
-        $user = User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-        ]);
-
-        $token = $user->createToken('auth_token')->accessToken;
+        $token = $this->authService->issueToken($user);
 
         return response()->json([
-            'user' => [
-                'id' => $user->id,
-                'name' => $user->name,
-                'email' => $user->email,
-            ],
+            'user' => new UserResource($user),
             'token' => $token,
         ], 201);
     }
