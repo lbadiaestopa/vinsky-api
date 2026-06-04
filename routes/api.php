@@ -20,3 +20,5 @@ Route::middleware('auth:api')->post('/v1/logout', [LogoutController::class, 'sto
 Route::middleware('auth:api')->get('/v1/me', [ProfileController::class, 'show']);
 
 Route::middleware('auth:api')->put('/v1/me', [ProfileController::class, 'update']);
+
+Route::middleware('auth:api')->put('v1/me/password', [ProfileController::class, 'updatePassword']);
