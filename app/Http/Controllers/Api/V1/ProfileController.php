@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Resources\UserResource;
 use App\Services\Profile\ProfileService;
 use App\Http\Requests\Api\V1\Profile\ProfileUpdateRequest;
+use App\Http\Requests\Api\V1\Profile\UpdatePasswordRequest;
 
 class ProfileController extends Controller
 {
@@ -29,5 +30,19 @@ class ProfileController extends Controller
         );
 
         return new UserResource($updatedUser);
+    }
+
+    public function updatePassword(UpdatePasswordRequest $request)
+    {
+        $user = $request->user();
+
+        $this->profileService->updatePassword(
+            $user,
+            $request->password
+        );
+
+        return response()->json([
+            'message' => 'Password updated successfully.',
+        ]);
     }
 }
