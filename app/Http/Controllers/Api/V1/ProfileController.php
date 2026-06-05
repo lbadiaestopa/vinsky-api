@@ -45,4 +45,11 @@ class ProfileController extends Controller
             'message' => 'Password updated successfully.',
         ]);
     }
+
+    public function destroy(Request $request)
+    {
+        $this->profileService->delete($request->user());
+
+        return response()->noContent();
+    }
 }

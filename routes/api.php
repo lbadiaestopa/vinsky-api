@@ -22,3 +22,6 @@ Route::middleware('auth:api')->get('/v1/me', [ProfileController::class, 'show'])
 Route::middleware('auth:api')->put('/v1/me', [ProfileController::class, 'update']);
 
 Route::middleware('auth:api')->put('v1/me/password', [ProfileController::class, 'updatePassword']);
+
+Route::middleware('auth:api')->delete('/v1/me', [ProfileController::class, 'destroy']);
+

@@ -146,3 +146,62 @@ it('does not allow updating password from profile endpoint', function () {
         Hash::check('old-password', $user->fresh()->password)
     );
 });
+
+it('deletes the authenticated user account', function () {
+
+    $user = User::factory()->create();
+
+    Passport::actingAs($user);
+
+    $response = $this->deleteJson('/api/v1/me');
+
+    $response->assertNoContent();
+
+    $this->assertDatabaseMissing('users', [
+        'id' => $user->id,
+    ]);
+});
+
+it('does not allow unauthenticated users to delete their account', function () {
+
+    $user = User::factory()->create();
+
+    $response = $this->deleteJson('/api/v1/me');
+
+    $response->assertUnauthorized();
+
+    $this->assertDatabaseHas('users', [
+        'id' => $user->id,
+    ]);
+});
+
+it('invalidates user tokens after account deletion', function () {
+
+    $user = User::factory()->create([
+        'email' => 'john@example.com',
+        'password' => bcrypt('password'),
+    ]);
+
+    $loginResponse = $this->postJson('/api/v1/login', [
+        'email' => 'john@example.com',
+        'password' => 'password',
+    ]);
+
+    $token = $loginResponse->json('token');
+
+    $this->withHeader('Authorization', "Bearer $token")
+        ->deleteJson('/api/v1/me')
+        ->assertNoContent();
+
+    $this->app->get('auth')->forgetGuards();
+    $this->app->get('auth')->shouldUse('api');
+
+    $this->assertDatabaseMissing('users', [
+        'id' => $user->id,
+    ]);
+
+    $meResponse = $this->withHeader('Authorization', "Bearer $token")
+        ->getJson('/api/v1/me');
+
+    $meResponse->assertUnauthorized();
+});

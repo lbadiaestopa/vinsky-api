@@ -4,6 +4,7 @@ namespace App\Services\Profile;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 
 class ProfileService
 {
@@ -21,5 +22,16 @@ class ProfileService
         ]);
 
         return $user;
+    }
+
+    public function delete(User $user): void
+    {
+        DB::table('oauth_access_tokens')
+            ->where('user_id', $user->id)
+            ->update([
+                'revoked' => true,
+            ]);
+
+        $user->delete();
     }
 }
