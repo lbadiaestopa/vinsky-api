@@ -13,4 +13,11 @@ class OrchestraPolicy
             ->where('role', 'admin')
             ->exists();
     }
+
+    public function viewAny(User $user): bool
+    {
+        return $user->memberships()
+            ->whereNotNull('orchestra_id')
+            ->exists();
+    }
 }
