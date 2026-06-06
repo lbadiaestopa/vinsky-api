@@ -29,4 +29,12 @@ class OrchestraPolicy
             ->where('orchestra_id', $orchestra->id)
             ->exists();
     }
+
+    public function update(User $user, Orchestra $orchestra): bool
+    {
+        return Membership::where('user_id', $user->id)
+            ->where('orchestra_id', $orchestra->id)
+            ->where('role', 'admin')
+            ->exists();
+    }
 }

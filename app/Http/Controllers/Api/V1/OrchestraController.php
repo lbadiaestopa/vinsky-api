@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\V1\Orchestra\StoreOrchestraRequest;
+use App\Http\Requests\Api\V1\Orchestra\UpdateOrchestraRequest;
 use App\Http\Resources\OrchestraResource;
 use App\Models\Orchestra;
 use App\Services\Orchestras\OrchestraService;
@@ -44,6 +45,18 @@ class OrchestraController extends Controller
     public function show(Orchestra $orchestra)
     {
         $this->authorize('view', $orchestra);
+
+        return new OrchestraResource($orchestra);
+    }
+
+    public function update(UpdateOrchestraRequest $request, Orchestra $orchestra)
+    {
+        $this->authorize('update', $orchestra);
+
+        $$orchestra = $this->service->update(
+            $orchestra,
+            $request->validated()
+        );
 
         return new OrchestraResource($orchestra);
     }
