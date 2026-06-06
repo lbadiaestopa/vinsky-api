@@ -23,6 +23,18 @@ class MembershipFactory extends Factory
             'user_id' => User::factory(),
             'orchestra_id' => Orchestra::factory(),
             'role' => 'member',
+            'member_type' => 'core',
+            'instrument' => null,
+            'section' => null,
+            'joined_at' => now(),
         ];
+    }
+
+    public function adminWithoutOrchestra(): static
+    {
+        return $this->state(fn() => [
+            'orchestra_id' => null,
+            'role' => 'admin',
+        ]);
     }
 }
