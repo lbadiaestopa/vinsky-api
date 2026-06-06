@@ -278,3 +278,111 @@ it('does not allow creator without membership in orchestra', function () {
 
     $response->assertForbidden();
 });
+
+it('allows an admin to update an orchestra', function () {
+
+    $user = User::factory()->create();
+    Passport::actingAs($user);
+
+    $orchestra = Orchestra::factory()->create([
+        'name' => 'Old Name',
+        'location' => 'Old Location',
+    ]);
+
+    Membership::factory()->create([
+        'user_id' => $user->id,
+        'orchestra_id' => $orchestra->id,
+        'role' => 'admin',
+    ]);
+
+    $response = $this->putJson("/api/v1/orchestras/{$orchestra->id}", [
+        'name' => 'New Name',
+        'location' => 'New Location',
+    ]);
+
+    $response->assertOk();
+
+    $this->assertDatabaseHas('orchestras', [
+        'id' => $orchestra->id,
+        'name' => 'New Name',
+        'location' => 'New Location',
+    ]);
+});
+
+it('forbids a member from updating an orchestra', function () {
+
+    $user = User::factory()->create();
+    Passport::actingAs($user);
+
+    $orchestra = Orchestra::factory()->create();
+
+    Membership::factory()->create([
+        'user_id' => $user->id,
+        'orchestra_id' => $orchestra->id,
+        'role' => 'member',
+    ]);
+
+    $response = $this->putJson("/api/v1/orchestras/{$orchestra->id}", [
+        'name' => 'Hack Name',
+        'location' => 'Hack Location',
+    ]);
+
+    $response->assertForbidden();
+});
+
+it('forbids update without membership', function () {
+
+    $user = User::factory()->create();
+    Passport::actingAs($user);
+
+    $orchestra = Orchestra::factory()->create();
+
+    $response = $this->putJson("/api/v1/orchestras/{$orchestra->id}", [
+        'name' => 'Hack Name',
+        'location' => 'Hack Location',
+    ]);
+
+    $response->assertForbidden();
+});
+
+it('requires name and location when updating', function () {
+
+    $user = User::factory()->create();
+    Passport::actingAs($user);
+
+    $orchestra = Orchestra::factory()->create();
+
+    Membership::factory()->create([
+        'user_id' => $user->id,
+        'orchestra_id' => $orchestra->id,
+        'role' => 'admin',
+    ]);
+
+    $response = $this->putJson("/api/v1/orchestras/{$orchestra->id}", []);
+
+    $response->assertStatus(422);
+    $response->assertJsonValidationErrors(['name', 'location']);
+});
+
+it('cannot update another user orchestra', function () {
+
+    $user = User::factory()->create();
+    Passport::actingAs($user);
+
+    $otherUser = User::factory()->create();
+
+    $orchestra = Orchestra::factory()->create();
+
+    Membership::factory()->create([
+        'user_id' => $otherUser->id,
+        'orchestra_id' => $orchestra->id,
+        'role' => 'admin',
+    ]);
+
+    $response = $this->putJson("/api/v1/orchestras/{$orchestra->id}", [
+        'name' => 'Hacked Name',
+        'location' => 'Hack Location',
+    ]);
+
+    $response->assertForbidden();
+});
