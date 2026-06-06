@@ -185,3 +185,96 @@ it('requires authentication', function () {
 
     $response->assertUnauthorized();
 });
+
+it('allows a user to view their orchestra', function () {
+
+    $user = User::factory()->create();
+    Passport::actingAs($user);
+
+    $orchestra = Orchestra::factory()->create();
+
+    Membership::factory()->create([
+        'user_id' => $user->id,
+        'orchestra_id' => $orchestra->id,
+        'role' => 'member',
+    ]);
+
+    $response = $this->getJson("/api/v1/orchestras/{$orchestra->id}");
+
+    $response->assertOk();
+
+    $response->assertJsonFragment([
+        'id' => $orchestra->id,
+        'name' => $orchestra->name,
+        'location' => $orchestra->location,
+    ]);
+});
+
+it('allows an admin to view their orchestra', function () {
+
+    $user = User::factory()->create();
+    Passport::actingAs($user);
+
+    $orchestra = Orchestra::factory()->create();
+
+    Membership::factory()->create([
+        'user_id' => $user->id,
+        'orchestra_id' => $orchestra->id,
+        'role' => 'admin',
+    ]);
+
+    $response = $this->getJson("/api/v1/orchestras/{$orchestra->id}");
+
+    $response->assertOk();
+});
+
+it('forbids access to an orchestra without membership', function () {
+
+    $user = User::factory()->create();
+    Passport::actingAs($user);
+
+    $orchestra = Orchestra::factory()->create();
+
+    $response = $this->getJson("/api/v1/orchestras/{$orchestra->id}");
+
+    $response->assertForbidden();
+});
+
+it('forbids access to another user orchestra', function () {
+
+    $user = User::factory()->create();
+    Passport::actingAs($user);
+
+    $orchestra = Orchestra::factory()->create();
+
+    $otherUser = User::factory()->create();
+
+    Membership::factory()->create([
+        'user_id' => $otherUser->id,
+        'orchestra_id' => $orchestra->id,
+        'role' => 'member',
+    ]);
+
+    $response = $this->getJson("/api/v1/orchestras/{$orchestra->id}");
+
+    $response->assertForbidden();
+});
+
+it('does not allow creator without membership in orchestra', function () {
+
+    $user = User::factory()->create();
+
+    Membership::factory()->create([
+        'user_id' => $user->id,
+        'orchestra_id' => null,
+        'role' => 'admin',
+    ]);
+
+    Passport::actingAs($user);
+
+    $orchestra = Orchestra::factory()->create();
+
+    $response = $this->getJson("/api/v1/orchestras/{$orchestra->id}");
+
+    $response->assertForbidden();
+});
