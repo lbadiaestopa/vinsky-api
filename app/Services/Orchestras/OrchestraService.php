@@ -32,4 +32,11 @@ class OrchestraService
             })
             ->get();
     }
+
+    public function update(Orchestra $orchestra, array $data): Orchestra
+    {
+        $orchestra->update($data);
+
+        return $orchestra->fresh();
+    }
 }
