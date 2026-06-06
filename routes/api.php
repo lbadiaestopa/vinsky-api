@@ -29,4 +29,6 @@ Route::middleware('auth:api')->group(function () {
     Route::delete('/v1/me', [ProfileController::class, 'destroy']);
 
     Route::post('/v1/orchestras', [OrchestraController::class, 'store']);
+
+    Route::get('/v1/orchestras', [OrchestraController::class, 'index']);
 });
