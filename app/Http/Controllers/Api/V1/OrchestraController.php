@@ -40,4 +40,11 @@ class OrchestraController extends Controller
 
         return OrchestraResource::collection($orchestras);
     }
+
+    public function show(Orchestra $orchestra)
+    {
+        $this->authorize('view', $orchestra);
+
+        return new OrchestraResource($orchestra);
+    }
 }
