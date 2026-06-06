@@ -8,11 +8,12 @@ use App\Http\Resources\OrchestraResource;
 use App\Models\Orchestra;
 use App\Services\Orchestras\OrchestraService;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Http\Request;
 
 class OrchestraController extends Controller
 {
     use AuthorizesRequests;
-    
+
     public function __construct(
         private OrchestraService $service
     ) {}
@@ -29,5 +30,14 @@ class OrchestraController extends Controller
         return (new OrchestraResource($orchestra))
             ->response()
             ->setStatusCode(201);
+    }
+
+    public function index(Request $request)
+    {
+        $this->authorize('viewAny', Orchestra::class);
+
+        $orchestras = $this->service->index($request->user());
+
+        return OrchestraResource::collection($orchestras);
     }
 }
