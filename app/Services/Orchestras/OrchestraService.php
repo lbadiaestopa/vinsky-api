@@ -23,4 +23,13 @@ class OrchestraService
 
         return $orchestra;
     }
+
+    public function index(User $user)
+    {
+        return Orchestra::query()
+            ->whereHas('memberships', function ($query) use ($user) {
+                $query->where('user_id', $user->id);
+            })
+            ->get();
+    }
 }
