@@ -8,27 +8,22 @@ use App\Http\Controllers\Api\V1\Auth\LogoutController;
 use App\Http\Controllers\Api\V1\ProfileController;
 use App\Http\Controllers\Api\V1\OrchestraController;
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:api');
+Route::prefix('v1')->group(function () {
 
-Route::post('/v1/register', [RegisterController::class, 'store']);
+    Route::post('/register', [RegisterController::class, 'store']);
+    Route::post('/login', [LoginController::class, 'store']);
 
-Route::post('/v1/login', [LoginController::class, 'store']);
+    Route::middleware('auth:api')->group(function () {
 
-Route::middleware('auth:api')->group(function () {
+        Route::post('/logout', [LogoutController::class, 'store']);
 
-    Route::post('/v1/logout', [LogoutController::class, 'store']);
+        Route::get('/me', [ProfileController::class, 'show']);
+        Route::put('/me', [ProfileController::class, 'update']);
+        Route::put('/me/password', [ProfileController::class, 'updatePassword']);
+        Route::delete('/me', [ProfileController::class, 'destroy']);
 
-    Route::get('/v1/me', [ProfileController::class, 'show']);
-
-    Route::put('/v1/me', [ProfileController::class, 'update']);
-
-    Route::put('v1/me/password', [ProfileController::class, 'updatePassword']);
-
-    Route::delete('/v1/me', [ProfileController::class, 'destroy']);
-
-    Route::post('/v1/orchestras', [OrchestraController::class, 'store']);
-
-    Route::get('/v1/orchestras', [OrchestraController::class, 'index']);
+        Route::post('/orchestras', [OrchestraController::class, 'store']);
+        Route::get('/orchestras', [OrchestraController::class, 'index']);
+        Route::get('/orchestras/{orchestra}', [OrchestraController::class, 'show']);
+    });
 });

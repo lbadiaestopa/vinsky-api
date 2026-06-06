@@ -3,6 +3,8 @@
 namespace App\Policies;
 
 use App\Models\User;
+use App\Models\Membership;
+use App\Models\Orchestra;
 
 class OrchestraPolicy
 {
@@ -18,6 +20,13 @@ class OrchestraPolicy
     {
         return $user->memberships()
             ->whereNotNull('orchestra_id')
+            ->exists();
+    }
+
+    public function view(User $user, Orchestra $orchestra): bool
+    {
+        return Membership::where('user_id', $user->id)
+            ->where('orchestra_id', $orchestra->id)
             ->exists();
     }
 }
