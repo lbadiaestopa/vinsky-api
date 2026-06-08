@@ -37,6 +37,13 @@ class MembershipController extends Controller
         return MembershipResource::collection($memberships);
     }
 
+    public function show(Membership $membership)
+    {
+        $this->authorize('view', $membership);
+
+        return new MembershipResource($membership);
+    }
+
     public function update(UpdateMembershipRequest $request, Membership $membership)
     {
         $this->authorize('update', $membership);
