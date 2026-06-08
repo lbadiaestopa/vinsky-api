@@ -13,4 +13,13 @@ class MembershipPolicy
             ->where('role', 'admin')
             ->exists();
     }
+
+    public function update(User $user, Membership $membership): bool
+    {
+        return Membership::query()
+            ->where('user_id', $user->id)
+            ->where('orchestra_id', $membership->orchestra_id)
+            ->where('role', 'admin')
+            ->exists();
+    }
 }

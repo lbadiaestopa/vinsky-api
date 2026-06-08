@@ -31,5 +31,6 @@ Route::prefix('v1')->group(function () {
 
         Route::post('/memberships', [MembershipController::class, 'store']);
         Route::get('/memberships', [MembershipController::class, 'index']);
+        Route::put('/memberships/{membership}', [MembershipController::class, 'update']);
     });
 });

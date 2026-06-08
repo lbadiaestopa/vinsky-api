@@ -52,4 +52,14 @@ class MembershipService
             );
         }
     }
+
+    public function update(Membership $membership, array $data): Membership
+    {
+        $membership->update($data);
+
+        return $membership->fresh([
+            'user',
+            'orchestra',
+        ]);
+    }
 }

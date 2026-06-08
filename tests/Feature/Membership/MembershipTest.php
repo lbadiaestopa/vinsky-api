@@ -155,3 +155,129 @@ it('forbids unauthenticated users from viewing memberships', function () {
 
     $response->assertUnauthorized();
 });
+
+it('allows an admin to update a membership', function () {
+
+    $admin = User::factory()->create();
+    $member = User::factory()->create();
+    $orchestra = Orchestra::factory()->create();
+
+    Membership::create([
+        'user_id' => $admin->id,
+        'orchestra_id' => $orchestra->id,
+        'role' => 'admin',
+    ]);
+
+    $membership = Membership::create([
+        'user_id' => $member->id,
+        'orchestra_id' => $orchestra->id,
+        'role' => 'member',
+    ]);
+
+    Passport::actingAs($admin);
+
+    $response = $this->putJson("/api/v1/memberships/{$membership->id}", [
+        'role' => 'admin',
+        'member_type' => 'core',
+        'instrument' => 'Violin',
+        'section' => 'violin_1',
+    ]);
+
+    $response->assertOk();
+
+    $this->assertDatabaseHas('memberships', [
+        'id' => $membership->id,
+        'role' => 'admin',
+        'member_type' => 'core',
+        'instrument' => 'Violin',
+        'section' => 'violin_1',
+    ]);
+});
+
+it('forbids a non admin from updating a membership', function () {
+
+    $user = User::factory()->create();
+    $target = User::factory()->create();
+    $orchestra = Orchestra::factory()->create();
+
+    Membership::create([
+        'user_id' => $user->id,
+        'orchestra_id' => $orchestra->id,
+        'role' => 'member',
+    ]);
+
+    $membership = Membership::create([
+        'user_id' => $target->id,
+        'orchestra_id' => $orchestra->id,
+        'role' => 'member',
+    ]);
+
+    Passport::actingAs($user);
+
+    $response = $this->putJson("/api/v1/memberships/{$membership->id}", [
+        'role' => 'admin',
+    ]);
+
+    $response->assertForbidden();
+});
+
+it('forbids users without membership from updating memberships', function () {
+
+    $user = User::factory()->create();
+    $target = User::factory()->create();
+    $orchestra = Orchestra::factory()->create();
+
+    $membership = Membership::create([
+        'user_id' => $target->id,
+        'orchestra_id' => $orchestra->id,
+        'role' => 'member',
+    ]);
+
+    Passport::actingAs($user);
+
+    $response = $this->putJson("/api/v1/memberships/{$membership->id}", [
+        'role' => 'admin',
+    ]);
+
+    $response->assertForbidden();
+});
+
+it('validates membership update data', function () {
+
+    $admin = User::factory()->create();
+    $user = User::factory()->create();
+    $orchestra = Orchestra::factory()->create();
+
+    Membership::create([
+        'user_id' => $admin->id,
+        'orchestra_id' => $orchestra->id,
+        'role' => 'admin',
+    ]);
+
+    $membership = Membership::create([
+        'user_id' => $user->id,
+        'orchestra_id' => $orchestra->id,
+        'role' => 'member',
+    ]);
+
+    Passport::actingAs($admin);
+
+    $response = $this->putJson("/api/v1/memberships/{$membership->id}", [
+        'role' => 'super-admin',
+    ]);
+
+    $response->assertUnprocessable();
+});
+
+it('returns 404 when membership does not exist', function () {
+
+    $admin = User::factory()->create();
+
+    Passport::actingAs($admin);
+
+    $response = $this->putJson('/api/v1/memberships/999999', [
+        'role' => 'admin',
+    ]);
+
+    $response->assertNotFound();
+});
