@@ -14,6 +14,13 @@ class MembershipPolicy
             ->exists();
     }
 
+    public function view(User $user, Membership $membership): bool
+    {
+        return $user->memberships()
+            ->where('orchestra_id', $membership->orchestra_id)
+            ->exists();
+    }
+
     public function update(User $user, Membership $membership): bool
     {
         return Membership::query()
