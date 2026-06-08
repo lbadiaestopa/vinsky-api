@@ -32,6 +32,8 @@ class MembershipController extends Controller
 
     public function index(Request $request)
     {
+        $this->authorize('viewAny', Membership::class);
+
         $memberships = $this->service->index();
 
         return MembershipResource::collection($memberships);
