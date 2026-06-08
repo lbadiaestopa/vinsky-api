@@ -53,11 +53,20 @@ class OrchestraController extends Controller
     {
         $this->authorize('update', $orchestra);
 
-        $$orchestra = $this->service->update(
+        $orchestra = $this->service->update(
             $orchestra,
             $request->validated()
         );
 
         return new OrchestraResource($orchestra);
+    }
+
+    public function destroy(Orchestra $orchestra)
+    {
+        $this->authorize('delete', $orchestra);
+
+        $this->service->delete($orchestra);
+
+        return response()->noContent();
     }
 }
