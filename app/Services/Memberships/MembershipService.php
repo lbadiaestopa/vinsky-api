@@ -28,6 +28,13 @@ class MembershipService
         ]);
     }
 
+    public function index()
+    {
+        return Membership::query()
+            ->with(['user', 'orchestra'])
+            ->get();
+    }
+
     private function ensureNotDuplicate(int $userId, int $orchestraId): void
     {
         $exists = Membership::where('user_id', $userId)

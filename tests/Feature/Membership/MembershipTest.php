@@ -96,3 +96,62 @@ it('prevents duplicate membership', function () {
 
     $response->assertConflict();
 });
+
+it('allows an admin to view all memberships', function () {
+
+    $admin = User::factory()->create();
+    $user = User::factory()->create();
+    $orchestra = Orchestra::factory()->create();
+
+    Membership::create([
+        'user_id' => $admin->id,
+        'orchestra_id' => $orchestra->id,
+        'role' => 'admin',
+    ]);
+
+    Membership::create([
+        'user_id' => $user->id,
+        'orchestra_id' => $orchestra->id,
+        'role' => 'member',
+    ]);
+
+    Passport::actingAs($admin);
+
+    $response = $this->getJson('/api/v1/memberships');
+
+    $response->assertOk()
+        ->assertJsonCount(2, 'data');
+});
+
+it('allows a member to view all memberships', function () {
+
+    $admin = User::factory()->create();
+    $member = User::factory()->create();
+    $orchestra = Orchestra::factory()->create();
+
+    Membership::create([
+        'user_id' => $admin->id,
+        'orchestra_id' => $orchestra->id,
+        'role' => 'admin',
+    ]);
+
+    Membership::create([
+        'user_id' => $member->id,
+        'orchestra_id' => $orchestra->id,
+        'role' => 'member',
+    ]);
+
+    Passport::actingAs($member);
+
+    $response = $this->getJson('/api/v1/memberships');
+
+    $response->assertOk()
+        ->assertJsonCount(2, 'data');
+});
+
+it('forbids unauthenticated users from viewing memberships', function () {
+
+    $response = $this->getJson('/api/v1/memberships');
+
+    $response->assertUnauthorized();
+});
