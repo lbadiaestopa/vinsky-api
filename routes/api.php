@@ -26,5 +26,6 @@ Route::prefix('v1')->group(function () {
         Route::get('/orchestras', [OrchestraController::class, 'index']);
         Route::get('/orchestras/{orchestra}', [OrchestraController::class, 'show']);
         Route::put('/orchestras/{orchestra}', [OrchestraController::class, 'update']);
+        Route::delete('/orchestras/{orchestra}', [OrchestraController::class, 'destroy']);
     });
 });
