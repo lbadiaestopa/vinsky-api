@@ -8,6 +8,7 @@ use App\Http\Resources\MembershipResource;
 use App\Models\Membership;
 use App\Services\Memberships\MembershipService;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Request;
 
 class MembershipController extends Controller
 {
@@ -26,5 +27,14 @@ class MembershipController extends Controller
         return (new MembershipResource($membership))
             ->response()
             ->setStatusCode(201);
+    }
+
+    public function index(Request $request)
+    {
+        $memberships = Membership::query()
+            ->with(['user', 'orchestra'])
+            ->get();
+
+        return MembershipResource::collection($memberships);
     }
 }
