@@ -28,7 +28,7 @@ class MembershipService
         ]);
     }
 
-    public function listAll()
+    public function index()
     {
         return Membership::query()
             ->with(['user', 'orchestra'])
