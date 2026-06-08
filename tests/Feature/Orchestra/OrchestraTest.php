@@ -386,3 +386,98 @@ it('cannot update another user orchestra', function () {
 
     $response->assertForbidden();
 });
+
+it('allows an admin to delete an orchestra', function () {
+
+    $user = User::factory()->create();
+
+    $orchestra = Orchestra::factory()->create();
+
+    Membership::create([
+        'user_id' => $user->id,
+        'orchestra_id' => $orchestra->id,
+        'role' => 'admin',
+    ]);
+
+    Passport::actingAs($user);
+
+    $response = $this->deleteJson("/api/v1/orchestras/{$orchestra->id}");
+
+    $response->assertNoContent();
+
+    $this->assertDatabaseMissing('orchestras', [
+        'id' => $orchestra->id,
+    ]);
+});
+
+it('forbids a member from deleting an orchestra', function () {
+
+    $user = User::factory()->create();
+
+    $orchestra = Orchestra::factory()->create();
+
+    Membership::create([
+        'user_id' => $user->id,
+        'orchestra_id' => $orchestra->id,
+        'role' => 'member',
+    ]);
+
+    Passport::actingAs($user);
+
+    $response = $this->deleteJson("/api/v1/orchestras/{$orchestra->id}");
+
+    $response->assertForbidden();
+});
+
+it('forbids delete without membership', function () {
+
+    $user = User::factory()->create();
+
+    $orchestra = Orchestra::factory()->create();
+
+    Passport::actingAs($user);
+
+    $response = $this->deleteJson("/api/v1/orchestras/{$orchestra->id}");
+
+    $response->assertForbidden();
+});
+
+it('forbids deleting another user orchestra', function () {
+
+    $user = User::factory()->create();
+
+    $otherUser = User::factory()->create();
+
+    $orchestra = Orchestra::factory()->create();
+
+    Membership::create([
+        'user_id' => $otherUser->id,
+        'orchestra_id' => $orchestra->id,
+        'role' => 'admin',
+    ]);
+
+    Passport::actingAs($user);
+
+    $response = $this->deleteJson("/api/v1/orchestras/{$orchestra->id}");
+
+    $response->assertForbidden();
+});
+
+it('does not allow creator without membership to delete orchestra', function () {
+
+    $creator = User::factory()->create();
+
+    Membership::create([
+        'user_id' => $creator->id,
+        'orchestra_id' => null,
+        'role' => 'admin',
+    ]);
+
+    $orchestra = Orchestra::factory()->create();
+
+    Passport::actingAs($creator);
+
+    $response = $this->deleteJson("/api/v1/orchestras/{$orchestra->id}");
+
+    $response->assertForbidden();
+});
