@@ -14,6 +14,11 @@ class MembershipPolicy
             ->exists();
     }
 
+    public function viewAny(User $user): bool
+    {
+        return $user->memberships()->exists();
+    }
+
     public function view(User $user, Membership $membership): bool
     {
         return $user->memberships()
