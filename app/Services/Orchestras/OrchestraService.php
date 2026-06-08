@@ -39,4 +39,9 @@ class OrchestraService
 
         return $orchestra->fresh();
     }
+
+    public function delete(Orchestra $orchestra): void
+    {
+        $orchestra->delete();
+    }
 }
