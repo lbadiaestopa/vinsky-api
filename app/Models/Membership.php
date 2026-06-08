@@ -13,6 +13,10 @@ class Membership extends Model
         'user_id',
         'orchestra_id',
         'role',
+        'member_type',
+        'instrument',
+        'section',
+        'joined_at',
     ];
 
     public function user()
