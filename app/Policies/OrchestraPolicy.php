@@ -37,4 +37,12 @@ class OrchestraPolicy
             ->where('role', 'admin')
             ->exists();
     }
+
+    public function delete(User $user, Orchestra $orchestra): bool
+    {
+        return Membership::where('user_id', $user->id)
+            ->where('orchestra_id', $orchestra->id)
+            ->where('role', 'admin')
+            ->exists();
+    }
 }
