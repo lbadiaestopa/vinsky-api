@@ -31,9 +31,7 @@ class MembershipController extends Controller
 
     public function index(Request $request)
     {
-        $memberships = Membership::query()
-            ->with(['user', 'orchestra'])
-            ->get();
+        $memberships = $this->service->index();
 
         return MembershipResource::collection($memberships);
     }
