@@ -8,12 +8,23 @@ use App\Models\Membership;
 
 class ProgramPolicy
 {
-    public function create(User $user, Orchestra $orchestra): bool
+    private function getMembership(User $user, Orchestra $orchestra): ?Membership
     {
-        return \App\Models\Membership::query()
+        return Membership::query()
             ->where('user_id', $user->id)
             ->where('orchestra_id', $orchestra->id)
-            ->where('role', 'admin')
-            ->exists();
+            ->first();
+    }
+
+    public function viewAny(User $user, Orchestra $orchestra): bool
+    {
+        return $this->getMembership($user, $orchestra) !== null;
+    }
+
+    public function create(User $user, Orchestra $orchestra): bool
+    {
+        $membership = $this->getMembership($user, $orchestra);
+
+        return $membership?->role === 'admin';
     }
 }

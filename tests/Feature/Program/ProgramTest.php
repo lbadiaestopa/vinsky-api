@@ -3,6 +3,7 @@
 use App\Models\User;
 use App\Models\Orchestra;
 use App\Models\Membership;
+use App\Models\Program;
 use Laravel\Passport\Passport;
 
 it('allows an admin to create a program', function () {
@@ -153,4 +154,79 @@ it('forbids unauthenticated users from creating programs', function () {
     ]);
 
     $response->assertUnauthorized();
+});
+
+it('allows a member to list orchestra programs', function () {
+
+    $user = User::factory()->create();
+    $orchestra = Orchestra::factory()->create();
+
+    Membership::create([
+        'user_id' => $user->id,
+        'orchestra_id' => $orchestra->id,
+        'role' => 'member',
+    ]);
+
+    Program::factory()->count(3)->create([
+        'orchestra_id' => $orchestra->id,
+    ]);
+
+    Passport::actingAs($user);
+
+    $response = $this->getJson("/api/v1/orchestras/{$orchestra->id}/programs");
+
+    $response->assertOk();
+
+    $response->assertJsonCount(3, 'data');
+});
+
+it('allows an admin to list orchestra programs', function () {
+
+    $user = User::factory()->create();
+    $orchestra = Orchestra::factory()->create();
+
+    Membership::create([
+        'user_id' => $user->id,
+        'orchestra_id' => $orchestra->id,
+        'role' => 'admin',
+    ]);
+
+    Program::factory()->count(2)->create([
+        'orchestra_id' => $orchestra->id,
+    ]);
+
+    Passport::actingAs($user);
+
+    $response = $this->getJson("/api/v1/orchestras/{$orchestra->id}/programs");
+
+    $response->assertOk();
+
+    $response->assertJsonCount(2, 'data');
+});
+
+it('forbids users without membership from listing programs', function () {
+
+    $user = User::factory()->create();
+    $orchestra = Orchestra::factory()->create();
+
+    Program::factory()->count(2)->create([
+        'orchestra_id' => $orchestra->id,
+    ]);
+
+    Passport::actingAs($user);
+
+    $response = $this->getJson("/api/v1/orchestras/{$orchestra->id}/programs");
+
+    $response->assertForbidden();
+});
+
+it('returns 404 when trying to list programs of a non existing orchestra', function () {
+
+    $user = User::factory()->create();
+
+    Passport::actingAs($user);
+
+    $response = $this->getJson("/api/v1/orchestras/999999/programs");
+
+    $response->assertNotFound();
 });
