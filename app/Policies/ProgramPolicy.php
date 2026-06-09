@@ -36,4 +36,11 @@ class ProgramPolicy
             ->where('orchestra_id', $program->orchestra_id)
             ->exists();
     }
+
+    public function update(User $user, Program $program): bool
+    {
+        $membership = $this->getMembership($user, $program->orchestra);
+
+        return $membership?->role === 'admin';
+    }
 }

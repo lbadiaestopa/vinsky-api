@@ -310,3 +310,162 @@ it('returns 404 when program does not exist', function () {
 
     $response->assertNotFound();
 });
+
+it('allows an admin to update a program', function () {
+    $admin = User::factory()->create();
+
+    $orchestra = Orchestra::factory()->create();
+
+    Membership::factory()->create([
+        'user_id' => $admin->id,
+        'orchestra_id' => $orchestra->id,
+        'role' => 'admin',
+    ]);
+
+    $program = Program::factory()->create([
+        'orchestra_id' => $orchestra->id,
+    ]);
+
+    Passport::actingAs($admin);
+
+    $response = $this->putJson("/api/v1/programs/{$program->id}", [
+        'name' => 'Updated Season',
+        'start_date' => '2026-02-01',
+        'end_date' => '2026-07-01',
+    ]);
+
+    $response->assertOk();
+
+    $this->assertDatabaseHas('programs', [
+        'id' => $program->id,
+        'name' => 'Updated Season',
+        'start_date' => '2026-02-01',
+        'end_date' => '2026-07-01',
+    ]);
+});
+
+it('forbids a member from updating a program', function () {
+    $user = User::factory()->create();
+
+    $orchestra = Orchestra::factory()->create();
+
+    Membership::factory()->create([
+        'user_id' => $user->id,
+        'orchestra_id' => $orchestra->id,
+        'role' => 'member',
+    ]);
+
+    $program = Program::factory()->create([
+        'orchestra_id' => $orchestra->id,
+    ]);
+
+    Passport::actingAs($user);
+
+    $response = $this->putJson("/api/v1/programs/{$program->id}", [
+        'name' => 'Updated Season',
+        'start_date' => '2026-02-01',
+        'end_date' => '2026-07-01',
+    ]);
+
+    $response->assertForbidden();
+});
+
+it('forbids users without membership from updating a program', function () {
+    $user = User::factory()->create();
+
+    $program = Program::factory()->create();
+
+    Passport::actingAs($user);
+
+    $response = $this->putJson("/api/v1/programs/{$program->id}", [
+        'name' => 'Updated Season',
+        'start_date' => '2026-02-01',
+        'end_date' => '2026-07-01',
+    ]);
+
+    $response->assertForbidden();
+});
+
+it('validates required fields when updating a program', function () {
+    $admin = User::factory()->create();
+
+    $orchestra = Orchestra::factory()->create();
+
+    Membership::factory()->create([
+        'user_id' => $admin->id,
+        'orchestra_id' => $orchestra->id,
+        'role' => 'admin',
+    ]);
+
+    $program = Program::factory()->create([
+        'orchestra_id' => $orchestra->id,
+    ]);
+
+    Passport::actingAs($admin);
+
+    $response = $this->putJson("/api/v1/programs/{$program->id}", []);
+
+    $response->assertUnprocessable();
+
+    $response->assertJsonValidationErrors([
+        'name',
+        'start_date',
+        'end_date',
+    ]);
+});
+
+it('validates that end date is after start date when updating a program', function () {
+    $admin = User::factory()->create();
+
+    $orchestra = Orchestra::factory()->create();
+
+    Membership::factory()->create([
+        'user_id' => $admin->id,
+        'orchestra_id' => $orchestra->id,
+        'role' => 'admin',
+    ]);
+
+    $program = Program::factory()->create([
+        'orchestra_id' => $orchestra->id,
+    ]);
+
+    Passport::actingAs($admin);
+
+    $response = $this->putJson("/api/v1/programs/{$program->id}", [
+        'name' => 'Updated Season',
+        'start_date' => '2026-07-01',
+        'end_date' => '2026-02-01',
+    ]);
+
+    $response->assertUnprocessable();
+
+    $response->assertJsonValidationErrors([
+        'end_date',
+    ]);
+});
+
+it('forbids unauthenticated users from updating a program', function () {
+    $program = Program::factory()->create();
+
+    $response = $this->putJson("/api/v1/programs/{$program->id}", [
+        'name' => 'Updated Season',
+        'start_date' => '2026-02-01',
+        'end_date' => '2026-07-01',
+    ]);
+
+    $response->assertUnauthorized();
+});
+
+it('returns 404 when program does not exist while updating', function () {
+    $admin = User::factory()->create();
+
+    Passport::actingAs($admin);
+
+    $response = $this->putJson('/api/v1/programs/999999', [
+        'name' => 'Updated Season',
+        'start_date' => '2026-02-01',
+        'end_date' => '2026-07-01',
+    ]);
+
+    $response->assertNotFound();
+});

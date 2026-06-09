@@ -25,4 +25,11 @@ class ProgramService
             ->orderBy('start_date', 'desc')
             ->paginate(15);
     }
+
+    public function update(Program $program, array $data): Program
+    {
+        $program->update($data);
+
+        return $program;
+    }
 }
