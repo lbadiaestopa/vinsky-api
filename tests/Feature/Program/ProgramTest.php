@@ -469,3 +469,71 @@ it('returns 404 when program does not exist while updating', function () {
 
     $response->assertNotFound();
 });
+
+it('allows an admin to delete a program', function () {
+    $user = User::factory()->create();
+    $orchestra = Orchestra::factory()->create();
+
+    $program = Program::factory()->create([
+        'orchestra_id' => $orchestra->id,
+    ]);
+
+    Membership::factory()->create([
+        'user_id' => $user->id,
+        'orchestra_id' => $orchestra->id,
+        'role' => 'admin',
+    ]);
+
+    $response = $this
+        ->actingAs($user, 'api')
+        ->deleteJson("/api/v1/programs/{$program->id}");
+
+    $response->assertNoContent();
+
+    $this->assertDatabaseMissing('programs', [
+        'id' => $program->id,
+    ]);
+});
+
+it('forbids a non-admin from deleting a program', function () {
+    $user = User::factory()->create();
+    $orchestra = Orchestra::factory()->create();
+
+    $program = Program::factory()->create([
+        'orchestra_id' => $orchestra->id,
+    ]);
+
+    Membership::factory()->create([
+        'user_id' => $user->id,
+        'orchestra_id' => $orchestra->id,
+        'role' => 'member',
+    ]);
+
+    $response = $this
+        ->actingAs($user, 'api')
+        ->deleteJson("/api/v1/programs/{$program->id}");
+
+    $response->assertForbidden();
+
+    $this->assertDatabaseHas('programs', [
+        'id' => $program->id,
+    ]);
+});
+
+it('requires authentication to delete a program', function () {
+    $program = Program::factory()->create();
+
+    $response = $this->deleteJson("/api/v1/programs/{$program->id}");
+
+    $response->assertUnauthorized();
+});
+
+it('returns 404 when program does not exist while deleting', function () {
+    $user = User::factory()->create();
+
+    $response = $this
+        ->actingAs($user, 'api')
+        ->deleteJson('/api/v1/programs/999999');
+
+    $response->assertNotFound();
+});
