@@ -364,3 +364,128 @@ it('validates membership update data', function () {
 
     $response->assertUnprocessable();
 });
+
+it('allows an admin to delete a membership', function () {
+
+    $admin = User::factory()->create();
+    $user = User::factory()->create();
+    $orchestra = Orchestra::factory()->create();
+
+    Membership::create([
+        'user_id' => $admin->id,
+        'orchestra_id' => $orchestra->id,
+        'role' => 'admin',
+    ]);
+
+    $membership = Membership::create([
+        'user_id' => $user->id,
+        'orchestra_id' => $orchestra->id,
+        'role' => 'member',
+    ]);
+
+    Passport::actingAs($admin);
+
+    $response = $this->deleteJson("/api/v1/memberships/{$membership->id}");
+
+    $response->assertNoContent();
+
+    $this->assertDatabaseMissing('memberships', [
+        'id' => $membership->id,
+    ]);
+});
+
+it('forbids a non admin from deleting a membership', function () {
+
+    $member = User::factory()->create();
+    $target = User::factory()->create();
+    $orchestra = Orchestra::factory()->create();
+
+    Membership::create([
+        'user_id' => $member->id,
+        'orchestra_id' => $orchestra->id,
+        'role' => 'member',
+    ]);
+
+    $membership = Membership::create([
+        'user_id' => $target->id,
+        'orchestra_id' => $orchestra->id,
+        'role' => 'member',
+    ]);
+
+    Passport::actingAs($member);
+
+    $response = $this->deleteJson("/api/v1/memberships/{$membership->id}");
+
+    $response->assertForbidden();
+});
+
+it('forbids users without membership from deleting memberships', function () {
+
+    $admin = User::factory()->create();
+    $outsider = User::factory()->create();
+    $target = User::factory()->create();
+    $orchestra = Orchestra::factory()->create();
+
+    Membership::create([
+        'user_id' => $admin->id,
+        'orchestra_id' => $orchestra->id,
+        'role' => 'admin',
+    ]);
+
+    $membership = Membership::create([
+        'user_id' => $target->id,
+        'orchestra_id' => $orchestra->id,
+        'role' => 'member',
+    ]);
+
+    Passport::actingAs($outsider);
+
+    $response = $this->deleteJson("/api/v1/memberships/{$membership->id}");
+
+    $response->assertForbidden();
+});
+
+it('forbids unauthenticated users from deleting memberships', function () {
+
+    $user = User::factory()->create();
+    $orchestra = Orchestra::factory()->create();
+
+    $membership = Membership::create([
+        'user_id' => $user->id,
+        'orchestra_id' => $orchestra->id,
+        'role' => 'member',
+    ]);
+
+    $response = $this->deleteJson("/api/v1/memberships/{$membership->id}");
+
+    $response->assertUnauthorized();
+});
+
+it('returns 404 when deleting a non existing membership', function () {
+
+    $admin = User::factory()->create();
+
+    Passport::actingAs($admin);
+
+    $response = $this->deleteJson('/api/v1/memberships/99999');
+
+    $response->assertNotFound();
+});
+
+it('prevents an admin from deleting their own membership', function () {
+
+    $admin = User::factory()->create();
+    $orchestra = Orchestra::factory()->create();
+
+    $membership = Membership::create([
+        'user_id' => $admin->id,
+        'orchestra_id' => $orchestra->id,
+        'role' => 'admin',
+    ]);
+
+    Passport::actingAs($admin);
+
+    $response = $this->deleteJson("/api/v1/memberships/{$membership->id}");
+
+    $response->assertForbidden();
+});
