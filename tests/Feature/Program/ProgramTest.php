@@ -230,3 +230,83 @@ it('returns 404 when trying to list programs of a non existing orchestra', funct
 
     $response->assertNotFound();
 });
+
+it('allows an admin to view a program', function () {
+
+    $admin = User::factory()->create();
+    $orchestra = Orchestra::factory()->create();
+
+    Membership::create([
+        'user_id' => $admin->id,
+        'orchestra_id' => $orchestra->id,
+        'role' => 'admin',
+    ]);
+
+    $program = Program::factory()->create([
+        'orchestra_id' => $orchestra->id,
+    ]);
+
+    Passport::actingAs($admin);
+
+    $response = $this->getJson("/api/v1/programs/{$program->id}");
+
+    $response->assertOk();
+
+    $response->assertJsonFragment([
+        'id' => $program->id,
+        'name' => $program->name,
+    ]);
+});
+
+it('allows a member to view a program', function () {
+
+    $user = User::factory()->create();
+    $orchestra = Orchestra::factory()->create();
+
+    Membership::create([
+        'user_id' => $user->id,
+        'orchestra_id' => $orchestra->id,
+        'role' => 'member',
+    ]);
+
+    $program = Program::factory()->create([
+        'orchestra_id' => $orchestra->id,
+    ]);
+
+    Passport::actingAs($user);
+
+    $response = $this->getJson("/api/v1/programs/{$program->id}");
+
+    $response->assertOk();
+
+    $response->assertJsonFragment([
+        'id' => $program->id,
+    ]);
+});
+
+it('forbids users without membership from viewing a program', function () {
+
+    $user = User::factory()->create();
+    $orchestra = Orchestra::factory()->create();
+
+    $program = Program::factory()->create([
+        'orchestra_id' => $orchestra->id,
+    ]);
+
+    Passport::actingAs($user);
+
+    $response = $this->getJson("/api/v1/programs/{$program->id}");
+
+    $response->assertForbidden();
+});
+
+it('returns 404 when program does not exist', function () {
+
+    $user = User::factory()->create();
+
+    Passport::actingAs($user);
+
+    $response = $this->getJson("/api/v1/programs/999999");
+
+    $response->assertNotFound();
+});

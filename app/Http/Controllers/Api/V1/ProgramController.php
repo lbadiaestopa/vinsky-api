@@ -33,4 +33,11 @@ class ProgramController extends Controller
             $this->service->index($orchestra)
         );
     }
+
+    public function show(Program $program)
+    {
+        $this->authorize('view', $program);
+        
+        return new ProgramResource($program);
+    }
 }
