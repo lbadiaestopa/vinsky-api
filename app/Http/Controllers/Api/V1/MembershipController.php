@@ -57,4 +57,13 @@ class MembershipController extends Controller
 
         return new MembershipResource($membership);
     }
+
+    public function destroy(Membership $membership)
+    {
+        $this->authorize('delete', $membership);
+
+        $this->service->delete($membership);
+
+        return response()->noContent();
+    }
 }

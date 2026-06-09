@@ -62,4 +62,9 @@ class MembershipService
             'orchestra',
         ]);
     }
+
+    public function delete(Membership $membership): void
+    {
+        $membership->delete();
+    }
 }
