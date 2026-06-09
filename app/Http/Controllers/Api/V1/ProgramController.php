@@ -24,4 +24,13 @@ class ProgramController extends Controller
 
         return $this->service->create($request->validated(), $orchestra);
     }
+
+    public function index(Orchestra $orchestra)
+    {
+        $this->authorize('viewAny', [Program::class, $orchestra]);
+
+        return ProgramResource::collection(
+            $this->service->index($orchestra)
+        );
+    }
 }
