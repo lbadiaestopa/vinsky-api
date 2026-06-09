@@ -34,4 +34,17 @@ class MembershipPolicy
             ->where('role', 'admin')
             ->exists();
     }
+
+    public function delete(User $user, Membership $membership): bool
+    {
+        if ($user->id === $membership->user_id) {
+            return false;
+        }
+
+        return Membership::query()
+            ->where('user_id', $user->id)
+            ->where('orchestra_id', $membership->orchestra_id)
+            ->where('role', 'admin')
+            ->exists();
+    }
 }
