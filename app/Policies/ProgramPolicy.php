@@ -5,6 +5,7 @@ namespace App\Policies;
 use App\Models\User;
 use App\Models\Orchestra;
 use App\Models\Membership;
+use App\Models\Program;
 
 class ProgramPolicy
 {
@@ -26,5 +27,13 @@ class ProgramPolicy
         $membership = $this->getMembership($user, $orchestra);
 
         return $membership?->role === 'admin';
+    }
+
+    public function view(User $user, Program $program): bool
+    {
+        return Membership::query()
+            ->where('user_id', $user->id)
+            ->where('orchestra_id', $program->orchestra_id)
+            ->exists();
     }
 }
