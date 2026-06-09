@@ -37,5 +37,6 @@ Route::prefix('v1')->group(function () {
         Route::delete('/memberships/{membership}', [MembershipController::class, 'destroy']);
 
         Route::post('/orchestras/{orchestra}/programs', [ProgramController::class, 'store']);
+        Route::get('/orchestras/{orchestra}/programs', [ProgramController::class, 'index']);
     });
 });
