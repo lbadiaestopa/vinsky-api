@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\V1\Auth\LogoutController;
 use App\Http\Controllers\Api\V1\ProfileController;
 use App\Http\Controllers\Api\V1\OrchestraController;
 use App\Http\Controllers\Api\V1\MembershipController;
+use App\Http\Controllers\Api\V1\ProgramController;
 
 Route::prefix('v1')->group(function () {
 
@@ -34,5 +35,7 @@ Route::prefix('v1')->group(function () {
         Route::get('/memberships/{membership}', [MembershipController::class, 'show']);
         Route::put('/memberships/{membership}', [MembershipController::class, 'update']);
         Route::delete('/memberships/{membership}', [MembershipController::class, 'destroy']);
+
+        Route::post('/orchestras/{orchestra}/programs', [ProgramController::class, 'store']);
     });
 });
