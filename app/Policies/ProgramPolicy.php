@@ -43,4 +43,11 @@ class ProgramPolicy
 
         return $membership?->role === 'admin';
     }
+
+    public function delete(User $user, Program $program): bool
+    {
+        $membership = $this->getMembership($user, $program->orchestra);
+
+        return $membership?->role === 'admin';
+    }
 }
