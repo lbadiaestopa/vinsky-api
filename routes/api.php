@@ -39,5 +39,6 @@ Route::prefix('v1')->group(function () {
         Route::post('/orchestras/{orchestra}/programs', [ProgramController::class, 'store']);
         Route::get('/orchestras/{orchestra}/programs', [ProgramController::class, 'index']);
         Route::get('/programs/{program}', [ProgramController::class, 'show']);
+        Route::put('/programs/{program}', [ProgramController::class, 'update']);
     });
 });
