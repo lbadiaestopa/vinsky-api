@@ -32,4 +32,9 @@ class ProgramService
 
         return $program;
     }
+
+    public function delete(Program $program): void
+    {
+        $program->delete();
+    }
 }

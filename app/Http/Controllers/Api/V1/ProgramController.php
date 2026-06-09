@@ -36,7 +36,7 @@ class ProgramController extends Controller
     public function show(Program $program)
     {
         $this->authorize('view', $program);
-        
+
         return new ProgramResource($program);
     }
 
@@ -48,5 +48,14 @@ class ProgramController extends Controller
         );
 
         return new ProgramResource($program);
+    }
+
+    public function destroy(Program $program)
+    {
+        $this->authorize('delete', $program);
+
+        $this->service->delete($program);
+
+        return response()->noContent();
     }
 }

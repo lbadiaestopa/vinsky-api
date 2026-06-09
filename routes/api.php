@@ -40,5 +40,6 @@ Route::prefix('v1')->group(function () {
         Route::get('/orchestras/{orchestra}/programs', [ProgramController::class, 'index']);
         Route::get('/programs/{program}', [ProgramController::class, 'show']);
         Route::put('/programs/{program}', [ProgramController::class, 'update']);
+        Route::delete('/programs/{program}', [ProgramController::class, 'destroy']);
     });
 });
