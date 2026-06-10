@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\V1\Event\StoreEventRequest;
+use App\Http\Requests\Api\V1\Event\UpdateEventRequest;
 use App\Http\Resources\EventResource;
 use App\Models\Program;
 use App\Models\Event;
@@ -44,5 +45,12 @@ class EventController extends Controller
         $this->authorize('view', $event);
 
         return new EventResource($event);
+    }
+
+    public function update(UpdateEventRequest $request, Program $program, Event $event)
+    {
+        $updated = $this->service->update($event, $request->validated(), $program);
+
+        return new EventResource($updated);
     }
 }
