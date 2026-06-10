@@ -32,7 +32,7 @@ class User extends Authenticatable implements OAuthenticatable
         ];
     }
 
-    public function memberships()
+    public function membership()
     {
         return $this->hasMany(Membership::class);
     }
