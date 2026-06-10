@@ -50,6 +50,11 @@ class EventService
         return $event;
     }
 
+    public function delete(Event $event): void
+    {
+        $event->delete();
+    }
+
     private function assertEventInsideProgram(array $data, Program $program): void
     {
         $errors = [];

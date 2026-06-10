@@ -823,3 +823,110 @@ it('returns updated event resource', function () {
         'location' => 'New Auditorium',
     ]);
 });
+
+it('allows an admin of the orchestra to delete a program event', function () {
+    $user = User::factory()->create();
+    $orchestra = Orchestra::factory()->create();
+
+    $program = Program::factory()->create([
+        'orchestra_id' => $orchestra->id,
+    ]);
+
+    Membership::factory()->create([
+        'user_id' => $user->id,
+        'orchestra_id' => $orchestra->id,
+        'role' => 'admin',
+    ]);
+
+    $event = Event::factory()->create([
+        'program_id' => $program->id,
+    ]);
+
+    $response = $this
+        ->actingAs($user, 'api')
+        ->deleteJson("/api/v1/programs/{$program->id}/events/{$event->id}");
+
+    $response->assertNoContent();
+
+    $this->assertDatabaseMissing('events', [
+        'id' => $event->id,
+    ]);
+});
+
+it('forbids a non-admin member from deleting a program event', function () {
+    $user = User::factory()->create();
+    $orchestra = Orchestra::factory()->create();
+
+    $program = Program::factory()->create([
+        'orchestra_id' => $orchestra->id,
+    ]);
+
+    Membership::factory()->create([
+        'user_id' => $user->id,
+        'orchestra_id' => $orchestra->id,
+        'role' => 'member',
+    ]);
+
+    $event = Event::factory()->create([
+        'program_id' => $program->id,
+    ]);
+
+    $response = $this
+        ->actingAs($user, 'api')
+        ->deleteJson("/api/v1/programs/{$program->id}/events/{$event->id}");
+
+    $response->assertForbidden();
+
+    $this->assertDatabaseHas('events', [
+        'id' => $event->id,
+    ]);
+});
+
+it('returns 404 when event does not belong to program while deleting', function () {
+    $user = User::factory()->create();
+    $orchestra = Orchestra::factory()->create();
+
+    $programA = Program::factory()->create([
+        'orchestra_id' => $orchestra->id,
+    ]);
+
+    $programB = Program::factory()->create([
+        'orchestra_id' => $orchestra->id,
+    ]);
+
+    Membership::factory()->create([
+        'user_id' => $user->id,
+        'orchestra_id' => $orchestra->id,
+        'role' => 'admin',
+    ]);
+
+    $event = Event::factory()->create([
+        'program_id' => $programB->id,
+    ]);
+
+    $response = $this
+        ->actingAs($user, 'api')
+        ->deleteJson("/api/v1/programs/{$programA->id}/events/{$event->id}");
+
+    $response->assertNotFound();
+});
+
+it('requires authentication while deleting a program event', function () {
+    $orchestra = Orchestra::factory()->create();
+
+    $program = Program::factory()->create([
+        'orchestra_id' => $orchestra->id,
+    ]);
+
+    $event = Event::factory()->create([
+        'program_id' => $program->id,
+    ]);
+
+    $response = $this->deleteJson("/api/v1/programs/{$program->id}/events/{$event->id}");
+
+    $response->assertUnauthorized();
+
+    $this->assertDatabaseHas('events', [
+        'id' => $event->id,
+    ]);
+});
