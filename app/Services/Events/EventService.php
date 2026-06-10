@@ -50,4 +50,14 @@ class EventService
             ->orderBy('start_date')
             ->get();
     }
+
+    public function show(Program $program, Event $event): Event
+    {
+        abort_unless(
+            $event->program_id === $program->id,
+            404
+        );
+
+        return $event;
+    }
 }

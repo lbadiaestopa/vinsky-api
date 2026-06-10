@@ -34,4 +34,15 @@ class EventController extends Controller
 
         return EventResource::collection($events);
     }
+
+    public function show(Program $program, Event $event)
+    {
+        if ($event->program_id !== $program->id) {
+            abort(404);
+        }
+
+        $this->authorize('view', $event);
+
+        return new EventResource($event);
+    }
 }

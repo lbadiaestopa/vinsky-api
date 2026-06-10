@@ -395,3 +395,99 @@ it('requires authentication while showing all events', function () {
 
     $response->assertUnauthorized();
 });
+
+it('allows a member of the orchestra to view a program event', function () {
+    $user = User::factory()->create();
+    $orchestra = Orchestra::factory()->create();
+
+    $program = Program::factory()->create([
+        'orchestra_id' => $orchestra->id,
+    ]);
+
+    Membership::factory()->create([
+        'user_id' => $user->id,
+        'orchestra_id' => $orchestra->id,
+    ]);
+
+    $event = Event::factory()->create([
+        'program_id' => $program->id,
+        'repertoire' => 'Beethoven 5',
+    ]);
+
+    $response = $this
+        ->actingAs($user, 'api')
+        ->getJson("/api/v1/programs/{$program->id}/events/{$event->id}");
+
+    $response->assertOk();
+
+    $response->assertJsonFragment([
+        'id' => $event->id,
+        'repertoire' => 'Beethoven 5',
+    ]);
+});
+
+it('returns 403 if user is not member of orchestra while showing event', function () {
+    $user = User::factory()->create();
+    $orchestra = Orchestra::factory()->create();
+
+    $program = Program::factory()->create([
+        'orchestra_id' => $orchestra->id,
+    ]);
+
+    $event = Event::factory()->create([
+        'program_id' => $program->id,
+    ]);
+
+    $response = $this
+        ->actingAs($user, 'api')
+        ->getJson("/api/v1/programs/{$program->id}/events/{$event->id}");
+
+    $response->assertForbidden();
+});
+
+it('returns 404 when program does not exist while showing event', function () {
+    $user = User::factory()->create();
+
+    $response = $this
+        ->actingAs($user, 'api')
+        ->getJson("/api/v1/programs/999999/events/1");
+
+    $response->assertNotFound();
+});
+
+it('returns 404 when event does not exist in program', function () {
+    $user = User::factory()->create();
+    $orchestra = Orchestra::factory()->create();
+
+    $program = Program::factory()->create([
+        'orchestra_id' => $orchestra->id,
+    ]);
+
+    Membership::factory()->create([
+        'user_id' => $user->id,
+        'orchestra_id' => $orchestra->id,
+    ]);
+
+    $response = $this
+        ->actingAs($user, 'api')
+        ->getJson("/api/v1/programs/{$program->id}/events/999999");
+
+    $response->assertNotFound();
+});
+
+it('requires authentication while showing event', function () {
+    $orchestra = Orchestra::factory()->create();
+
+    $program = Program::factory()->create([
+        'orchestra_id' => $orchestra->id,
+    ]);
+
+    $event = Event::factory()->create([
+        'program_id' => $program->id,
+    ]);
+
+    $response = $this
+        ->getJson("/api/v1/programs/{$program->id}/events/{$event->id}");
+
+    $response->assertUnauthorized();
+});
