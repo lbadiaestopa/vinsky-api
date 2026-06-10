@@ -44,5 +44,6 @@ Route::prefix('v1')->group(function () {
         Route::delete('/programs/{program}', [ProgramController::class, 'destroy']);
 
         Route::post('/programs/{program}/events', [EventController::class, 'store']);
+        Route::get('/programs/{program}/events', [EventController::class, 'index']);
     });
 });
