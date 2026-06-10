@@ -11,37 +11,17 @@ class EventService
 {
     public function create(array $data, Program $program): Event
     {
-        $start = $data['start_date'];
-        $end = $data['end_date'];
-
-        if ($start < $program->start_date) {
-            throw ValidationException::withMessages([
-                'start_date' => 'Event cannot start before the program period.',
-            ]);
-        }
-
-        if ($end > $program->end_date) {
-            throw ValidationException::withMessages([
-                'end_date' => 'Event cannot end after the program period.',
-            ]);
-        }
-
-        if ($start > $program->end_date || $end < $program->start_date) {
-            throw ValidationException::withMessages([
-                'start_date' => 'Event must be inside the program period.',
-            ]);
-        }
+        $this->assertEventInsideProgram($data, $program);
 
         return Event::create([
             'repertoire' => $data['repertoire'],
             'type' => $data['type'],
             'location' => $data['location'],
-            'start_date' => $start,
-            'end_date' => $end,
+            'start_date' => $data['start_date'],
+            'end_date' => $data['end_date'],
             'program_id' => $program->id,
         ]);
     }
-
 
     public function index(Program $program): Collection
     {
@@ -59,5 +39,34 @@ class EventService
         );
 
         return $event;
+    }
+
+    public function update(Event $event, array $data, Program $program): Event
+    {
+        $this->assertEventInsideProgram($data, $program);
+
+        $event->update($data);
+
+        return $event;
+    }
+
+    private function assertEventInsideProgram(array $data, Program $program): void
+    {
+        $errors = [];
+
+        $start = $data['start_date'];
+        $end = $data['end_date'];
+
+        if ($start < $program->start_date) {
+            $errors['start_date'][] = 'Event cannot start before program starts.';
+        }
+
+        if ($end > $program->end_date) {
+            $errors['end_date'][] = 'Event cannot end after program ends.';
+        }
+
+        if (!empty($errors)) {
+            throw ValidationException::withMessages($errors);
+        }
     }
 }
