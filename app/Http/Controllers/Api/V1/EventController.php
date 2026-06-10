@@ -53,4 +53,17 @@ class EventController extends Controller
 
         return new EventResource($updated);
     }
+
+    public function destroy(Program $program, Event $event)
+    {
+        if ($event->program_id !== $program->id) {
+            abort(404);
+        }
+        
+        $this->authorize('delete', [$event, $program]);
+
+        $this->service->delete($event);
+
+        return response()->noContent();
+    }
 }
