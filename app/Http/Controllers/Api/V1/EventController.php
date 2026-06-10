@@ -20,6 +20,8 @@ class EventController extends Controller
 
     public function store(StoreEventRequest $request, Program $program)
     {
-        return $this->service->create($request->validated(), $program);
+        $event = $this->service->create($request->validated(), $program);
+
+        return new EventResource($event);
     }
 }
