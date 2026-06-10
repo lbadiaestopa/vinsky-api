@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\V1\ProfileController;
 use App\Http\Controllers\Api\V1\OrchestraController;
 use App\Http\Controllers\Api\V1\MembershipController;
 use App\Http\Controllers\Api\V1\ProgramController;
+use App\Http\Controllers\Api\V1\EventController;
 
 Route::prefix('v1')->group(function () {
 
@@ -41,5 +42,7 @@ Route::prefix('v1')->group(function () {
         Route::get('/programs/{program}', [ProgramController::class, 'show']);
         Route::put('/programs/{program}', [ProgramController::class, 'update']);
         Route::delete('/programs/{program}', [ProgramController::class, 'destroy']);
+
+        Route::post('/programs/{program}/events', [EventController::class, 'store']);
     });
 });
