@@ -5,6 +5,7 @@ namespace App\Services\Events;
 use App\Models\Program;
 use App\Models\Event;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Database\Eloquent\Collection;
 
 class EventService
 {
@@ -39,5 +40,14 @@ class EventService
             'end_date' => $end,
             'program_id' => $program->id,
         ]);
+    }
+
+
+    public function index(Program $program): Collection
+    {
+        return Event::query()
+            ->where('program_id', $program->id)
+            ->orderBy('start_date')
+            ->get();
     }
 }
