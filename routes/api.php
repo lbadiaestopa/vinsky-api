@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\V1\Auth\RegisterController;
 use App\Http\Controllers\Api\V1\Auth\LoginController;
@@ -46,5 +45,6 @@ Route::prefix('v1')->group(function () {
         Route::post('/programs/{program}/events', [EventController::class, 'store']);
         Route::get('/programs/{program}/events', [EventController::class, 'index']);
         Route::get('/programs/{program}/events/{event}', [EventController::class, 'show']);
+        Route::put('/programs/{program}/events/{event}', [EventController::class, 'update']);
     });
 });
