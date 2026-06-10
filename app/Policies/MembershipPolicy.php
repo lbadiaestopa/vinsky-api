@@ -16,12 +16,12 @@ class MembershipPolicy
 
     public function viewAny(User $user): bool
     {
-        return $user->memberships()->exists();
+        return $user->membership()->exists();
     }
 
     public function view(User $user, Membership $membership): bool
     {
-        return $user->memberships()
+        return $user->membership()
             ->where('orchestra_id', $membership->orchestra_id)
             ->exists();
     }
