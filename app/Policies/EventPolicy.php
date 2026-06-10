@@ -5,6 +5,7 @@ namespace App\Policies;
 use App\Models\User;
 use App\Models\Membership;
 use App\Models\Program;
+use App\Models\Event;
 
 class EventPolicy
 {
@@ -21,6 +22,14 @@ class EventPolicy
         return Membership::query()
             ->where('user_id', $user->id)
             ->where('orchestra_id', $program->orchestra_id)
+            ->exists();
+    }
+
+    public function view(User $user, Event $event): bool
+    {
+        return Membership::query()
+            ->where('user_id', $user->id)
+            ->where('orchestra_id', $event->program->orchestra_id)
             ->exists();
     }
 }
