@@ -32,4 +32,15 @@ class EventPolicy
             ->where('orchestra_id', $event->program->orchestra_id)
             ->exists();
     }
+
+    public function update(User $user, Event $event): bool
+    {
+        $program = $event->program;
+
+        return Membership::query()
+            ->where('user_id', $user->id)
+            ->where('orchestra_id', $program->orchestra_id)
+            ->where('role', 'admin')
+            ->exists();
+    }
 }
