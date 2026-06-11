@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\V1\OrchestraController;
 use App\Http\Controllers\Api\V1\MembershipController;
 use App\Http\Controllers\Api\V1\ProgramController;
 use App\Http\Controllers\Api\V1\EventController;
+use App\Http\Controllers\Api\V1\ScoreController;
 
 Route::prefix('v1')->group(function () {
 
@@ -47,5 +48,7 @@ Route::prefix('v1')->group(function () {
         Route::get('/programs/{program}/events/{event}', [EventController::class, 'show']);
         Route::put('/programs/{program}/events/{event}', [EventController::class, 'update']);
         Route::delete('/programs/{program}/events/{event}', [EventController::class, 'destroy']);
+
+        Route::post('/programs/{program}/scores', [ScoreController::class, 'store']);
     });
 });
