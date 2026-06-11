@@ -15,7 +15,7 @@ class ScoreController extends Controller
     use AuthorizesRequests;
 
     public function __construct(
-        private readonly ScoreService $service
+        private ScoreService $service
     ) {}
 
     public function store(Program $program, StoreScoreRequest $request)
@@ -30,5 +30,14 @@ class ScoreController extends Controller
         return response()->json([
             'data' => new ScoreResource($score),
         ], 201);
+    }
+
+    public function index(Program $program)
+    {
+        $scores = $this->service->getScoresByProgram($program);
+
+        return response()->json([
+            'data' => ScoreResource::collection($scores),
+        ]);
     }
 }

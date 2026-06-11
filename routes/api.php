@@ -50,5 +50,6 @@ Route::prefix('v1')->group(function () {
         Route::delete('/programs/{program}/events/{event}', [EventController::class, 'destroy']);
 
         Route::post('/programs/{program}/scores', [ScoreController::class, 'store']);
+        Route::get('/programs/{program}/scores', [ScoreController::class, 'index']);
     });
 });

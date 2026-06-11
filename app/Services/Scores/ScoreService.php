@@ -26,4 +26,12 @@ class ScoreService
             'mime_type' => $mimeType,
         ]);
     }
+
+    public function getScoresByProgram(Program $program)
+    {
+        return Score::query()
+            ->where('program_id', $program->id)
+            ->latest()
+            ->get();
+    }
 }

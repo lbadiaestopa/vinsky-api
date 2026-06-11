@@ -17,4 +17,12 @@ class ScorePolicy
             ->where('role', 'admin')
             ->exists();
     }
+
+    public function viewAny(User $user, Program $program): bool
+    {
+        return Membership::query()
+            ->where('user_id', $user->id)
+            ->where('orchestra_id', $program->orchestra_id)
+            ->exists();
+    }
 }

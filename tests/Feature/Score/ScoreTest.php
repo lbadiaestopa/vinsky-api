@@ -151,3 +151,92 @@ it('stores the uploaded file and saves correct metadata', function () {
     expect($score->mime_type)->toBe('application/pdf');
     expect($score->original_name)->toBe('myscore.pdf');
 });
+
+it('allows an authenticated user to view all scores of a program', function () {
+
+    $user = User::factory()->create();
+
+    $orchestra = Orchestra::factory()->create();
+
+    $program = Program::factory()->create([
+        'orchestra_id' => $orchestra->id,
+    ]);
+
+    Membership::factory()->create([
+        'user_id' => $user->id,
+        'orchestra_id' => $orchestra->id,
+        'role' => 'admin',
+    ]);
+
+    Score::factory()->count(3)->create([
+        'program_id' => $program->id,
+    ]);
+
+    $response = $this
+        ->actingAs($user, 'api')
+        ->getJson("/api/v1/programs/{$program->id}/scores");
+
+    $response->assertOk();
+
+    $response->assertJsonStructure([
+        'data' => [
+            '*' => [
+                'id',
+                'title',
+                'file_path',
+                'mime_type',
+            ],
+        ],
+    ]);
+
+    expect($response->json('data'))->toHaveCount(3);
+});
+
+
+it('does not return scores from other programs', function () {
+
+    $user = User::factory()->create();
+
+    $orchestra = Orchestra::factory()->create();
+
+    $program = Program::factory()->create([
+        'orchestra_id' => $orchestra->id,
+    ]);
+
+    $otherProgram = Program::factory()->create([
+        'orchestra_id' => $orchestra->id,
+    ]);
+
+    Membership::factory()->create([
+        'user_id' => $user->id,
+        'orchestra_id' => $orchestra->id,
+        'role' => 'admin',
+    ]);
+
+    Score::factory()->count(2)->create([
+        'program_id' => $program->id,
+    ]);
+
+    Score::factory()->count(3)->create([
+        'program_id' => $otherProgram->id,
+    ]);
+
+    $response = $this
+        ->actingAs($user, 'api')
+        ->getJson("/api/v1/programs/{$program->id}/scores");
+
+    $response->assertOk();
+
+    expect($response->json('data'))->toHaveCount(2);
+});
+
+
+it('requires authentication to view scores', function () {
+
+    $program = Program::factory()->create();
+
+    $response = $this
+        ->getJson("/api/v1/programs/{$program->id}/scores");
+
+    $response->assertUnauthorized();
+});
