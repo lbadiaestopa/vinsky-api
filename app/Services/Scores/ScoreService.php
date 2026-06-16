@@ -4,8 +4,8 @@ namespace App\Services\Scores;
 
 use App\Models\Program;
 use App\Models\Score;
-use Illuminate\Http\UploadedFile;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Storage;
 
 class ScoreService
 {
@@ -45,6 +45,21 @@ class ScoreService
             ->where('program_id', $program->id)
             ->latest()
             ->get();
+    }
+
+    public function downloadScore(Score $score)
+    {
+        if (! Storage::disk('private')->exists($score->file_path)) {
+            abort(404);
+        }
+
+        return Storage::disk('private')->download(
+            $score->file_path,
+            $score->original_name,
+            [
+                'Content-Type' => $score->mime_type,
+            ]
+        );
     }
 
     private function sanitizeOriginalName(string $name): string
