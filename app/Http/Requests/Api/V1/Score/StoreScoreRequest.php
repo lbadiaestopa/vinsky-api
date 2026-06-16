@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests\Api\V1\Score;
 
-use App\Models\Score;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class StoreScoreRequest extends FormRequest
 {
@@ -15,18 +15,36 @@ class StoreScoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => [
-                'required',
-                'string',
-                'max:255',
-            ],
-
             'file' => [
                 'required',
                 'file',
                 'mimetypes:application/pdf',
                 'max:10240',
             ],
+            'original_name' => ['nullable', 'string'],
         ];
+    }
+
+    protected function passedValidation(): void
+    {
+        $originalName = $this->input('original_name')
+            ?? $this->file('file')?->getClientOriginalName()
+            ?? '';
+
+        $sanitized = preg_replace('/[\x00-\x1F\x7F]/', '', $originalName);
+
+        if (str_starts_with($sanitized, '.')) {
+            throw new HttpResponseException(
+                response()->json(['message' => 'Filenames cannot start with a dot.'], 400)
+            );
+        }
+
+        if (substr_count($sanitized, '.') > 1) {
+            throw new HttpResponseException(
+                response()->json(['message' => "Only one dot allowed in the filename."], 400)
+            );
+        }
+
+        $this->merge(['sanitized_original_name' => $sanitized]);
     }
 }
