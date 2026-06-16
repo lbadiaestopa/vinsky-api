@@ -4,6 +4,7 @@ use App\Models\User;
 use App\Models\Program;
 use App\Models\Orchestra;
 use App\Models\Membership;
+use App\Models\Score;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 
@@ -312,7 +313,7 @@ it('allows an authenticated user to view all scores of a program', function () {
         'data' => [
             '*' => [
                 'id',
-                'title',
+                'original_name',
                 'file_path',
                 'mime_type',
             ],

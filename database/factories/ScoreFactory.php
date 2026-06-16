@@ -19,7 +19,6 @@ class ScoreFactory extends Factory
 
         return [
             'program_id' => Program::factory(),
-            'title' => $this->faker->sentence(3),
             'original_name' => 'score.pdf',
             'mime_type' => 'application/pdf',
             'file_path' => 'scores/' . $fileName,
