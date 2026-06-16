@@ -23,7 +23,9 @@ class ScoreController extends Controller
         $this->authorize('create', [Score::class, $program]);
 
         $score = $this->service->create(
-            $request->validated(),
+            array_merge($request->validated(), [
+                'sanitized_original_name' => $request->input('sanitized_original_name'),
+            ]),
             $program
         );
 
