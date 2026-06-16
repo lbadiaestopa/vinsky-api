@@ -156,7 +156,7 @@ it('rejects filenames starting with dot', function () {
 
     $file = fakePdf();
 
-    $file->name = '.env.pdf';
+    $file->original_name = '.env.pdf';
 
     $response = $this
         ->actingAs($user, 'api')
@@ -361,7 +361,6 @@ it('does not return scores from other programs', function () {
     expect($response->json('data'))->toHaveCount(2);
 });
 
-
 it('requires authentication to view scores', function () {
 
     $program = Program::factory()->create();
@@ -370,4 +369,207 @@ it('requires authentication to view scores', function () {
         ->getJson("/api/v1/programs/{$program->id}/scores");
 
     $response->assertUnauthorized();
+});
+
+it('requires authentication to download a score', function () {
+    Storage::fake('private');
+
+    $program = Program::factory()->create();
+
+    $score = Score::factory()->create([
+        'program_id' => $program->id,
+    ]);
+
+    $response = $this->getJson(
+        "/api/v1/programs/{$program->id}/scores/{$score->id}/download"
+    );
+
+    $response->assertUnauthorized();
+});
+
+it('allows an authorized user to download a score', function () {
+    Storage::fake('private');
+
+    Storage::disk('private')->put(
+        'scores/test.pdf',
+        'fake pdf content'
+    );
+
+    $user = User::factory()->create();
+
+    $orchestra = Orchestra::factory()->create();
+
+    $program = Program::factory()->create([
+        'orchestra_id' => $orchestra->id,
+    ]);
+
+    Membership::factory()->create([
+        'user_id' => $user->id,
+        'orchestra_id' => $orchestra->id,
+        'role' => 'member',
+    ]);
+
+    $score = Score::factory()->create([
+        'program_id' => $program->id,
+        'file_path' => 'scores/test.pdf',
+        'original_name' => 'beethoven.pdf',
+        'mime_type' => 'application/pdf',
+    ]);
+
+    $response = $this
+        ->actingAs($user, 'api')
+        ->get(
+            "/api/v1/programs/{$program->id}/scores/{$score->id}/download"
+        );
+
+    $response->assertOk();
+});
+
+it('forbids users who do not belong to the orchestra', function () {
+    Storage::fake('private');
+
+    Storage::disk('private')->put(
+        'scores/test.pdf',
+        'fake pdf content'
+    );
+
+    $user = User::factory()->create();
+
+    $orchestra = Orchestra::factory()->create();
+
+    $program = Program::factory()->create([
+        'orchestra_id' => $orchestra->id,
+    ]);
+
+    $score = Score::factory()->create([
+        'program_id' => $program->id,
+        'file_path' => 'scores/test.pdf',
+        'original_name' => 'beethoven.pdf',
+        'mime_type' => 'application/pdf',
+    ]);
+
+    $response = $this
+        ->actingAs($user, 'api')
+        ->get(
+            "/api/v1/programs/{$program->id}/scores/{$score->id}/download"
+        );
+
+    $response->assertForbidden();
+});
+
+it('returns 404 when score does not belong to program', function () {
+    Storage::fake('private');
+
+    Storage::disk('private')->put(
+        'scores/test.pdf',
+        'fake pdf content'
+    );
+
+    $user = User::factory()->create();
+
+    $orchestra = Orchestra::factory()->create();
+
+    $programA = Program::factory()->create([
+        'orchestra_id' => $orchestra->id,
+    ]);
+
+    $programB = Program::factory()->create([
+        'orchestra_id' => $orchestra->id,
+    ]);
+
+    Membership::factory()->create([
+        'user_id' => $user->id,
+        'orchestra_id' => $orchestra->id,
+        'role' => 'member',
+    ]);
+
+    $score = Score::factory()->create([
+        'program_id' => $programB->id,
+        'file_path' => 'scores/test.pdf',
+        'original_name' => 'beethoven.pdf',
+        'mime_type' => 'application/pdf',
+    ]);
+
+    $response = $this
+        ->actingAs($user, 'api')
+        ->get(
+            "/api/v1/programs/{$programA->id}/scores/{$score->id}/download"
+        );
+
+    $response->assertNotFound();
+});
+
+it('returns the original filename in the download response', function () {
+    Storage::fake('private');
+
+    Storage::disk('private')->put(
+        'scores/test.pdf',
+        'fake pdf content'
+    );
+
+    $user = User::factory()->create();
+
+    $orchestra = Orchestra::factory()->create();
+
+    $program = Program::factory()->create([
+        'orchestra_id' => $orchestra->id,
+    ]);
+
+    Membership::factory()->create([
+        'user_id' => $user->id,
+        'orchestra_id' => $orchestra->id,
+        'role' => 'member',
+    ]);
+
+    $score = Score::factory()->create([
+        'program_id' => $program->id,
+        'file_path' => 'scores/test.pdf',
+        'original_name' => 'beethoven.pdf',
+        'mime_type' => 'application/pdf',
+    ]);
+
+    $response = $this
+        ->actingAs($user, 'api')
+        ->get(
+            "/api/v1/programs/{$program->id}/scores/{$score->id}/download"
+        );
+
+    $response->assertOk();
+
+    expect(
+        $response->headers->get('content-disposition')
+    )->toContain('beethoven.pdf');
+});
+
+it('returns 404 when the physical file does not exist', function () {
+    Storage::fake('private');
+
+    $user = User::factory()->create();
+
+    $orchestra = Orchestra::factory()->create();
+
+    $program = Program::factory()->create([
+        'orchestra_id' => $orchestra->id,
+    ]);
+
+    Membership::factory()->create([
+        'user_id' => $user->id,
+        'orchestra_id' => $orchestra->id,
+        'role' => 'member',
+    ]);
+
+    $score = Score::factory()->create([
+        'program_id' => $program->id,
+        'file_path' => 'scores/missing.pdf',
+        'original_name' => 'beethoven.pdf',
+        'mime_type' => 'application/pdf',
+    ]);
+
+    $response = $this
+        ->actingAs($user, 'api')
+        ->get(
+            "/api/v1/programs/{$program->id}/scores/{$score->id}/download"
+        );
+
+    $response->assertNotFound();
 });
