@@ -51,5 +51,6 @@ Route::prefix('v1')->group(function () {
 
         Route::post('/programs/{program}/scores', [ScoreController::class, 'store']);
         Route::get('/programs/{program}/scores', [ScoreController::class, 'index']);
+        Route::get('/programs/{program}/scores/{score}/download', [ScoreController::class, 'download'])->scopeBindings();
     });
 });
