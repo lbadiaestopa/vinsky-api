@@ -17,4 +17,9 @@ class Program extends Model
     {
         return $this->belongsTo(Orchestra::class);
     }
+
+    public function scores()
+    {
+        return $this->hasMany(Score::class);
+    }
 }
