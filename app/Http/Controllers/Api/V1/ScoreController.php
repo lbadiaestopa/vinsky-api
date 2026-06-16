@@ -36,10 +36,19 @@ class ScoreController extends Controller
 
     public function index(Program $program)
     {
+        $this->authorize('viewAny', [Score::class, $program]);
+
         $scores = $this->service->getScoresByProgram($program);
 
         return response()->json([
             'data' => ScoreResource::collection($scores),
         ]);
+    }
+
+    public function download(Program $program, Score $score)
+    {
+        $this->authorize('download', [$score]);
+
+        return $this->service->downloadScore($score);
     }
 }
