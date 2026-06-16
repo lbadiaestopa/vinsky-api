@@ -17,7 +17,6 @@ class ScoreResource extends JsonResource
         return [
             'id' => $this->id,
             'program_id' => $this->program_id,
-            'title' => $this->title,
             'file_path' => $this->file_path,
             'original_name' => $this->original_name,
             'size' => $this->size,
