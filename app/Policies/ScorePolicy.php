@@ -25,4 +25,12 @@ class ScorePolicy
             ->where('orchestra_id', $program->orchestra_id)
             ->exists();
     }
+
+    public function download(User $user, Score $score): bool
+    {
+        return Membership::query()
+            ->where('user_id', $user->id)
+            ->where('orchestra_id', $score->program->orchestra_id)
+            ->exists();
+    }
 }
