@@ -62,16 +62,10 @@ class ScoreService
         );
     }
 
-    private function sanitizeOriginalName(string $name): string
+    public function delete(Score $score): void
     {
-        $name = preg_replace('/[\x00-\x1F\x7F]/', '', $name);
+        Storage::disk('private')->delete($score->file_path);
 
-        $name = str_replace(['/', '\\'], '', $name);
-
-        $name = trim($name);
-
-        $name = mb_substr($name, 0, 100);
-
-        return $name;
+        $score->delete();
     }
 }
