@@ -40,6 +40,7 @@ it('requires authentication to upload a score', function () {
 
 it('forbids non-admin users from uploading scores', function () {
     $user = User::factory()->create();
+
     $orchestra = Orchestra::factory()->create();
 
     $program = Program::factory()->create([
@@ -66,6 +67,7 @@ it('forbids non-admin users from uploading scores', function () {
 
 it('allows admin users of the orchestra to upload a score', function () {
     $user = User::factory()->create();
+
     $orchestra = Orchestra::factory()->create();
 
     $program = Program::factory()->create([
@@ -92,6 +94,7 @@ it('allows admin users of the orchestra to upload a score', function () {
 
 it('requires file', function () {
     $user = User::factory()->create();
+
     $program = Program::factory()->create();
 
     $response = $this
@@ -103,6 +106,7 @@ it('requires file', function () {
 
 it('only accepts pdf files', function () {
     $user = User::factory()->create();
+
     $program = Program::factory()->create();
 
     $file = UploadedFile::fake()->create('score.txt', 100, 'text/plain');
@@ -118,6 +122,7 @@ it('only accepts pdf files', function () {
 
 it('rejects files over 10MB', function () {
     $user = User::factory()->create();
+
     $program = Program::factory()->create();
 
     $file = UploadedFile::fake()->create('score.pdf', 11000, 'application/pdf');
@@ -133,8 +138,11 @@ it('rejects files over 10MB', function () {
 
 it('rejects invalid MIME content', function () {
     $user = User::factory()->create();
+
     $orchestra = Orchestra::factory()->create();
+
     $program = Program::factory()->create(['orchestra_id' => $orchestra->id]);
+
     Membership::factory()->create([
         'user_id' => $user->id,
         'orchestra_id' => $orchestra->id,
@@ -152,6 +160,7 @@ it('rejects invalid MIME content', function () {
 
 it('rejects filenames starting with dot', function () {
     $user = User::factory()->create();
+
     $program = Program::factory()->create();
 
     $file = fakePdf();
@@ -170,6 +179,7 @@ it('rejects filenames starting with dot', function () {
 
 it('rejects filenames with more than one dot', function () {
     $user = User::factory()->create();
+
     $program = Program::factory()->create();
 
     $file = fakePdf();
@@ -186,8 +196,11 @@ it('rejects filenames with more than one dot', function () {
 
 it('sanitizes original filename removing control characters', function () {
     $user = User::factory()->create();
+
     $orchestra = Orchestra::factory()->create();
+
     $program = Program::factory()->create(['orchestra_id' => $orchestra->id]);
+
     Membership::factory()->create([
         'user_id' => $user->id,
         'orchestra_id' => $orchestra->id,
@@ -214,8 +227,11 @@ it('stores file in private disk', function () {
     Storage::fake('private');
 
     $user = User::factory()->create();
+
     $orchestra = Orchestra::factory()->create();
+
     $program = Program::factory()->create(['orchestra_id' => $orchestra->id]);
+
     Membership::factory()->create([
         'user_id' => $user->id,
         'orchestra_id' => $orchestra->id,
@@ -238,8 +254,11 @@ it('stores file in private disk', function () {
 
 it('stores file metadata correctly', function () {
     $user = User::factory()->create();
+
     $orchestra = Orchestra::factory()->create();
+
     $program = Program::factory()->create(['orchestra_id' => $orchestra->id]);
+
     Membership::factory()->create([
         'user_id' => $user->id,
         'orchestra_id' => $orchestra->id,
@@ -262,8 +281,11 @@ it('stores file metadata correctly', function () {
 
 it('stores file with correct size', function () {
     $user = User::factory()->create();
+
     $orchestra = Orchestra::factory()->create();
+
     $program = Program::factory()->create(['orchestra_id' => $orchestra->id]);
+
     Membership::factory()->create([
         'user_id' => $user->id,
         'orchestra_id' => $orchestra->id,
@@ -569,6 +591,175 @@ it('returns 404 when the physical file does not exist', function () {
         ->actingAs($user, 'api')
         ->get(
             "/api/v1/programs/{$program->id}/scores/{$score->id}/download"
+        );
+
+    $response->assertNotFound();
+});
+
+it('requires authentication to delete a score', function () {
+    Storage::fake('private');
+
+    $program = Program::factory()->create();
+
+    $score = Score::factory()->create([
+        'program_id' => $program->id,
+        'file_path' => 'scores/test.pdf',
+    ]);
+
+    $response = $this->withHeaders(['Accept' => 'application/json'])
+        ->delete("/api/v1/programs/{$program->id}/scores/{$score->id}");
+
+    $response->assertUnauthorized();
+});
+
+it('allows an authorized user to delete a score', function () {
+    Storage::fake('private');
+
+    $user = User::factory()->create();
+
+    $orchestra = Orchestra::factory()->create();
+
+    Membership::factory()->create([
+        'user_id' => $user->id,
+        'orchestra_id' => $orchestra->id,
+        'role' => 'admin',
+    ]);
+
+    $program = Program::factory()->create([
+        'orchestra_id' => $orchestra->id,
+    ]);
+
+    Storage::disk('private')->put('scores/test.pdf', 'pdf content');
+
+    $score = Score::factory()->create([
+        'program_id' => $program->id,
+        'file_path' => 'scores/test.pdf',
+    ]);
+
+    $response = $this
+        ->actingAs($user, 'api')
+        ->delete(
+            "/api/v1/programs/{$program->id}/scores/{$score->id}"
+        );
+
+    $response->assertNoContent();
+
+    $this->assertDatabaseMissing('scores', [
+        'id' => $score->id,
+    ]);
+});
+
+it('forbids users who do not belong to the orchestra when deleting score', function () {
+    Storage::fake('private');
+
+    $user = User::factory()->create();
+
+    $orchestra = Orchestra::factory()->create();
+
+    $program = Program::factory()->create([
+        'orchestra_id' => $orchestra->id,
+    ]);
+
+    $score = Score::factory()->create([
+        'program_id' => $program->id,
+    ]);
+
+    $response = $this
+        ->actingAs($user, 'api')
+        ->delete(
+            "/api/v1/programs/{$program->id}/scores/{$score->id}"
+        );
+
+    $response->assertForbidden();
+});
+
+it('returns 404 when score does not belong to program when deleting score', function () {
+    Storage::fake('private');
+
+    $user = User::factory()->create();
+
+    $orchestra = Orchestra::factory()->create();
+
+    Membership::factory()->create([
+        'user_id' => $user->id,
+        'orchestra_id' => $orchestra->id,
+        'role' => 'admin',
+    ]);
+
+    $programA = Program::factory()->create([
+        'orchestra_id' => $orchestra->id,
+    ]);
+
+    $programB = Program::factory()->create([
+        'orchestra_id' => $orchestra->id,
+    ]);
+
+    $score = Score::factory()->create([
+        'program_id' => $programB->id,
+    ]);
+
+    $response = $this
+        ->actingAs($user, 'api')
+        ->delete(
+            "/api/v1/programs/{$programA->id}/scores/{$score->id}"
+        );
+
+    $response->assertNotFound();
+});
+
+it('deletes the physical file from storage', function () {
+    Storage::fake('private');
+
+    $user = User::factory()->create();
+
+    $orchestra = Orchestra::factory()->create();
+
+    Membership::factory()->create([
+        'user_id' => $user->id,
+        'orchestra_id' => $orchestra->id,
+        'role' => 'admin',
+    ]);
+
+    $program = Program::factory()->create([
+        'orchestra_id' => $orchestra->id,
+    ]);
+
+    Storage::disk('private')->put('scores/test.pdf', 'pdf content');
+
+    $score = Score::factory()->create([
+        'program_id' => $program->id,
+        'file_path' => 'scores/test.pdf',
+    ]);
+
+    $this
+        ->actingAs($user, 'api')
+        ->delete(
+            "/api/v1/programs/{$program->id}/scores/{$score->id}"
+        );
+
+    Storage::disk('private')
+        ->assertMissing('scores/test.pdf');
+});
+
+it('returns 404 when the score does not exist', function () {
+    $user = User::factory()->create();
+
+    $orchestra = Orchestra::factory()->create();
+
+    Membership::factory()->create([
+        'user_id' => $user->id,
+        'orchestra_id' => $orchestra->id,
+        'role' => 'admin',
+    ]);
+
+    $program = Program::factory()->create([
+        'orchestra_id' => $orchestra->id,
+    ]);
+
+    $response = $this
+        ->actingAs($user, 'api')
+        ->delete(
+            "/api/v1/programs/{$program->id}/scores/999999"
         );
 
     $response->assertNotFound();
