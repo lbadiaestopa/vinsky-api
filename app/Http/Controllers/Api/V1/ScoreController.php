@@ -51,4 +51,13 @@ class ScoreController extends Controller
 
         return $this->service->downloadScore($score);
     }
+
+    public function destroy(Program $program, Score $score)
+    {
+        $this->authorize('delete', [$program]);
+
+        $this->service->delete($score);
+
+        return response()->noContent();
+    }
 }
