@@ -1,0 +1,888 @@
+openapi: 3.0.3
+info:
+  title: 'Laravel API Documentation'
+  description: ''
+  version: 1.0.0
+servers:
+  - url: 'http://localhost:8000'
+tags:
+  - name: Endpoints
+    description: ''
+paths:
+  /api/v1/register:
+    post:
+      summary: ''
+      operationId: postApiV1Register
+      description: ''
+      parameters: []
+      responses: {}
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: b
+                last_name:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: 'n'
+                email:
+                  type: string
+                  description: 'Must be a valid email address. Must not be greater than 255 characters.'
+                  example: ashly64@example.com
+                password:
+                  type: string
+                  description: 'Must be at least 8 characters.'
+                  example: pBNvYg
+              required:
+                - name
+                - last_name
+                - email
+                - password
+      security: []
+  /api/v1/login:
+    post:
+      summary: ''
+      operationId: postApiV1Login
+      description: ''
+      parameters: []
+      responses: {}
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: 'Must be a valid email address.'
+                  example: gbailey@example.net
+                password:
+                  type: string
+                  description: ''
+                  example: '|]|{+-'
+              required:
+                - email
+                - password
+      security: []
+  /api/v1/logout:
+    post:
+      summary: ''
+      operationId: postApiV1Logout
+      description: ''
+      parameters: []
+      responses: {}
+      tags:
+        - Endpoints
+      security: []
+  /api/v1/me:
+    get:
+      summary: ''
+      operationId: getApiV1Me
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+    delete:
+      summary: ''
+      operationId: deleteApiV1Me
+      description: ''
+      parameters: []
+      responses: {}
+      tags:
+        - Endpoints
+      security: []
+  /api/v1/me/password:
+    put:
+      summary: ''
+      operationId: putApiV1MePassword
+      description: ''
+      parameters: []
+      responses: {}
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                current_password:
+                  type: string
+                  description: ''
+                  example: architecto
+                password:
+                  type: string
+                  description: 'Must be at least 8 characters.'
+                  example: ']|{+-0pBNvYg'
+              required:
+                - current_password
+                - password
+      security: []
+  /api/v1/orchestras:
+    post:
+      summary: ''
+      operationId: postApiV1Orchestras
+      description: ''
+      parameters: []
+      responses: {}
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: b
+                location:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: 'n'
+              required:
+                - name
+                - location
+      security: []
+    get:
+      summary: ''
+      operationId: getApiV1Orchestras
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+  '/api/v1/orchestras/{orchestra_id}':
+    get:
+      summary: ''
+      operationId: getApiV1OrchestrasOrchestra_id
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+    put:
+      summary: ''
+      operationId: putApiV1OrchestrasOrchestra_id
+      description: ''
+      parameters: []
+      responses: {}
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: b
+                location:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: 'n'
+              required:
+                - name
+                - location
+      security: []
+    delete:
+      summary: ''
+      operationId: deleteApiV1OrchestrasOrchestra_id
+      description: ''
+      parameters: []
+      responses: {}
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: orchestra_id
+        description: 'The ID of the orchestra.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  /api/v1/memberships:
+    post:
+      summary: ''
+      operationId: postApiV1Memberships
+      description: ''
+      parameters: []
+      responses: {}
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: 'Must be a valid email address. Must match an existing stored value.'
+                  example: gbailey@example.net
+                orchestra_name:
+                  type: string
+                  description: 'Must match an existing stored value.'
+                  example: architecto
+                role:
+                  type: string
+                  description: ''
+                  example: admin
+                  enum:
+                    - admin
+                    - member
+                  nullable: true
+                member_type:
+                  type: string
+                  description: ''
+                  example: core
+                  enum:
+                    - core
+                    - substitute
+                    - guest
+                  nullable: true
+                instrument:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: 'n'
+                  nullable: true
+                section:
+                  type: string
+                  description: ''
+                  example: flute
+                  enum:
+                    - violin_1
+                    - violin_2
+                    - viola
+                    - cello
+                    - double_bass
+                    - french_horn
+                    - trumpet
+                    - trombone
+                    - tuba
+                    - flute
+                    - oboe
+                    - clarinet
+                    - bassoon
+                    - percussion
+                    - mallet
+                    - vocal
+                    - other
+                  nullable: true
+                joined_at:
+                  type: string
+                  description: 'Must be a valid date.'
+                  example: '2026-06-18T08:53:48'
+                  nullable: true
+              required:
+                - email
+                - orchestra_name
+      security: []
+    get:
+      summary: ''
+      operationId: getApiV1Memberships
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+  '/api/v1/memberships/{membership_id}':
+    get:
+      summary: ''
+      operationId: getApiV1MembershipsMembership_id
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+    put:
+      summary: ''
+      operationId: putApiV1MembershipsMembership_id
+      description: ''
+      parameters: []
+      responses: {}
+      tags:
+        - Endpoints
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                role:
+                  type: string
+                  description: ''
+                  example: member
+                  enum:
+                    - admin
+                    - member
+                member_type:
+                  type: string
+                  description: ''
+                  example: substitute
+                  enum:
+                    - core
+                    - substitute
+                    - guest
+                instrument:
+                  type: string
+                  description: ''
+                  example: architecto
+                section:
+                  type: string
+                  description: ''
+                  example: other
+                  enum:
+                    - violin_1
+                    - violin_2
+                    - viola
+                    - cello
+                    - double_bass
+                    - french_horn
+                    - trumpet
+                    - trombone
+                    - tuba
+                    - flute
+                    - oboe
+                    - clarinet
+                    - bassoon
+                    - percussion
+                    - mallet
+                    - vocal
+                    - other
+      security: []
+    delete:
+      summary: ''
+      operationId: deleteApiV1MembershipsMembership_id
+      description: ''
+      parameters: []
+      responses: {}
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: membership_id
+        description: 'The ID of the membership.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/api/v1/orchestras/{orchestra_id}/programs':
+    post:
+      summary: ''
+      operationId: postApiV1OrchestrasOrchestra_idPrograms
+      description: ''
+      parameters: []
+      responses: {}
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: b
+                start_date:
+                  type: string
+                  description: 'Must be a valid date.'
+                  example: '2026-06-18T08:53:48'
+                end_date:
+                  type: string
+                  description: 'Must be a valid date. Must be a date after or equal to <code>start_date</code>.'
+                  example: '2052-07-11'
+              required:
+                - name
+                - start_date
+                - end_date
+      security: []
+    get:
+      summary: ''
+      operationId: getApiV1OrchestrasOrchestra_idPrograms
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: orchestra_id
+        description: 'The ID of the orchestra.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/api/v1/programs/{program_id}':
+    get:
+      summary: ''
+      operationId: getApiV1ProgramsProgram_id
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+    put:
+      summary: ''
+      operationId: putApiV1ProgramsProgram_id
+      description: ''
+      parameters: []
+      responses: {}
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: b
+                start_date:
+                  type: string
+                  description: 'Must be a valid date.'
+                  example: '2026-06-18T08:53:48'
+                end_date:
+                  type: string
+                  description: 'Must be a valid date. Must be a date after or equal to <code>start_date</code>.'
+                  example: '2052-07-11'
+              required:
+                - name
+                - start_date
+                - end_date
+      security: []
+    delete:
+      summary: ''
+      operationId: deleteApiV1ProgramsProgram_id
+      description: ''
+      parameters: []
+      responses: {}
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: program_id
+        description: 'The ID of the program.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/api/v1/programs/{program_id}/events':
+    post:
+      summary: ''
+      operationId: postApiV1ProgramsProgram_idEvents
+      description: ''
+      parameters: []
+      responses: {}
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                repertoire:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: b
+                type:
+                  type: string
+                  description: ''
+                  example: soundcheck
+                  enum:
+                    - rehearsal
+                    - concert
+                    - soundcheck
+                location:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: 'n'
+                start_date:
+                  type: string
+                  description: 'Must be a valid date.'
+                  example: '2026-06-18T08:53:48'
+                end_date:
+                  type: string
+                  description: 'Must be a valid date. Must be a date after or equal to <code>start_date</code>.'
+                  example: '2052-07-11'
+              required:
+                - repertoire
+                - type
+                - location
+                - start_date
+                - end_date
+      security: []
+    get:
+      summary: ''
+      operationId: getApiV1ProgramsProgram_idEvents
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: program_id
+        description: 'The ID of the program.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/api/v1/programs/{program_id}/events/{event_id}':
+    get:
+      summary: ''
+      operationId: getApiV1ProgramsProgram_idEventsEvent_id
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+    put:
+      summary: ''
+      operationId: putApiV1ProgramsProgram_idEventsEvent_id
+      description: ''
+      parameters: []
+      responses: {}
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                repertoire:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: b
+                type:
+                  type: string
+                  description: ''
+                  example: concert
+                  enum:
+                    - rehearsal
+                    - concert
+                    - soundcheck
+                location:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: 'n'
+                start_date:
+                  type: string
+                  description: 'Must be a valid date.'
+                  example: '2026-06-18T08:53:48'
+                end_date:
+                  type: string
+                  description: 'Must be a valid date. Must be a date after or equal to <code>start_date</code>.'
+                  example: '2052-07-11'
+              required:
+                - repertoire
+                - type
+                - location
+                - start_date
+                - end_date
+      security: []
+    delete:
+      summary: ''
+      operationId: deleteApiV1ProgramsProgram_idEventsEvent_id
+      description: ''
+      parameters: []
+      responses: {}
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: program_id
+        description: 'The ID of the program.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+      -
+        in: path
+        name: event_id
+        description: 'The ID of the event.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/api/v1/programs/{program_id}/scores':
+    post:
+      summary: ''
+      operationId: postApiV1ProgramsProgram_idScores
+      description: ''
+      parameters: []
+      responses: {}
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  description: 'Must be a file. Must not be greater than 10240 kilobytes.'
+                original_name:
+                  type: string
+                  description: ''
+                  example: architecto
+                  nullable: true
+              required:
+                - file
+      security: []
+    get:
+      summary: ''
+      operationId: getApiV1ProgramsProgram_idScores
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: program_id
+        description: 'The ID of the program.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/api/v1/programs/{program_id}/scores/{score_id}/download':
+    get:
+      summary: ''
+      operationId: getApiV1ProgramsProgram_idScoresScore_idDownload
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: program_id
+        description: 'The ID of the program.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+      -
+        in: path
+        name: score_id
+        description: 'The ID of the score.'
+        example: 16
+        required: true
+        schema:
+          type: integer
+  '/api/v1/programs/{program_id}/scores/{score_id}':
+    delete:
+      summary: ''
+      operationId: deleteApiV1ProgramsProgram_idScoresScore_id
+      description: ''
+      parameters: []
+      responses: {}
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: program_id
+        description: 'The ID of the program.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+      -
+        in: path
+        name: score_id
+        description: 'The ID of the score.'
+        example: 16
+        required: true
+        schema:
+          type: integer
