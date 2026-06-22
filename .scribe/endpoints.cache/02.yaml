@@ -15,7 +15,7 @@ endpoints:
       subgroup: ''
       subgroupDescription: ''
       title: 'Create an orchestra'
-      description: 'User must have a membership linked to the orchestra with an admin role to create an orchestra.'
+      description: 'All users can create an orchestra.'
       authenticated: true
       deprecated: false
     headers:

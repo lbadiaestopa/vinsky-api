@@ -10,8 +10,8 @@
     ],
     "info": {
         "name": "Vinsky API Documentation",
-        "_postman_id": "99f8684f-30a9-470c-bab3-38532d88f748",
-        "description": "",
+        "_postman_id": "573f150d-6f5f-4d82-a551-97c862f49965",
+        "description": "A RESTful API for managing orchestras, their members, programs, events, and musical scores. It provides structured access control, allowing authenticated users to collaborate within orchestras, organize rehearsals and concerts, and manage shared sheet music through secure file uploads.",
         "schema": "https:\/\/schema.getpostman.com\/json\/collection\/v2.1.0\/collection.json"
     },
     "item": [
@@ -109,207 +109,6 @@
             ]
         },
         {
-            "name": "Endpoints",
-            "description": "",
-            "item": [
-                {
-                    "name": "POST api\/v1\/memberships",
-                    "request": {
-                        "url": {
-                            "host": "{{baseUrl}}",
-                            "path": "api\/v1\/memberships",
-                            "query": [],
-                            "raw": "{{baseUrl}}\/api\/v1\/memberships"
-                        },
-                        "method": "POST",
-                        "header": [
-                            {
-                                "key": "Content-Type",
-                                "value": "application\/json"
-                            },
-                            {
-                                "key": "Accept",
-                                "value": "application\/json"
-                            }
-                        ],
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{\"email\":\"gbailey@example.net\",\"orchestra_name\":\"architecto\",\"role\":\"admin\",\"member_type\":\"core\",\"instrument\":\"n\",\"section\":\"percussion\",\"joined_at\":\"2026-06-22T09:31:30\"}"
-                        },
-                        "description": ""
-                    },
-                    "response": []
-                },
-                {
-                    "name": "GET api\/v1\/memberships",
-                    "request": {
-                        "url": {
-                            "host": "{{baseUrl}}",
-                            "path": "api\/v1\/memberships",
-                            "query": [],
-                            "raw": "{{baseUrl}}\/api\/v1\/memberships"
-                        },
-                        "method": "GET",
-                        "header": [
-                            {
-                                "key": "Content-Type",
-                                "value": "application\/json"
-                            },
-                            {
-                                "key": "Accept",
-                                "value": "application\/json"
-                            }
-                        ],
-                        "body": null,
-                        "description": ""
-                    },
-                    "response": [
-                        {
-                            "header": [
-                                {
-                                    "key": "cache-control",
-                                    "value": "no-cache, private"
-                                },
-                                {
-                                    "key": "content-type",
-                                    "value": "application\/json"
-                                },
-                                {
-                                    "key": "access-control-allow-origin",
-                                    "value": "*"
-                                }
-                            ],
-                            "code": 401,
-                            "body": "{\"message\":\"Unauthenticated.\"}",
-                            "name": ""
-                        }
-                    ]
-                },
-                {
-                    "name": "GET api\/v1\/memberships\/{membership_id}",
-                    "request": {
-                        "url": {
-                            "host": "{{baseUrl}}",
-                            "path": "api\/v1\/memberships\/:membership_id",
-                            "query": [],
-                            "raw": "{{baseUrl}}\/api\/v1\/memberships\/:membership_id",
-                            "variable": [
-                                {
-                                    "id": "membership_id",
-                                    "key": "membership_id",
-                                    "value": 1,
-                                    "description": "The ID of the membership."
-                                }
-                            ]
-                        },
-                        "method": "GET",
-                        "header": [
-                            {
-                                "key": "Content-Type",
-                                "value": "application\/json"
-                            },
-                            {
-                                "key": "Accept",
-                                "value": "application\/json"
-                            }
-                        ],
-                        "body": null,
-                        "description": ""
-                    },
-                    "response": [
-                        {
-                            "header": [
-                                {
-                                    "key": "cache-control",
-                                    "value": "no-cache, private"
-                                },
-                                {
-                                    "key": "content-type",
-                                    "value": "application\/json"
-                                },
-                                {
-                                    "key": "access-control-allow-origin",
-                                    "value": "*"
-                                }
-                            ],
-                            "code": 401,
-                            "body": "{\"message\":\"Unauthenticated.\"}",
-                            "name": ""
-                        }
-                    ]
-                },
-                {
-                    "name": "PUT api\/v1\/memberships\/{membership_id}",
-                    "request": {
-                        "url": {
-                            "host": "{{baseUrl}}",
-                            "path": "api\/v1\/memberships\/:membership_id",
-                            "query": [],
-                            "raw": "{{baseUrl}}\/api\/v1\/memberships\/:membership_id",
-                            "variable": [
-                                {
-                                    "id": "membership_id",
-                                    "key": "membership_id",
-                                    "value": 1,
-                                    "description": "The ID of the membership."
-                                }
-                            ]
-                        },
-                        "method": "PUT",
-                        "header": [
-                            {
-                                "key": "Content-Type",
-                                "value": "application\/json"
-                            },
-                            {
-                                "key": "Accept",
-                                "value": "application\/json"
-                            }
-                        ],
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{\"role\":\"member\",\"member_type\":\"core\",\"instrument\":\"architecto\",\"section\":\"tuba\"}"
-                        },
-                        "description": ""
-                    },
-                    "response": []
-                },
-                {
-                    "name": "DELETE api\/v1\/memberships\/{membership_id}",
-                    "request": {
-                        "url": {
-                            "host": "{{baseUrl}}",
-                            "path": "api\/v1\/memberships\/:membership_id",
-                            "query": [],
-                            "raw": "{{baseUrl}}\/api\/v1\/memberships\/:membership_id",
-                            "variable": [
-                                {
-                                    "id": "membership_id",
-                                    "key": "membership_id",
-                                    "value": 1,
-                                    "description": "The ID of the membership."
-                                }
-                            ]
-                        },
-                        "method": "DELETE",
-                        "header": [
-                            {
-                                "key": "Content-Type",
-                                "value": "application\/json"
-                            },
-                            {
-                                "key": "Accept",
-                                "value": "application\/json"
-                            }
-                        ],
-                        "body": null,
-                        "description": ""
-                    },
-                    "response": []
-                }
-            ]
-        },
-        {
             "name": "Events",
             "description": "Endpoints for managing events. Events belong to a program.",
             "item": [
@@ -343,7 +142,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"repertoire\":\"b\",\"type\":\"rehearsal\",\"location\":\"n\",\"start_date\":\"2026-06-22T09:31:30\",\"end_date\":\"2052-07-15\"}"
+                            "raw": "{\"repertoire\":\"Beethoven Symphony 5\",\"type\":\"Rehearsal\",\"location\":\"Hollywood Bowl\",\"start_date\":\"2026-07-14\",\"end_date\":\"2026-07-21\"}"
                         },
                         "description": "User must have a membership linked to the orchestra containing the orchestra with an admin role to create it."
                     },
@@ -497,7 +296,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"repertoire\":\"b\",\"type\":\"rehearsal\",\"location\":\"n\",\"start_date\":\"2026-06-22T09:31:30\",\"end_date\":\"2052-07-15\"}"
+                            "raw": "{\"repertoire\":\"Beethoven Symphony 5\",\"type\":\"Rehearsal\",\"location\":\"Hollywood Bowl\",\"start_date\":\"2026-07-14\",\"end_date\":\"2026-07-21\"}"
                         },
                         "description": "User must have a membership linked to the orchestra containing the orchestra with an admin role to update it."
                     },
@@ -545,6 +344,207 @@
             ]
         },
         {
+            "name": "Memberships",
+            "description": "Endpoints for managing orchestras. Orchestras can contain programs.",
+            "item": [
+                {
+                    "name": "Create a membership",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/memberships",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/memberships"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"email\":\"beethoven@example.com\",\"orchestra_name\":\"Barcelona Symphony Orchestra\",\"role\":\"member\",\"member_type\":\"core\",\"instrument\":\"Violin\",\"section\":\"violin_1\",\"joined_at\":\"2026-06-22\"}"
+                        },
+                        "description": "User must have a membership linked to the orchestras in order to create another membership."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "List all memberships",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/memberships",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/memberships"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Lists all mermberships of an orcchestra."
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 401,
+                            "body": "{\"message\":\"Unauthenticated.\"}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Get a membership",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/memberships\/:membership_id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/memberships\/:membership_id",
+                            "variable": [
+                                {
+                                    "id": "membership_id",
+                                    "key": "membership_id",
+                                    "value": 1,
+                                    "description": "The ID of the membership."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Lists one mermberships of an orcchestra."
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 401,
+                            "body": "{\"message\":\"Unauthenticated.\"}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Update membership",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/memberships\/:membership_id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/memberships\/:membership_id",
+                            "variable": [
+                                {
+                                    "id": "membership_id",
+                                    "key": "membership_id",
+                                    "value": 1,
+                                    "description": "The ID of the membership."
+                                }
+                            ]
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"role\":\"member\",\"member_type\":\"core\",\"instrument\":\"Violin\",\"section\":\"violin_1\"}"
+                        },
+                        "description": "User must have a membership linked to the an orchestra with a role of admin in order to update the membership."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Delete membership",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/memberships\/:membership_id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/memberships\/:membership_id",
+                            "variable": [
+                                {
+                                    "id": "membership_id",
+                                    "key": "membership_id",
+                                    "value": 1,
+                                    "description": "The ID of the membership."
+                                }
+                            ]
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "User must have a membership linked to the an orchestra with a role of admin in order to delete the membership."
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
             "name": "Orchestras",
             "description": "Endpoints for managing orchestras. Orchestras can contain programs.",
             "item": [
@@ -572,7 +572,7 @@
                             "mode": "raw",
                             "raw": "{\"name\":\"Berliner Philharmoniker\",\"location\":\"Berlin\"}"
                         },
-                        "description": "User must have a membership linked to the orchestra with an admin role to create an orchestra."
+                        "description": "All users can create an orchestra."
                     },
                     "response": []
                 },
@@ -999,9 +999,9 @@
                             "formdata": [
                                 {
                                     "key": "original_name",
-                                    "value": "architecto",
+                                    "value": "Beethoven_Symphony_No_5.pdf",
                                     "type": "text",
-                                    "description": ""
+                                    "description": "The original filename of the uploaded score."
                                 },
                                 {
                                     "key": "file",

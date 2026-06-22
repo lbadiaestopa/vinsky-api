@@ -1,17 +1,17 @@
 openapi: 3.0.3
 info:
   title: 'Vinsky API Documentation'
-  description: ''
+  description: 'A RESTful API for managing orchestras, their members, programs, events, and musical scores. It provides structured access control, allowing authenticated users to collaborate within orchestras, organize rehearsals and concerts, and manage shared sheet music through secure file uploads.'
   version: 1.0.0
 servers:
   - url: 'http://localhost:8000'
 tags:
   - name: Authentication
     description: "Endpoints for user registration, login and logout.\nRegistration and login do not require authentication."
-  - name: Endpoints
-    description: ''
   - name: Events
     description: 'Endpoints for managing events. Events belong to a program.'
+  - name: Memberships
+    description: 'Endpoints for managing orchestras. Orchestras can contain programs.'
   - name: Orchestras
     description: 'Endpoints for managing orchestras. Orchestras can contain programs.'
   - name: Programs
@@ -105,197 +105,6 @@ paths:
       responses: {}
       tags:
         - Authentication
-  /api/v1/memberships:
-    post:
-      summary: ''
-      operationId: postApiV1Memberships
-      description: ''
-      parameters: []
-      responses: {}
-      tags:
-        - Endpoints
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                email:
-                  type: string
-                  description: 'Must be a valid email address. Must match an existing stored value.'
-                  example: gbailey@example.net
-                orchestra_name:
-                  type: string
-                  description: 'Must match an existing stored value.'
-                  example: architecto
-                role:
-                  type: string
-                  description: ''
-                  example: admin
-                  enum:
-                    - admin
-                    - member
-                  nullable: true
-                member_type:
-                  type: string
-                  description: ''
-                  example: core
-                  enum:
-                    - core
-                    - substitute
-                    - guest
-                  nullable: true
-                instrument:
-                  type: string
-                  description: 'Must not be greater than 255 characters.'
-                  example: 'n'
-                  nullable: true
-                section:
-                  type: string
-                  description: ''
-                  example: percussion
-                  enum:
-                    - violin_1
-                    - violin_2
-                    - viola
-                    - cello
-                    - double_bass
-                    - french_horn
-                    - trumpet
-                    - trombone
-                    - tuba
-                    - flute
-                    - oboe
-                    - clarinet
-                    - bassoon
-                    - percussion
-                    - mallet
-                    - vocal
-                    - other
-                  nullable: true
-                joined_at:
-                  type: string
-                  description: 'Must be a valid date.'
-                  example: '2026-06-22T09:31:30'
-                  nullable: true
-              required:
-                - email
-                - orchestra_name
-    get:
-      summary: ''
-      operationId: getApiV1Memberships
-      description: ''
-      parameters: []
-      responses:
-        401:
-          description: ''
-          content:
-            application/json:
-              schema:
-                type: object
-                example:
-                  message: Unauthenticated.
-                properties:
-                  message:
-                    type: string
-                    example: Unauthenticated.
-      tags:
-        - Endpoints
-  '/api/v1/memberships/{membership_id}':
-    get:
-      summary: ''
-      operationId: getApiV1MembershipsMembership_id
-      description: ''
-      parameters: []
-      responses:
-        401:
-          description: ''
-          content:
-            application/json:
-              schema:
-                type: object
-                example:
-                  message: Unauthenticated.
-                properties:
-                  message:
-                    type: string
-                    example: Unauthenticated.
-      tags:
-        - Endpoints
-    put:
-      summary: ''
-      operationId: putApiV1MembershipsMembership_id
-      description: ''
-      parameters: []
-      responses: {}
-      tags:
-        - Endpoints
-      requestBody:
-        required: false
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                role:
-                  type: string
-                  description: ''
-                  example: member
-                  enum:
-                    - admin
-                    - member
-                member_type:
-                  type: string
-                  description: ''
-                  example: core
-                  enum:
-                    - core
-                    - substitute
-                    - guest
-                instrument:
-                  type: string
-                  description: ''
-                  example: architecto
-                section:
-                  type: string
-                  description: ''
-                  example: tuba
-                  enum:
-                    - violin_1
-                    - violin_2
-                    - viola
-                    - cello
-                    - double_bass
-                    - french_horn
-                    - trumpet
-                    - trombone
-                    - tuba
-                    - flute
-                    - oboe
-                    - clarinet
-                    - bassoon
-                    - percussion
-                    - mallet
-                    - vocal
-                    - other
-    delete:
-      summary: ''
-      operationId: deleteApiV1MembershipsMembership_id
-      description: ''
-      parameters: []
-      responses: {}
-      tags:
-        - Endpoints
-    parameters:
-      -
-        in: path
-        name: membership_id
-        description: 'The ID of the membership.'
-        example: 1
-        required: true
-        schema:
-          type: integer
   '/api/v1/programs/{program_id}/events':
     post:
       summary: 'Create an event'
@@ -314,28 +123,28 @@ paths:
               properties:
                 repertoire:
                   type: string
-                  description: 'Must not be greater than 255 characters.'
-                  example: b
+                  description: 'The repertoire to be played in an event. Must not be greater than 255 characters.'
+                  example: 'Beethoven Symphony 5'
                 type:
                   type: string
-                  description: ''
-                  example: rehearsal
+                  description: 'The type of event.'
+                  example: Rehearsal
                   enum:
                     - rehearsal
                     - concert
                     - soundcheck
                 location:
                   type: string
-                  description: 'Must not be greater than 255 characters.'
-                  example: 'n'
+                  description: 'The location of the event. Must not be greater than 255 characters.'
+                  example: 'Hollywood Bowl'
                 start_date:
                   type: string
                   description: 'Must be a valid date.'
-                  example: '2026-06-22T09:31:30'
+                  example: '2026-07-14'
                 end_date:
                   type: string
                   description: 'Must be a valid date. Must be a date after or equal to <code>start_date</code>.'
-                  example: '2052-07-15'
+                  example: '2026-07-21'
               required:
                 - repertoire
                 - type
@@ -409,28 +218,28 @@ paths:
               properties:
                 repertoire:
                   type: string
-                  description: 'Must not be greater than 255 characters.'
-                  example: b
+                  description: 'The repertoire to be played in an event. Must not be greater than 255 characters.'
+                  example: 'Beethoven Symphony 5'
                 type:
                   type: string
-                  description: ''
-                  example: rehearsal
+                  description: 'The type of event.'
+                  example: Rehearsal
                   enum:
                     - rehearsal
                     - concert
                     - soundcheck
                 location:
                   type: string
-                  description: 'Must not be greater than 255 characters.'
-                  example: 'n'
+                  description: 'The location of the event. Must not be greater than 255 characters.'
+                  example: 'Hollywood Bowl'
                 start_date:
                   type: string
                   description: 'Must be a valid date.'
-                  example: '2026-06-22T09:31:30'
+                  example: '2026-07-14'
                 end_date:
                   type: string
                   description: 'Must be a valid date. Must be a date after or equal to <code>start_date</code>.'
-                  example: '2052-07-15'
+                  example: '2026-07-21'
               required:
                 - repertoire
                 - type
@@ -462,11 +271,202 @@ paths:
         required: true
         schema:
           type: integer
+  /api/v1/memberships:
+    post:
+      summary: 'Create a membership'
+      operationId: createAMembership
+      description: 'User must have a membership linked to the orchestras in order to create another membership.'
+      parameters: []
+      responses: {}
+      tags:
+        - Memberships
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: 'The email address of the user to add to the orchestra. The user must already exist. Must be a valid email address. Must match an existing stored value.'
+                  example: beethoven@example.com
+                orchestra_name:
+                  type: string
+                  description: 'The orchestra name. Must match an existing stored value.'
+                  example: 'Barcelona Symphony Orchestra'
+                role:
+                  type: string
+                  description: 'The member role within the orchestra.'
+                  example: member
+                  enum:
+                    - admin
+                    - member
+                  nullable: true
+                member_type:
+                  type: string
+                  description: 'The type of membership.'
+                  example: core
+                  enum:
+                    - core
+                    - substitute
+                    - guest
+                  nullable: true
+                instrument:
+                  type: string
+                  description: 'The member instrument. Must not be greater than 255 characters.'
+                  example: Violin
+                  nullable: true
+                section:
+                  type: string
+                  description: 'The orchestra section assigned to the member.'
+                  example: violin_1
+                  enum:
+                    - violin_1
+                    - violin_2
+                    - viola
+                    - cello
+                    - double_bass
+                    - french_horn
+                    - trumpet
+                    - trombone
+                    - tuba
+                    - flute
+                    - oboe
+                    - clarinet
+                    - bassoon
+                    - percussion
+                    - mallet
+                    - vocal
+                    - other
+                  nullable: true
+                joined_at:
+                  type: string
+                  description: 'The date when the member joined the orchestra. Must be a valid date.'
+                  example: '2026-06-22'
+                  nullable: true
+              required:
+                - email
+                - orchestra_name
+    get:
+      summary: 'List all memberships'
+      operationId: listAllMemberships
+      description: 'Lists all mermberships of an orcchestra.'
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Memberships
+  '/api/v1/memberships/{membership_id}':
+    get:
+      summary: 'Get a membership'
+      operationId: getAMembership
+      description: 'Lists one mermberships of an orcchestra.'
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Memberships
+    put:
+      summary: 'Update membership'
+      operationId: updateMembership
+      description: 'User must have a membership linked to the an orchestra with a role of admin in order to update the membership.'
+      parameters: []
+      responses: {}
+      tags:
+        - Memberships
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                role:
+                  type: string
+                  description: 'The member role within the orchestra.'
+                  example: member
+                  enum:
+                    - admin
+                    - member
+                member_type:
+                  type: string
+                  description: 'The type of membership.'
+                  example: core
+                  enum:
+                    - core
+                    - substitute
+                    - guest
+                instrument:
+                  type: string
+                  description: 'The member instrument.'
+                  example: Violin
+                section:
+                  type: string
+                  description: 'The orchestra section assigned to the member.'
+                  example: violin_1
+                  enum:
+                    - violin_1
+                    - violin_2
+                    - viola
+                    - cello
+                    - double_bass
+                    - french_horn
+                    - trumpet
+                    - trombone
+                    - tuba
+                    - flute
+                    - oboe
+                    - clarinet
+                    - bassoon
+                    - percussion
+                    - mallet
+                    - vocal
+                    - other
+    delete:
+      summary: 'Delete membership'
+      operationId: deleteMembership
+      description: 'User must have a membership linked to the an orchestra with a role of admin in order to delete the membership.'
+      parameters: []
+      responses: {}
+      tags:
+        - Memberships
+    parameters:
+      -
+        in: path
+        name: membership_id
+        description: 'The ID of the membership.'
+        example: 1
+        required: true
+        schema:
+          type: integer
   /api/v1/orchestras:
     post:
       summary: 'Create an orchestra'
       operationId: createAnOrchestra
-      description: 'User must have a membership linked to the orchestra with an admin role to create an orchestra.'
+      description: 'All users can create an orchestra.'
       parameters: []
       responses: {}
       tags:
@@ -722,11 +722,11 @@ paths:
                 file:
                   type: string
                   format: binary
-                  description: 'Must be a file. Must not be greater than 10240 kilobytes.'
+                  description: 'The PDF file containing the musical score. Must be a file. Must not be greater than 10240 kilobytes.'
                 original_name:
                   type: string
-                  description: ''
-                  example: architecto
+                  description: 'The original filename of the uploaded score.'
+                  example: Beethoven_Symphony_No_5.pdf
                   nullable: true
               required:
                 - file

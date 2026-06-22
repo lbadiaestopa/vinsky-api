@@ -47,4 +47,18 @@ class StoreScoreRequest extends FormRequest
 
         $this->merge(['sanitized_original_name' => $sanitized]);
     }
+
+    public function bodyParameters(): array
+    {
+        return [
+            'file' => [
+                'description' => 'The PDF file containing the musical score.',
+            ],
+
+            'original_name' => [
+                'description' => 'The original filename of the uploaded score.',
+                'example' => 'Beethoven_Symphony_No_5.pdf',
+            ],
+        ];
+    }
 }

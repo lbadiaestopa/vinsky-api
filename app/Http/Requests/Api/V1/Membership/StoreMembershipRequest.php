@@ -72,4 +72,44 @@ class StoreMembershipRequest extends FormRequest
             ],
         ];
     }
+
+    public function bodyParameters(): array
+    {
+        return [
+            'email' => [
+                'description' => "The email address of the user to add to the orchestra. The user must already exist.",
+                'example' => 'beethoven@example.com',
+            ],
+
+            'orchestra_name' => [
+                'description' => 'The orchestra name.',
+                'example' => 'Barcelona Symphony Orchestra',
+            ],
+
+            'role' => [
+                'description' => 'The member role within the orchestra.',
+                'example' => 'member',
+            ],
+
+            'member_type' => [
+                'description' => 'The type of membership.',
+                'example' => 'core',
+            ],
+
+            'instrument' => [
+                'description' => 'The member instrument.',
+                'example' => 'Violin',
+            ],
+
+            'section' => [
+                'description' => 'The orchestra section assigned to the member.',
+                'example' => 'violin_1',
+            ],
+
+            'joined_at' => [
+                'description' => 'The date when the member joined the orchestra.',
+                'example' => '2026-06-22',
+            ],
+        ];
+    }
 }
