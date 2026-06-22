@@ -5,17 +5,11 @@ use App\Models\Membership;
 use Laravel\Passport\Passport;
 use App\Models\Orchestra;
 
-it('allows an admin to create an orchestra', function () {
+it('allows an authenticated user to create an orchestra', function () {
 
-    $admin = User::factory()->create();
+    $user = User::factory()->create();
 
-    Membership::create([
-        'user_id' => $admin->id,
-        'orchestra_id' => null,
-        'role' => 'admin',
-    ]);
-
-    Passport::actingAs($admin);
+    Passport::actingAs($user);
 
     $response = $this->postJson('/api/v1/orchestras', [
         'name' => 'Symphony Orchestra',
@@ -29,34 +23,12 @@ it('allows an admin to create an orchestra', function () {
         'location' => 'Barcelona',
     ]);
 
+    $orchestra = Orchestra::where('name', 'Symphony Orchestra')->first();
+
     $this->assertDatabaseHas('memberships', [
-        'user_id' => $admin->id,
-        'orchestra_id' => null,
+        'user_id' => $user->id,
+        'orchestra_id' => $orchestra->id,
         'role' => 'admin',
-    ]);
-});
-
-it('does not allow a member to create an orchestra', function () {
-
-    $member = User::factory()->create();
-
-    Membership::create([
-        'user_id' => $member->id,
-        'orchestra_id' => null,
-        'role' => 'member',
-    ]);
-
-    Passport::actingAs($member);
-
-    $response = $this->postJson('/api/v1/orchestras', [
-        'name' => 'Symphony Orchestra',
-        'location' => 'Barcelona',
-    ]);
-
-    $response->assertForbidden();
-
-    $this->assertDatabaseMissing('orchestras', [
-        'name' => 'Symphony Orchestra',
     ]);
 });
 
