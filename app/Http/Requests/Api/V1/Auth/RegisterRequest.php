@@ -26,7 +26,28 @@ class RegisterRequest extends FormRequest
             'name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'password' => ['required', 'string', 'min:8'],
+        ];
+    }
+
+    public function bodyParameters(): array
+    {
+        return [
+            'name' => [
+                'description' => "The user's first name.",
+                'example' => 'Ludwig',
+            ],
+            'last_name' => [
+                'description' => "The user's last name.",
+                'example' => 'van Beethoven',
+            ],
+            'email' => [
+                'description' => "The user's email, cannot create more than 1 account with the same email.",
+                'example' => 'beethoven@admin.com',
+            ],
+            'password' => [
+                'example' => 'securePassword123',
+            ],
         ];
     }
 }

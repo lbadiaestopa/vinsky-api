@@ -9,17 +9,26 @@ use App\Services\Profile\ProfileService;
 use App\Http\Requests\Api\V1\Profile\ProfileUpdateRequest;
 use App\Http\Requests\Api\V1\Profile\UpdatePasswordRequest;
 
+/**
+ * @group Users
+ */
 class ProfileController extends Controller
 {
     public function __construct(
         private ProfileService $profileService
     ) {}
 
+    /**
+    * Get profile
+    */
     public function show(Request $request)
     {
         return new UserResource($request->user());
     }
 
+    /**
+    * Update profile
+    */
     public function update(ProfileUpdateRequest $request)
     {
         $user = $request->user();
@@ -32,6 +41,9 @@ class ProfileController extends Controller
         return new UserResource($updatedUser);
     }
 
+    /**
+    * Update password
+    */
     public function updatePassword(UpdatePasswordRequest $request)
     {
         $user = $request->user();
@@ -46,6 +58,9 @@ class ProfileController extends Controller
         ]);
     }
 
+    /**
+    * Delete profile
+    */
     public function destroy(Request $request)
     {
         $this->profileService->delete($request->user());

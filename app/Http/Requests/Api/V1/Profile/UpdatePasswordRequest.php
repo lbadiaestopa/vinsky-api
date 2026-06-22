@@ -16,7 +16,7 @@ class UpdatePasswordRequest extends FormRequest
     {
         return [
             'current_password' => ['required', 'string'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'password' => ['required', 'string', 'min:8'],
         ];
     }
 
@@ -32,5 +32,17 @@ class UpdatePasswordRequest extends FormRequest
                 );
             }
         });
+    }
+
+    public function bodyParameters(): array
+    {
+        return [
+            'current_password' => [
+                'example' => 'securePassword123',
+            ],
+            'password' => [
+                'example' => 'newSecurePassword123',
+            ],
+        ];
     }
 }

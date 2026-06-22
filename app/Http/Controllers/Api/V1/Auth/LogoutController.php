@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 
 class LogoutController extends Controller
 {
+    /**
+     * Logout
+     * 
+     * @group Authentication
+     */
     public function store(Request $request)
     {
         $token = $request->user()->token();

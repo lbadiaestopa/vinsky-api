@@ -1,0 +1,1312 @@
+{
+    "variable": [
+        {
+            "id": "baseUrl",
+            "key": "baseUrl",
+            "type": "string",
+            "name": "string",
+            "value": "http:\/\/localhost:8000"
+        }
+    ],
+    "info": {
+        "name": "Vinsky API Documentation",
+        "_postman_id": "99f8684f-30a9-470c-bab3-38532d88f748",
+        "description": "",
+        "schema": "https:\/\/schema.getpostman.com\/json\/collection\/v2.1.0\/collection.json"
+    },
+    "item": [
+        {
+            "name": "Authentication",
+            "description": "Endpoints for user registration, login and logout.\nRegistration and login do not require authentication.",
+            "item": [
+                {
+                    "name": "Register a new user",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/register",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/register"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"name\":\"Ludwig\",\"last_name\":\"van Beethoven\",\"email\":\"beethoven@admin.com\",\"password\":\"securePassword123\"}"
+                        },
+                        "description": "Creates a new user account and returns an access token.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Login",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/login",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/login"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"email\":\"beethoven@admin.com\",\"password\":\"securePassword123\"}"
+                        },
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Logout",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/logout",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/logout"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Endpoints",
+            "description": "",
+            "item": [
+                {
+                    "name": "POST api\/v1\/memberships",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/memberships",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/memberships"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"email\":\"gbailey@example.net\",\"orchestra_name\":\"architecto\",\"role\":\"admin\",\"member_type\":\"core\",\"instrument\":\"n\",\"section\":\"percussion\",\"joined_at\":\"2026-06-22T09:31:30\"}"
+                        },
+                        "description": ""
+                    },
+                    "response": []
+                },
+                {
+                    "name": "GET api\/v1\/memberships",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/memberships",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/memberships"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 401,
+                            "body": "{\"message\":\"Unauthenticated.\"}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "GET api\/v1\/memberships\/{membership_id}",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/memberships\/:membership_id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/memberships\/:membership_id",
+                            "variable": [
+                                {
+                                    "id": "membership_id",
+                                    "key": "membership_id",
+                                    "value": 1,
+                                    "description": "The ID of the membership."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 401,
+                            "body": "{\"message\":\"Unauthenticated.\"}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "PUT api\/v1\/memberships\/{membership_id}",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/memberships\/:membership_id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/memberships\/:membership_id",
+                            "variable": [
+                                {
+                                    "id": "membership_id",
+                                    "key": "membership_id",
+                                    "value": 1,
+                                    "description": "The ID of the membership."
+                                }
+                            ]
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"role\":\"member\",\"member_type\":\"core\",\"instrument\":\"architecto\",\"section\":\"tuba\"}"
+                        },
+                        "description": ""
+                    },
+                    "response": []
+                },
+                {
+                    "name": "DELETE api\/v1\/memberships\/{membership_id}",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/memberships\/:membership_id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/memberships\/:membership_id",
+                            "variable": [
+                                {
+                                    "id": "membership_id",
+                                    "key": "membership_id",
+                                    "value": 1,
+                                    "description": "The ID of the membership."
+                                }
+                            ]
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Events",
+            "description": "Endpoints for managing events. Events belong to a program.",
+            "item": [
+                {
+                    "name": "Create an event",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/programs\/:program_id\/events",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/programs\/:program_id\/events",
+                            "variable": [
+                                {
+                                    "id": "program_id",
+                                    "key": "program_id",
+                                    "value": 1,
+                                    "description": "The ID of the program."
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"repertoire\":\"b\",\"type\":\"rehearsal\",\"location\":\"n\",\"start_date\":\"2026-06-22T09:31:30\",\"end_date\":\"2052-07-15\"}"
+                        },
+                        "description": "User must have a membership linked to the orchestra containing the orchestra with an admin role to create it."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "List all events",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/programs\/:program_id\/events",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/programs\/:program_id\/events",
+                            "variable": [
+                                {
+                                    "id": "program_id",
+                                    "key": "program_id",
+                                    "value": 1,
+                                    "description": "The ID of the program."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "User must have a membership linked to the orchestra containing the event to see them."
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 401,
+                            "body": "{\"message\":\"Unauthenticated.\"}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Get an event",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/programs\/:program_id\/events\/:event_id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/programs\/:program_id\/events\/:event_id",
+                            "variable": [
+                                {
+                                    "id": "program_id",
+                                    "key": "program_id",
+                                    "value": 1,
+                                    "description": "The ID of the program."
+                                },
+                                {
+                                    "id": "event_id",
+                                    "key": "event_id",
+                                    "value": 1,
+                                    "description": "The ID of the event."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "User must have a membership linked to the orchestra containing the orchestra to see it."
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 401,
+                            "body": "{\"message\":\"Unauthenticated.\"}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Update an event",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/programs\/:program_id\/events\/:event_id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/programs\/:program_id\/events\/:event_id",
+                            "variable": [
+                                {
+                                    "id": "program_id",
+                                    "key": "program_id",
+                                    "value": 1,
+                                    "description": "The ID of the program."
+                                },
+                                {
+                                    "id": "event_id",
+                                    "key": "event_id",
+                                    "value": 1,
+                                    "description": "The ID of the event."
+                                }
+                            ]
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"repertoire\":\"b\",\"type\":\"rehearsal\",\"location\":\"n\",\"start_date\":\"2026-06-22T09:31:30\",\"end_date\":\"2052-07-15\"}"
+                        },
+                        "description": "User must have a membership linked to the orchestra containing the orchestra with an admin role to update it."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Delete an event",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/programs\/:program_id\/events\/:event_id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/programs\/:program_id\/events\/:event_id",
+                            "variable": [
+                                {
+                                    "id": "program_id",
+                                    "key": "program_id",
+                                    "value": 1,
+                                    "description": "The ID of the program."
+                                },
+                                {
+                                    "id": "event_id",
+                                    "key": "event_id",
+                                    "value": 1,
+                                    "description": "The ID of the event."
+                                }
+                            ]
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "User must have a membership linked to the orchestra containing the orchestra with an admin role to delete it."
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Orchestras",
+            "description": "Endpoints for managing orchestras. Orchestras can contain programs.",
+            "item": [
+                {
+                    "name": "Create an orchestra",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/orchestras",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/orchestras"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"name\":\"Berliner Philharmoniker\",\"location\":\"Berlin\"}"
+                        },
+                        "description": "User must have a membership linked to the orchestra with an admin role to create an orchestra."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "List all orchestras",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/orchestras",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/orchestras"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "User must have a membership linked to the orchestras to see them."
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 401,
+                            "body": "{\"message\":\"Unauthenticated.\"}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Get an orchestra",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/orchestras\/:orchestra_id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/orchestras\/:orchestra_id",
+                            "variable": [
+                                {
+                                    "id": "orchestra_id",
+                                    "key": "orchestra_id",
+                                    "value": 1,
+                                    "description": "The ID of the orchestra."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "User must have a membership linked to the orchestra to see it."
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 401,
+                            "body": "{\"message\":\"Unauthenticated.\"}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Update an orchestra",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/orchestras\/:orchestra_id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/orchestras\/:orchestra_id",
+                            "variable": [
+                                {
+                                    "id": "orchestra_id",
+                                    "key": "orchestra_id",
+                                    "value": 1,
+                                    "description": "The ID of the orchestra."
+                                }
+                            ]
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"name\":\"Los Angeles Philharmonic\",\"location\":\"Los Angeles\"}"
+                        },
+                        "description": "User must have a membership linked to the orchestra with an admin role to update it."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Delete an orchestra",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/orchestras\/:orchestra_id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/orchestras\/:orchestra_id",
+                            "variable": [
+                                {
+                                    "id": "orchestra_id",
+                                    "key": "orchestra_id",
+                                    "value": 1,
+                                    "description": "The ID of the orchestra."
+                                }
+                            ]
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "User must have a membership linked to the orchestra with an admin role to delete it."
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Programs",
+            "description": "Endpoints for managing programs. Programs belong to an orchestra and can contain events.",
+            "item": [
+                {
+                    "name": "Create a program",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/orchestras\/:orchestra_id\/programs",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/orchestras\/:orchestra_id\/programs",
+                            "variable": [
+                                {
+                                    "id": "orchestra_id",
+                                    "key": "orchestra_id",
+                                    "value": 1,
+                                    "description": "The ID of the orchestra."
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"name\":\"Beethoven Cycle 2026\",\"start_date\":\"2026-07-14\",\"end_date\":\"2026-07-21\"}"
+                        },
+                        "description": "User must have a membership linked to the orchestra containing the program with an admin role to create it."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "List all programs",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/orchestras\/:orchestra_id\/programs",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/orchestras\/:orchestra_id\/programs",
+                            "variable": [
+                                {
+                                    "id": "orchestra_id",
+                                    "key": "orchestra_id",
+                                    "value": 1,
+                                    "description": "The ID of the orchestra."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "User must have a membership linked to the orchestra containing the programs to see them."
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 401,
+                            "body": "{\"message\":\"Unauthenticated.\"}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Get a program",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/programs\/:program_id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/programs\/:program_id",
+                            "variable": [
+                                {
+                                    "id": "program_id",
+                                    "key": "program_id",
+                                    "value": 1,
+                                    "description": "The ID of the program."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "User must have a membership linked to the orchestra containing the program to see it."
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 401,
+                            "body": "{\"message\":\"Unauthenticated.\"}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Update a program",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/programs\/:program_id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/programs\/:program_id",
+                            "variable": [
+                                {
+                                    "id": "program_id",
+                                    "key": "program_id",
+                                    "value": 1,
+                                    "description": "The ID of the program."
+                                }
+                            ]
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"name\":\"Beethoven Cycle 2026\",\"start_date\":\"2026-07-14\",\"end_date\":\"2026-07-21\"}"
+                        },
+                        "description": "User must have a membership linked to the orchestra containing the orchestra with an admin role to update it."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Delete a program",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/programs\/:program_id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/programs\/:program_id",
+                            "variable": [
+                                {
+                                    "id": "program_id",
+                                    "key": "program_id",
+                                    "value": 1,
+                                    "description": "The ID of the program."
+                                }
+                            ]
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "User must have a membership linked to the orchestra containing the orchestra with an admin role to delete it."
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Scores",
+            "description": "Endpoints for managing scores. Scores belong to a program.",
+            "item": [
+                {
+                    "name": "Create a score",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/programs\/:program_id\/scores",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/programs\/:program_id\/scores",
+                            "variable": [
+                                {
+                                    "id": "program_id",
+                                    "key": "program_id",
+                                    "value": 1,
+                                    "description": "The ID of the program."
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "multipart\/form-data"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": [
+                                {
+                                    "key": "original_name",
+                                    "value": "architecto",
+                                    "type": "text",
+                                    "description": ""
+                                },
+                                {
+                                    "key": "file",
+                                    "src": [],
+                                    "type": "file"
+                                }
+                            ]
+                        },
+                        "description": "User must have a membership linked to the orchestra containing the score with an admin role to create it."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "List all scores",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/programs\/:program_id\/scores",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/programs\/:program_id\/scores",
+                            "variable": [
+                                {
+                                    "id": "program_id",
+                                    "key": "program_id",
+                                    "value": 1,
+                                    "description": "The ID of the program."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "User must have a membership linked to the orchestra containing the score to see them."
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 401,
+                            "body": "{\"message\":\"Unauthenticated.\"}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Download score",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/programs\/:program_id\/scores\/:score_id\/download",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/programs\/:program_id\/scores\/:score_id\/download",
+                            "variable": [
+                                {
+                                    "id": "program_id",
+                                    "key": "program_id",
+                                    "value": 1,
+                                    "description": "The ID of the program."
+                                },
+                                {
+                                    "id": "score_id",
+                                    "key": "score_id",
+                                    "value": 16,
+                                    "description": "The ID of the score."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "User must have a membership linked to the orchestra containing the score to download it."
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 401,
+                            "body": "{\"message\":\"Unauthenticated.\"}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Delete a score",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/programs\/:program_id\/scores\/:score_id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/programs\/:program_id\/scores\/:score_id",
+                            "variable": [
+                                {
+                                    "id": "program_id",
+                                    "key": "program_id",
+                                    "value": 1,
+                                    "description": "The ID of the program."
+                                },
+                                {
+                                    "id": "score_id",
+                                    "key": "score_id",
+                                    "value": 16,
+                                    "description": "The ID of the score."
+                                }
+                            ]
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "User must have a membership linked to the orchestra containing the score with an admin role to delete it."
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Users",
+            "description": "",
+            "item": [
+                {
+                    "name": "Get profile",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/me",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/me"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 401,
+                            "body": "{\"message\":\"Unauthenticated.\"}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Update profile",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/me",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/me"
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"name\":\"Wolfgang Amadeus\",\"last_name\":\"Mozart\",\"email\":\"mozart@member.com\"}"
+                        },
+                        "description": ""
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Update password",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/me\/password",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/me\/password"
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"current_password\":\"securePassword123\",\"password\":\"newSecurePassword123\"}"
+                        },
+                        "description": ""
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Delete profile",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/me",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/me"
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": []
+                }
+            ]
+        }
+    ],
+    "auth": {
+        "type": "bearer",
+        "bearer": [
+            {
+                "key": "key",
+                "type": "string"
+            }
+        ]
+    }
+}
