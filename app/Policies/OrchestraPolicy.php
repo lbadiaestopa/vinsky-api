@@ -10,10 +10,7 @@ class OrchestraPolicy
 {
     public function create(User $user): bool
     {
-        return $user->membership()
-            ->whereNull('orchestra_id')
-            ->where('role', 'admin')
-            ->exists();
+        return true;
     }
 
     public function viewAny(User $user): bool
