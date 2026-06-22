@@ -40,7 +40,7 @@ endpoints:
       file:
         custom: []
         name: file
-        description: 'Must be a file. Must not be greater than 10240 kilobytes.'
+        description: 'The PDF file containing the musical score. Must be a file. Must not be greater than 10240 kilobytes.'
         required: true
         example: null
         type: file
@@ -51,16 +51,16 @@ endpoints:
       original_name:
         custom: []
         name: original_name
-        description: ''
+        description: 'The original filename of the uploaded score.'
         required: false
-        example: architecto
+        example: Beethoven_Symphony_No_5.pdf
         type: string
         enumValues: []
         exampleWasSpecified: false
         nullable: true
         deprecated: false
     cleanBodyParameters:
-      original_name: architecto
+      original_name: Beethoven_Symphony_No_5.pdf
     fileParameters:
       file: null
     responses: []

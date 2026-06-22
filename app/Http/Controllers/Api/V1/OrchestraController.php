@@ -26,7 +26,7 @@ class OrchestraController extends Controller
     /**
      * Create an orchestra
      * 
-     * User must have a membership linked to the orchestra with an admin role to create an orchestra. 
+     * All users can create an orchestra. 
      */
     public function store(StoreOrchestraRequest $request)
     {

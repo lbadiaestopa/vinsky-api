@@ -11,6 +11,10 @@ use App\Services\Memberships\MembershipService;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Request;
 
+/**
+* @group Memberships
+* Endpoints for managing orchestras. Orchestras can contain programs.
+*/
 class MembershipController extends Controller
 {
     use AuthorizesRequests;
@@ -19,6 +23,11 @@ class MembershipController extends Controller
         private MembershipService $service
     ) {}
 
+    /**
+     * Create a membership
+     * 
+     * User must have a membership linked to the orchestras in order to create another membership. 
+     */
     public function store(StoreMembershipRequest $request)
     {
         $this->authorize('create', Membership::class);
@@ -30,6 +39,11 @@ class MembershipController extends Controller
             ->setStatusCode(201);
     }
 
+    /**
+     * List all memberships
+     * 
+     * Lists all mermberships of an orcchestra.
+     */
     public function index(Request $request)
     {
         $this->authorize('viewAny', Membership::class);
@@ -39,6 +53,11 @@ class MembershipController extends Controller
         return MembershipResource::collection($memberships);
     }
 
+    /**
+     * Get a membership
+     * 
+     * Lists one mermberships of an orcchestra.
+     */
     public function show(Membership $membership)
     {
         $this->authorize('view', $membership);
@@ -46,6 +65,11 @@ class MembershipController extends Controller
         return new MembershipResource($membership);
     }
 
+    /**
+     * Update membership
+     * 
+     * User must have a membership linked to the an orchestra with a role of admin in order to update the membership. 
+     */
     public function update(UpdateMembershipRequest $request, Membership $membership)
     {
         $this->authorize('update', $membership);
@@ -58,6 +82,11 @@ class MembershipController extends Controller
         return new MembershipResource($membership);
     }
 
+    /**
+     * Delete membership
+     * 
+     * User must have a membership linked to the an orchestra with a role of admin in order to delete the membership. 
+     */
     public function destroy(Membership $membership)
     {
         $this->authorize('delete', $membership);

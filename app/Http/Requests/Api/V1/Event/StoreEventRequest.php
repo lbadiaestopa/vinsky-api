@@ -24,4 +24,28 @@ class StoreEventRequest extends FormRequest
             'end_date' => ['required', 'date', 'after_or_equal:start_date'],
         ];
     }
+
+    public function bodyParameters(): array
+    {
+        return [
+            'repertoire' => [
+                'description' => 'The repertoire to be played in an event.',
+                'example' => 'Beethoven Symphony 5',
+            ],
+            'type' => [
+                'description' => 'The type of event.',
+                'example' => 'Rehearsal',
+            ],
+            'location' => [
+                'description' => 'The location of the event.',
+                'example' => 'Hollywood Bowl',
+            ],
+            'start_date' => [
+                'example' => '2026-07-14',
+            ],
+            'end_date' => [
+                'example' => '2026-07-21',
+            ],
+        ];
+    }
 }

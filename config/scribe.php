@@ -14,7 +14,7 @@ return [
     'title' => 'Vinsky API Documentation',
 
     // A short description of your API. Will be included in the docs webpage, Postman collection and OpenAPI spec.
-    'description' => '',
+    'description' => 'A RESTful API for managing orchestras, their members, programs, events, and musical scores. It provides structured access control, allowing authenticated users to collaborate within orchestras, organize rehearsals and concerts, and manage shared sheet music through secure file uploads.',
 
     // Text to place in the "Introduction" section, right after the `description`. Markdown and HTML are supported.
     'intro_text' => <<<'INTRO'

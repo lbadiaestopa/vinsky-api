@@ -40,9 +40,9 @@ endpoints:
       repertoire:
         custom: []
         name: repertoire
-        description: 'Must not be greater than 255 characters.'
+        description: 'The repertoire to be played in an event. Must not be greater than 255 characters.'
         required: true
-        example: b
+        example: 'Beethoven Symphony 5'
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -51,9 +51,9 @@ endpoints:
       type:
         custom: []
         name: type
-        description: ''
+        description: 'The type of event.'
         required: true
-        example: rehearsal
+        example: Rehearsal
         type: string
         enumValues:
           - rehearsal
@@ -65,9 +65,9 @@ endpoints:
       location:
         custom: []
         name: location
-        description: 'Must not be greater than 255 characters.'
+        description: 'The location of the event. Must not be greater than 255 characters.'
         required: true
-        example: 'n'
+        example: 'Hollywood Bowl'
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -78,7 +78,7 @@ endpoints:
         name: start_date
         description: 'Must be a valid date.'
         required: true
-        example: '2026-06-22T09:31:30'
+        example: '2026-07-14'
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -89,18 +89,18 @@ endpoints:
         name: end_date
         description: 'Must be a valid date. Must be a date after or equal to <code>start_date</code>.'
         required: true
-        example: '2052-07-15'
+        example: '2026-07-21'
         type: string
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         deprecated: false
     cleanBodyParameters:
-      repertoire: b
-      type: rehearsal
-      location: 'n'
-      start_date: '2026-06-22T09:31:30'
-      end_date: '2052-07-15'
+      repertoire: 'Beethoven Symphony 5'
+      type: Rehearsal
+      location: 'Hollywood Bowl'
+      start_date: '2026-07-14'
+      end_date: '2026-07-21'
     fileParameters: []
     responses: []
     responseFields: []
@@ -286,9 +286,9 @@ endpoints:
       repertoire:
         custom: []
         name: repertoire
-        description: 'Must not be greater than 255 characters.'
+        description: 'The repertoire to be played in an event. Must not be greater than 255 characters.'
         required: true
-        example: b
+        example: 'Beethoven Symphony 5'
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -297,9 +297,9 @@ endpoints:
       type:
         custom: []
         name: type
-        description: ''
+        description: 'The type of event.'
         required: true
-        example: rehearsal
+        example: Rehearsal
         type: string
         enumValues:
           - rehearsal
@@ -311,9 +311,9 @@ endpoints:
       location:
         custom: []
         name: location
-        description: 'Must not be greater than 255 characters.'
+        description: 'The location of the event. Must not be greater than 255 characters.'
         required: true
-        example: 'n'
+        example: 'Hollywood Bowl'
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -324,7 +324,7 @@ endpoints:
         name: start_date
         description: 'Must be a valid date.'
         required: true
-        example: '2026-06-22T09:31:30'
+        example: '2026-07-14'
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -335,18 +335,18 @@ endpoints:
         name: end_date
         description: 'Must be a valid date. Must be a date after or equal to <code>start_date</code>.'
         required: true
-        example: '2052-07-15'
+        example: '2026-07-21'
         type: string
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         deprecated: false
     cleanBodyParameters:
-      repertoire: b
-      type: rehearsal
-      location: 'n'
-      start_date: '2026-06-22T09:31:30'
-      end_date: '2052-07-15'
+      repertoire: 'Beethoven Symphony 5'
+      type: Rehearsal
+      location: 'Hollywood Bowl'
+      start_date: '2026-07-14'
+      end_date: '2026-07-21'
     fileParameters: []
     responses: []
     responseFields: []
