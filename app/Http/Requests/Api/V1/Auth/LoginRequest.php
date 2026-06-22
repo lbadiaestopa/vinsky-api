@@ -27,4 +27,18 @@ class LoginRequest extends FormRequest
             'password' => ['required', 'string'],
         ];
     }
+
+    public function bodyParameters(): array
+    {
+        return [
+            'email' => [
+                'description' => "The user's email used at registration.",
+                'example' => 'beethoven@admin.com',
+            ],
+            'password' => [
+                'description' => "The user's password used at registration.",
+                'example' => 'securePassword123',
+            ],
+        ];
+    }
 }

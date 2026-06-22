@@ -22,4 +22,20 @@ class UpdateProgramRequest extends FormRequest
             'end_date' => ['required', 'date', 'after_or_equal:start_date'],
         ];
     }
+
+    public function bodyParameters(): array
+    {
+        return [
+            'name' => [
+                'description' => "The program name.",
+                'example' => 'Beethoven Cycle 2026',
+            ],
+            'start_date' => [
+                'example' => '2026-07-14',
+            ],
+            'end_date' => [
+                'example' => '2026-07-21',
+            ],
+        ];
+    }
 }

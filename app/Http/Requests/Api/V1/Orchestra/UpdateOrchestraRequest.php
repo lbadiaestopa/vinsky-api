@@ -18,4 +18,18 @@ class UpdateOrchestraRequest extends FormRequest
             'location' => ['required', 'string', 'max:255'],
         ];
     }
+
+    public function bodyParameters(): array
+    {
+        return [
+            'name' => [
+                'description' => "The orchestra name.",
+                'example' => 'Los Angeles Philharmonic',
+            ],
+            'location' => [
+                'description' => "The orchestra main location.",
+                'example' => 'Los Angeles',
+            ],
+        ];
+    }
 }

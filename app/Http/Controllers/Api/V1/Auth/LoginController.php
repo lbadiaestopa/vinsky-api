@@ -13,6 +13,13 @@ class LoginController extends Controller
         private AuthService $authService
     ) {}
 
+    /**
+     * Login
+     *
+     * @unauthenticated
+     * 
+     * @group Authentication
+     */
     public function store(LoginRequest $request)
     {
         $user = $this->authService->attemptLogin(

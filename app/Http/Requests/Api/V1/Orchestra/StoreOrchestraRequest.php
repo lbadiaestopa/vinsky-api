@@ -19,4 +19,18 @@ class StoreOrchestraRequest extends FormRequest
             'location' => ['required', 'string', 'max:255'],
         ];
     }
+
+    public function bodyParameters(): array
+    {
+        return [
+            'name' => [
+                'description' => "The orchestra name.",
+                'example' => 'Berliner Philharmoniker',
+            ],
+            'location' => [
+                'description' => "The orchestra main location.",
+                'example' => 'Berlin',
+            ],
+        ];
+    }
 }

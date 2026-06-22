@@ -11,7 +11,10 @@ use App\Models\Event;
 use App\Services\Events\EventService;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
-
+/**
+* @group Events
+* Endpoints for managing events. Events belong to a program.
+*/
 class EventController extends Controller
 {
     use AuthorizesRequests;
@@ -20,6 +23,11 @@ class EventController extends Controller
         private EventService $service
     ) {}
 
+    /**
+     * Create an event
+     * 
+     * User must have a membership linked to the orchestra containing the orchestra with an admin role to create it. 
+     */
     public function store(StoreEventRequest $request, Program $program)
     {
         $event = $this->service->create($request->validated(), $program);
@@ -27,6 +35,11 @@ class EventController extends Controller
         return new EventResource($event);
     }
 
+    /**
+     * List all events
+     * 
+     * User must have a membership linked to the orchestra containing the event to see them. 
+     */
     public function index(Program $program)
     {
         $this->authorize('viewAll', [Event::class, $program]);
@@ -36,6 +49,11 @@ class EventController extends Controller
         return EventResource::collection($events);
     }
 
+    /**
+     * Get an event
+     * 
+     * User must have a membership linked to the orchestra containing the orchestra to see it. 
+     */
     public function show(Program $program, Event $event)
     {
         if ($event->program_id !== $program->id) {
@@ -47,6 +65,11 @@ class EventController extends Controller
         return new EventResource($event);
     }
 
+    /**
+     * Update an event
+     * 
+     * User must have a membership linked to the orchestra containing the orchestra with an admin role to update it. 
+     */
     public function update(UpdateEventRequest $request, Program $program, Event $event)
     {
         $updated = $this->service->update($event, $request->validated(), $program);
@@ -54,6 +77,11 @@ class EventController extends Controller
         return new EventResource($updated);
     }
 
+    /**
+     * Delete an event
+     * 
+     * User must have a membership linked to the orchestra containing the orchestra with an admin role to delete it. 
+     */
     public function destroy(Program $program, Event $event)
     {
         if ($event->program_id !== $program->id) {

@@ -10,6 +10,10 @@ use App\Models\Score;
 use App\Services\Scores\ScoreService;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
+/**
+* @group Scores
+* Endpoints for managing scores. Scores belong to a program.
+*/
 class ScoreController extends Controller
 {
     use AuthorizesRequests;
@@ -18,6 +22,11 @@ class ScoreController extends Controller
         private ScoreService $service
     ) {}
 
+    /**
+     * Create a score
+     * 
+     * User must have a membership linked to the orchestra containing the score with an admin role to create it. 
+     */
     public function store(Program $program, StoreScoreRequest $request)
     {
         $this->authorize('create', [Score::class, $program]);
@@ -34,6 +43,11 @@ class ScoreController extends Controller
         ], 201);
     }
 
+    /**
+     * List all scores
+     * 
+     * User must have a membership linked to the orchestra containing the score to see them. 
+     */
     public function index(Program $program)
     {
         $this->authorize('viewAny', [Score::class, $program]);
@@ -45,6 +59,11 @@ class ScoreController extends Controller
         ]);
     }
 
+    /**
+     * Download score
+     * 
+     * User must have a membership linked to the orchestra containing the score to download it. 
+     */
     public function download(Program $program, Score $score)
     {
         $this->authorize('download', [$score]);
@@ -52,6 +71,11 @@ class ScoreController extends Controller
         return $this->service->downloadScore($score);
     }
 
+    /**
+     * Delete a score
+     * 
+     * User must have a membership linked to the orchestra containing the score with an admin role to delete it. 
+     */
     public function destroy(Program $program, Score $score)
     {
         $this->authorize('delete', [$program]);

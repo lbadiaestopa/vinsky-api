@@ -1,26 +1,67 @@
-name: Authentication
-description: |-
-  Endpoints for user registration, login and logout.
-  Registration and login do not require authentication.
+name: Users
+description: ''
 endpoints:
   -
     custom: []
     httpMethods:
-      - POST
-    uri: api/v1/register
+      - GET
+    uri: api/v1/me
     metadata:
       custom: []
-      groupName: Authentication
-      groupDescription: |-
-        Endpoints for user registration, login and logout.
-        Registration and login do not require authentication.
+      groupName: Users
+      groupDescription: ''
       subgroup: ''
       subgroupDescription: ''
-      title: 'Register a new user'
-      description: 'Creates a new user account and returns an access token.'
-      authenticated: false
+      title: 'Get profile'
+      description: ''
+      authenticated: true
       deprecated: false
     headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 401
+        content: '{"message":"Unauthenticated."}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          access-control-allow-origin: '*'
+        description: null
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - PUT
+    uri: api/v1/me
+    metadata:
+      custom: []
+      groupName: Users
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Update profile'
+      description: ''
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
       Content-Type: application/json
       Accept: application/json
     urlParameters: []
@@ -31,9 +72,9 @@ endpoints:
       name:
         custom: []
         name: name
-        description: "The user's first name. Must not be greater than 255 characters."
+        description: "The user's first name."
         required: true
-        example: Ludwig
+        example: 'Wolfgang Amadeus'
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -42,9 +83,9 @@ endpoints:
       last_name:
         custom: []
         name: last_name
-        description: "The user's last name. Must not be greater than 255 characters."
+        description: "The user's last name."
         required: true
-        example: 'van Beethoven'
+        example: Mozart
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -53,9 +94,58 @@ endpoints:
       email:
         custom: []
         name: email
-        description: "The user's email, cannot create more than 1 account with the same email. Must be a valid email address. Must not be greater than 255 characters."
+        description: "The user's new email, must be unique. Must be a valid email address."
         required: true
-        example: beethoven@admin.com
+        example: mozart@member.com
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanBodyParameters:
+      name: 'Wolfgang Amadeus'
+      last_name: Mozart
+      email: mozart@member.com
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - PUT
+    uri: api/v1/me/password
+    metadata:
+      custom: []
+      groupName: Users
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Update password'
+      description: ''
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      current_password:
+        custom: []
+        name: current_password
+        description: ''
+        required: true
+        example: securePassword123
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -66,91 +156,37 @@ endpoints:
         name: password
         description: 'Must be at least 8 characters.'
         required: true
-        example: securePassword123
+        example: newSecurePassword123
         type: string
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         deprecated: false
     cleanBodyParameters:
-      name: Ludwig
-      last_name: 'van Beethoven'
-      email: beethoven@admin.com
-      password: securePassword123
+      current_password: securePassword123
+      password: newSecurePassword123
     fileParameters: []
     responses: []
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
     controller: null
     method: null
     route: null
   -
     custom: []
     httpMethods:
-      - POST
-    uri: api/v1/login
+      - DELETE
+    uri: api/v1/me
     metadata:
       custom: []
-      groupName: Authentication
+      groupName: Users
       groupDescription: ''
       subgroup: ''
       subgroupDescription: ''
-      title: Login
-      description: ''
-      authenticated: false
-      deprecated: false
-    headers:
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters: []
-    cleanUrlParameters: []
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters:
-      email:
-        custom: []
-        name: email
-        description: "The user's email used at registration. Must be a valid email address."
-        required: true
-        example: beethoven@admin.com
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-      password:
-        custom: []
-        name: password
-        description: "The user's password used at registration."
-        required: true
-        example: securePassword123
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-    cleanBodyParameters:
-      email: beethoven@admin.com
-      password: securePassword123
-    fileParameters: []
-    responses: []
-    responseFields: []
-    auth: []
-    controller: null
-    method: null
-    route: null
-  -
-    custom: []
-    httpMethods:
-      - POST
-    uri: api/v1/logout
-    metadata:
-      custom: []
-      groupName: Authentication
-      groupDescription: ''
-      subgroup: ''
-      subgroupDescription: ''
-      title: Logout
+      title: 'Delete profile'
       description: ''
       authenticated: true
       deprecated: false

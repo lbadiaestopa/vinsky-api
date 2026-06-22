@@ -1,0 +1,418 @@
+name: Events
+description: 'Endpoints for managing events. Events belong to a program.'
+endpoints:
+  -
+    custom: []
+    httpMethods:
+      - POST
+    uri: 'api/v1/programs/{program_id}/events'
+    metadata:
+      custom: []
+      groupName: Events
+      groupDescription: 'Endpoints for managing events. Events belong to a program.'
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Create an event'
+      description: 'User must have a membership linked to the orchestra containing the orchestra with an admin role to create it.'
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      program_id:
+        custom: []
+        name: program_id
+        description: 'The ID of the program.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanUrlParameters:
+      program_id: 1
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      repertoire:
+        custom: []
+        name: repertoire
+        description: 'Must not be greater than 255 characters.'
+        required: true
+        example: b
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      type:
+        custom: []
+        name: type
+        description: ''
+        required: true
+        example: rehearsal
+        type: string
+        enumValues:
+          - rehearsal
+          - concert
+          - soundcheck
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      location:
+        custom: []
+        name: location
+        description: 'Must not be greater than 255 characters.'
+        required: true
+        example: 'n'
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      start_date:
+        custom: []
+        name: start_date
+        description: 'Must be a valid date.'
+        required: true
+        example: '2026-06-22T09:31:30'
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      end_date:
+        custom: []
+        name: end_date
+        description: 'Must be a valid date. Must be a date after or equal to <code>start_date</code>.'
+        required: true
+        example: '2052-07-15'
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanBodyParameters:
+      repertoire: b
+      type: rehearsal
+      location: 'n'
+      start_date: '2026-06-22T09:31:30'
+      end_date: '2052-07-15'
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: 'api/v1/programs/{program_id}/events'
+    metadata:
+      custom: []
+      groupName: Events
+      groupDescription: 'Endpoints for managing events. Events belong to a program.'
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'List all events'
+      description: 'User must have a membership linked to the orchestra containing the event to see them.'
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      program_id:
+        custom: []
+        name: program_id
+        description: 'The ID of the program.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanUrlParameters:
+      program_id: 1
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 401
+        content: '{"message":"Unauthenticated."}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          access-control-allow-origin: '*'
+        description: null
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: 'api/v1/programs/{program_id}/events/{event_id}'
+    metadata:
+      custom: []
+      groupName: Events
+      groupDescription: 'Endpoints for managing events. Events belong to a program.'
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Get an event'
+      description: 'User must have a membership linked to the orchestra containing the orchestra to see it.'
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      program_id:
+        custom: []
+        name: program_id
+        description: 'The ID of the program.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      event_id:
+        custom: []
+        name: event_id
+        description: 'The ID of the event.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanUrlParameters:
+      program_id: 1
+      event_id: 1
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 401
+        content: '{"message":"Unauthenticated."}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          access-control-allow-origin: '*'
+        description: null
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - PUT
+    uri: 'api/v1/programs/{program_id}/events/{event_id}'
+    metadata:
+      custom: []
+      groupName: Events
+      groupDescription: 'Endpoints for managing events. Events belong to a program.'
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Update an event'
+      description: 'User must have a membership linked to the orchestra containing the orchestra with an admin role to update it.'
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      program_id:
+        custom: []
+        name: program_id
+        description: 'The ID of the program.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      event_id:
+        custom: []
+        name: event_id
+        description: 'The ID of the event.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanUrlParameters:
+      program_id: 1
+      event_id: 1
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      repertoire:
+        custom: []
+        name: repertoire
+        description: 'Must not be greater than 255 characters.'
+        required: true
+        example: b
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      type:
+        custom: []
+        name: type
+        description: ''
+        required: true
+        example: rehearsal
+        type: string
+        enumValues:
+          - rehearsal
+          - concert
+          - soundcheck
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      location:
+        custom: []
+        name: location
+        description: 'Must not be greater than 255 characters.'
+        required: true
+        example: 'n'
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      start_date:
+        custom: []
+        name: start_date
+        description: 'Must be a valid date.'
+        required: true
+        example: '2026-06-22T09:31:30'
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      end_date:
+        custom: []
+        name: end_date
+        description: 'Must be a valid date. Must be a date after or equal to <code>start_date</code>.'
+        required: true
+        example: '2052-07-15'
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanBodyParameters:
+      repertoire: b
+      type: rehearsal
+      location: 'n'
+      start_date: '2026-06-22T09:31:30'
+      end_date: '2052-07-15'
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - DELETE
+    uri: 'api/v1/programs/{program_id}/events/{event_id}'
+    metadata:
+      custom: []
+      groupName: Events
+      groupDescription: 'Endpoints for managing events. Events belong to a program.'
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Delete an event'
+      description: 'User must have a membership linked to the orchestra containing the orchestra with an admin role to delete it.'
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      program_id:
+        custom: []
+        name: program_id
+        description: 'The ID of the program.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      event_id:
+        custom: []
+        name: event_id
+        description: 'The ID of the event.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanUrlParameters:
+      program_id: 1
+      event_id: 1
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null
