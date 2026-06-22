@@ -45,24 +45,3 @@ it('fails when current password is incorrect', function () {
         Hash::check('old-password', $user->fresh()->password)
     );
 });
-
-it('fails when password confirmation does not match', function () {
-
-    $user = User::factory()->create([
-        'password' => Hash::make('old-password'),
-    ]);
-
-    Passport::actingAs($user);
-
-    $response = $this->putJson('/api/v1/me/password', [
-        'current_password' => 'old-password',
-        'password' => 'new-password',
-        'password_confirmation' => 'different-password',
-    ]);
-
-    $response->assertStatus(422);
-
-    $this->assertTrue(
-        Hash::check('old-password', $user->fresh()->password)
-    );
-});

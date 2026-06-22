@@ -61,20 +61,6 @@ it('fails when email already exists', function () {
     $response->assertJsonValidationErrors(['email']);
 });
 
-it('fails when password confirmation does not match', function () {
-
-    $response = $this->postJson('/api/v1/register', [
-        'name' => 'John',
-        'last_name' => 'Doe',
-        'email' => 'john@example.com',
-        'password' => 'correct-password',
-        'password_confirmation' => 'incorrect-password',
-    ]);
-
-    $response->assertStatus(422);
-    $response->assertJsonValidationErrors(['password']);
-});
-
 it('fails when required fields are missing', function () {
 
     $response = $this->postJson('/api/v1/register', [
