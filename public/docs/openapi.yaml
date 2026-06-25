@@ -25,7 +25,7 @@ components:
     default:
       type: http
       scheme: bearer
-      description: 'You can retrieve your token by visiting your dashboard and clicking <b>Generate API token</b>.'
+      description: 'Login to get your API token.'
 security:
   -
     default: []
@@ -61,7 +61,7 @@ paths:
                 password:
                   type: string
                   description: 'Must be at least 8 characters.'
-                  example: securePassword123
+                  example: password
               required:
                 - name
                 - last_name
@@ -91,7 +91,7 @@ paths:
                 password:
                   type: string
                   description: "The user's password used at registration."
-                  example: securePassword123
+                  example: password
               required:
                 - email
                 - password

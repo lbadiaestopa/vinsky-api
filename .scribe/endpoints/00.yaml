@@ -66,7 +66,7 @@ endpoints:
         name: password
         description: 'Must be at least 8 characters.'
         required: true
-        example: securePassword123
+        example: password
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -76,7 +76,7 @@ endpoints:
       name: Ludwig
       last_name: 'van Beethoven'
       email: beethoven@admin.com
-      password: securePassword123
+      password: password
     fileParameters: []
     responses: []
     responseFields: []
@@ -123,7 +123,7 @@ endpoints:
         name: password
         description: "The user's password used at registration."
         required: true
-        example: securePassword123
+        example: password
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -131,7 +131,7 @@ endpoints:
         deprecated: false
     cleanBodyParameters:
       email: beethoven@admin.com
-      password: securePassword123
+      password: password
     fileParameters: []
     responses: []
     responseFields: []
@@ -155,7 +155,7 @@ endpoints:
       authenticated: true
       deprecated: false
     headers:
-      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Authorization: 'Bearer {{bearer_token}}'
       Content-Type: application/json
       Accept: application/json
     urlParameters: []

@@ -46,7 +46,7 @@ class RegisterRequest extends FormRequest
                 'example' => 'beethoven@admin.com',
             ],
             'password' => [
-                'example' => 'securePassword123',
+                'example' => 'password',
             ],
         ];
     }

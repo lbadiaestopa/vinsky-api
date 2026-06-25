@@ -10,7 +10,7 @@
     ],
     "info": {
         "name": "Vinsky API Documentation",
-        "_postman_id": "573f150d-6f5f-4d82-a551-97c862f49965",
+        "_postman_id": "24558310-55ac-4915-8170-4c5f1716efe7",
         "description": "A RESTful API for managing orchestras, their members, programs, events, and musical scores. It provides structured access control, allowing authenticated users to collaborate within orchestras, organize rehearsals and concerts, and manage shared sheet music through secure file uploads.",
         "schema": "https:\/\/schema.getpostman.com\/json\/collection\/v2.1.0\/collection.json"
     },
@@ -41,7 +41,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"name\":\"Ludwig\",\"last_name\":\"van Beethoven\",\"email\":\"beethoven@admin.com\",\"password\":\"securePassword123\"}"
+                            "raw": "{\"name\":\"Ludwig\",\"last_name\":\"van Beethoven\",\"email\":\"beethoven@admin.com\",\"password\":\"password\"}"
                         },
                         "description": "Creates a new user account and returns an access token.",
                         "auth": {
@@ -72,7 +72,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"email\":\"beethoven@admin.com\",\"password\":\"securePassword123\"}"
+                            "raw": "{\"email\":\"beethoven@admin.com\",\"password\":\"password\"}"
                         },
                         "description": "",
                         "auth": {
@@ -117,13 +117,13 @@
                     "request": {
                         "url": {
                             "host": "{{baseUrl}}",
-                            "path": "api\/v1\/programs\/:program_id\/events",
+                            "path": "api\/v1\/programs\/:program\/events",
                             "query": [],
-                            "raw": "{{baseUrl}}\/api\/v1\/programs\/:program_id\/events",
+                            "raw": "{{baseUrl}}\/api\/v1\/programs\/:program\/events",
                             "variable": [
                                 {
-                                    "id": "program_id",
-                                    "key": "program_id",
+                                    "id": "program",
+                                    "key": "program",
                                     "value": 1,
                                     "description": "The ID of the program."
                                 }
@@ -153,13 +153,13 @@
                     "request": {
                         "url": {
                             "host": "{{baseUrl}}",
-                            "path": "api\/v1\/programs\/:program_id\/events",
+                            "path": "api\/v1\/programs\/:program\/events",
                             "query": [],
-                            "raw": "{{baseUrl}}\/api\/v1\/programs\/:program_id\/events",
+                            "raw": "{{baseUrl}}\/api\/v1\/programs\/:program\/events",
                             "variable": [
                                 {
-                                    "id": "program_id",
-                                    "key": "program_id",
+                                    "id": "program",
+                                    "key": "program",
                                     "value": 1,
                                     "description": "The ID of the program."
                                 }
@@ -206,19 +206,19 @@
                     "request": {
                         "url": {
                             "host": "{{baseUrl}}",
-                            "path": "api\/v1\/programs\/:program_id\/events\/:event_id",
+                            "path": "api\/v1\/programs\/:program\/events\/:event",
                             "query": [],
-                            "raw": "{{baseUrl}}\/api\/v1\/programs\/:program_id\/events\/:event_id",
+                            "raw": "{{baseUrl}}\/api\/v1\/programs\/:program\/events\/:event",
                             "variable": [
                                 {
-                                    "id": "program_id",
-                                    "key": "program_id",
+                                    "id": "program",
+                                    "key": "program",
                                     "value": 1,
                                     "description": "The ID of the program."
                                 },
                                 {
-                                    "id": "event_id",
-                                    "key": "event_id",
+                                    "id": "event",
+                                    "key": "event",
                                     "value": 1,
                                     "description": "The ID of the event."
                                 }
@@ -265,19 +265,19 @@
                     "request": {
                         "url": {
                             "host": "{{baseUrl}}",
-                            "path": "api\/v1\/programs\/:program_id\/events\/:event_id",
+                            "path": "api\/v1\/programs\/:program\/events\/:event",
                             "query": [],
-                            "raw": "{{baseUrl}}\/api\/v1\/programs\/:program_id\/events\/:event_id",
+                            "raw": "{{baseUrl}}\/api\/v1\/programs\/:program\/events\/:event",
                             "variable": [
                                 {
-                                    "id": "program_id",
-                                    "key": "program_id",
+                                    "id": "program",
+                                    "key": "program",
                                     "value": 1,
                                     "description": "The ID of the program."
                                 },
                                 {
-                                    "id": "event_id",
-                                    "key": "event_id",
+                                    "id": "event",
+                                    "key": "event",
                                     "value": 1,
                                     "description": "The ID of the event."
                                 }
@@ -307,19 +307,19 @@
                     "request": {
                         "url": {
                             "host": "{{baseUrl}}",
-                            "path": "api\/v1\/programs\/:program_id\/events\/:event_id",
+                            "path": "api\/v1\/programs\/:program\/events\/:event",
                             "query": [],
-                            "raw": "{{baseUrl}}\/api\/v1\/programs\/:program_id\/events\/:event_id",
+                            "raw": "{{baseUrl}}\/api\/v1\/programs\/:program\/events\/:event",
                             "variable": [
                                 {
-                                    "id": "program_id",
-                                    "key": "program_id",
+                                    "id": "program",
+                                    "key": "program",
                                     "value": 1,
                                     "description": "The ID of the program."
                                 },
                                 {
-                                    "id": "event_id",
-                                    "key": "event_id",
+                                    "id": "event",
+                                    "key": "event",
                                     "value": 1,
                                     "description": "The ID of the event."
                                 }
@@ -425,13 +425,13 @@
                     "request": {
                         "url": {
                             "host": "{{baseUrl}}",
-                            "path": "api\/v1\/memberships\/:membership_id",
+                            "path": "api\/v1\/memberships\/:membership",
                             "query": [],
-                            "raw": "{{baseUrl}}\/api\/v1\/memberships\/:membership_id",
+                            "raw": "{{baseUrl}}\/api\/v1\/memberships\/:membership",
                             "variable": [
                                 {
-                                    "id": "membership_id",
-                                    "key": "membership_id",
+                                    "id": "membership",
+                                    "key": "membership",
                                     "value": 1,
                                     "description": "The ID of the membership."
                                 }
@@ -478,13 +478,13 @@
                     "request": {
                         "url": {
                             "host": "{{baseUrl}}",
-                            "path": "api\/v1\/memberships\/:membership_id",
+                            "path": "api\/v1\/memberships\/:membership",
                             "query": [],
-                            "raw": "{{baseUrl}}\/api\/v1\/memberships\/:membership_id",
+                            "raw": "{{baseUrl}}\/api\/v1\/memberships\/:membership",
                             "variable": [
                                 {
-                                    "id": "membership_id",
-                                    "key": "membership_id",
+                                    "id": "membership",
+                                    "key": "membership",
                                     "value": 1,
                                     "description": "The ID of the membership."
                                 }
@@ -514,13 +514,13 @@
                     "request": {
                         "url": {
                             "host": "{{baseUrl}}",
-                            "path": "api\/v1\/memberships\/:membership_id",
+                            "path": "api\/v1\/memberships\/:membership",
                             "query": [],
-                            "raw": "{{baseUrl}}\/api\/v1\/memberships\/:membership_id",
+                            "raw": "{{baseUrl}}\/api\/v1\/memberships\/:membership",
                             "variable": [
                                 {
-                                    "id": "membership_id",
-                                    "key": "membership_id",
+                                    "id": "membership",
+                                    "key": "membership",
                                     "value": 1,
                                     "description": "The ID of the membership."
                                 }
@@ -626,13 +626,13 @@
                     "request": {
                         "url": {
                             "host": "{{baseUrl}}",
-                            "path": "api\/v1\/orchestras\/:orchestra_id",
+                            "path": "api\/v1\/orchestras\/:orchestra",
                             "query": [],
-                            "raw": "{{baseUrl}}\/api\/v1\/orchestras\/:orchestra_id",
+                            "raw": "{{baseUrl}}\/api\/v1\/orchestras\/:orchestra",
                             "variable": [
                                 {
-                                    "id": "orchestra_id",
-                                    "key": "orchestra_id",
+                                    "id": "orchestra",
+                                    "key": "orchestra",
                                     "value": 1,
                                     "description": "The ID of the orchestra."
                                 }
@@ -679,13 +679,13 @@
                     "request": {
                         "url": {
                             "host": "{{baseUrl}}",
-                            "path": "api\/v1\/orchestras\/:orchestra_id",
+                            "path": "api\/v1\/orchestras\/:orchestra",
                             "query": [],
-                            "raw": "{{baseUrl}}\/api\/v1\/orchestras\/:orchestra_id",
+                            "raw": "{{baseUrl}}\/api\/v1\/orchestras\/:orchestra",
                             "variable": [
                                 {
-                                    "id": "orchestra_id",
-                                    "key": "orchestra_id",
+                                    "id": "orchestra",
+                                    "key": "orchestra",
                                     "value": 1,
                                     "description": "The ID of the orchestra."
                                 }
@@ -715,13 +715,13 @@
                     "request": {
                         "url": {
                             "host": "{{baseUrl}}",
-                            "path": "api\/v1\/orchestras\/:orchestra_id",
+                            "path": "api\/v1\/orchestras\/:orchestra",
                             "query": [],
-                            "raw": "{{baseUrl}}\/api\/v1\/orchestras\/:orchestra_id",
+                            "raw": "{{baseUrl}}\/api\/v1\/orchestras\/:orchestra",
                             "variable": [
                                 {
-                                    "id": "orchestra_id",
-                                    "key": "orchestra_id",
+                                    "id": "orchestra",
+                                    "key": "orchestra",
                                     "value": 1,
                                     "description": "The ID of the orchestra."
                                 }
@@ -754,13 +754,13 @@
                     "request": {
                         "url": {
                             "host": "{{baseUrl}}",
-                            "path": "api\/v1\/orchestras\/:orchestra_id\/programs",
+                            "path": "api\/v1\/orchestras\/:orchestra\/programs",
                             "query": [],
-                            "raw": "{{baseUrl}}\/api\/v1\/orchestras\/:orchestra_id\/programs",
+                            "raw": "{{baseUrl}}\/api\/v1\/orchestras\/:orchestra\/programs",
                             "variable": [
                                 {
-                                    "id": "orchestra_id",
-                                    "key": "orchestra_id",
+                                    "id": "orchestra",
+                                    "key": "orchestra",
                                     "value": 1,
                                     "description": "The ID of the orchestra."
                                 }
@@ -790,13 +790,13 @@
                     "request": {
                         "url": {
                             "host": "{{baseUrl}}",
-                            "path": "api\/v1\/orchestras\/:orchestra_id\/programs",
+                            "path": "api\/v1\/orchestras\/:orchestra\/programs",
                             "query": [],
-                            "raw": "{{baseUrl}}\/api\/v1\/orchestras\/:orchestra_id\/programs",
+                            "raw": "{{baseUrl}}\/api\/v1\/orchestras\/:orchestra\/programs",
                             "variable": [
                                 {
-                                    "id": "orchestra_id",
-                                    "key": "orchestra_id",
+                                    "id": "orchestra",
+                                    "key": "orchestra",
                                     "value": 1,
                                     "description": "The ID of the orchestra."
                                 }
@@ -843,13 +843,13 @@
                     "request": {
                         "url": {
                             "host": "{{baseUrl}}",
-                            "path": "api\/v1\/programs\/:program_id",
+                            "path": "api\/v1\/programs\/:program",
                             "query": [],
-                            "raw": "{{baseUrl}}\/api\/v1\/programs\/:program_id",
+                            "raw": "{{baseUrl}}\/api\/v1\/programs\/:program",
                             "variable": [
                                 {
-                                    "id": "program_id",
-                                    "key": "program_id",
+                                    "id": "program",
+                                    "key": "program",
                                     "value": 1,
                                     "description": "The ID of the program."
                                 }
@@ -896,13 +896,13 @@
                     "request": {
                         "url": {
                             "host": "{{baseUrl}}",
-                            "path": "api\/v1\/programs\/:program_id",
+                            "path": "api\/v1\/programs\/:program",
                             "query": [],
-                            "raw": "{{baseUrl}}\/api\/v1\/programs\/:program_id",
+                            "raw": "{{baseUrl}}\/api\/v1\/programs\/:program",
                             "variable": [
                                 {
-                                    "id": "program_id",
-                                    "key": "program_id",
+                                    "id": "program",
+                                    "key": "program",
                                     "value": 1,
                                     "description": "The ID of the program."
                                 }
@@ -932,13 +932,13 @@
                     "request": {
                         "url": {
                             "host": "{{baseUrl}}",
-                            "path": "api\/v1\/programs\/:program_id",
+                            "path": "api\/v1\/programs\/:program",
                             "query": [],
-                            "raw": "{{baseUrl}}\/api\/v1\/programs\/:program_id",
+                            "raw": "{{baseUrl}}\/api\/v1\/programs\/:program",
                             "variable": [
                                 {
-                                    "id": "program_id",
-                                    "key": "program_id",
+                                    "id": "program",
+                                    "key": "program",
                                     "value": 1,
                                     "description": "The ID of the program."
                                 }
@@ -971,13 +971,13 @@
                     "request": {
                         "url": {
                             "host": "{{baseUrl}}",
-                            "path": "api\/v1\/programs\/:program_id\/scores",
+                            "path": "api\/v1\/programs\/:program\/scores",
                             "query": [],
-                            "raw": "{{baseUrl}}\/api\/v1\/programs\/:program_id\/scores",
+                            "raw": "{{baseUrl}}\/api\/v1\/programs\/:program\/scores",
                             "variable": [
                                 {
-                                    "id": "program_id",
-                                    "key": "program_id",
+                                    "id": "program",
+                                    "key": "program",
                                     "value": 1,
                                     "description": "The ID of the program."
                                 }
@@ -1019,13 +1019,13 @@
                     "request": {
                         "url": {
                             "host": "{{baseUrl}}",
-                            "path": "api\/v1\/programs\/:program_id\/scores",
+                            "path": "api\/v1\/programs\/:program\/scores",
                             "query": [],
-                            "raw": "{{baseUrl}}\/api\/v1\/programs\/:program_id\/scores",
+                            "raw": "{{baseUrl}}\/api\/v1\/programs\/:program\/scores",
                             "variable": [
                                 {
-                                    "id": "program_id",
-                                    "key": "program_id",
+                                    "id": "program",
+                                    "key": "program",
                                     "value": 1,
                                     "description": "The ID of the program."
                                 }
@@ -1072,19 +1072,19 @@
                     "request": {
                         "url": {
                             "host": "{{baseUrl}}",
-                            "path": "api\/v1\/programs\/:program_id\/scores\/:score_id\/download",
+                            "path": "api\/v1\/programs\/:program\/scores\/:score\/download",
                             "query": [],
-                            "raw": "{{baseUrl}}\/api\/v1\/programs\/:program_id\/scores\/:score_id\/download",
+                            "raw": "{{baseUrl}}\/api\/v1\/programs\/:program\/scores\/:score\/download",
                             "variable": [
                                 {
-                                    "id": "program_id",
-                                    "key": "program_id",
+                                    "id": "program",
+                                    "key": "program",
                                     "value": 1,
                                     "description": "The ID of the program."
                                 },
                                 {
-                                    "id": "score_id",
-                                    "key": "score_id",
+                                    "id": "score",
+                                    "key": "score",
                                     "value": 16,
                                     "description": "The ID of the score."
                                 }
@@ -1131,19 +1131,19 @@
                     "request": {
                         "url": {
                             "host": "{{baseUrl}}",
-                            "path": "api\/v1\/programs\/:program_id\/scores\/:score_id",
+                            "path": "api\/v1\/programs\/:program\/scores\/:score",
                             "query": [],
-                            "raw": "{{baseUrl}}\/api\/v1\/programs\/:program_id\/scores\/:score_id",
+                            "raw": "{{baseUrl}}\/api\/v1\/programs\/:program\/scores\/:score",
                             "variable": [
                                 {
-                                    "id": "program_id",
-                                    "key": "program_id",
+                                    "id": "program",
+                                    "key": "program",
                                     "value": 1,
                                     "description": "The ID of the program."
                                 },
                                 {
-                                    "id": "score_id",
-                                    "key": "score_id",
+                                    "id": "score",
+                                    "key": "score",
                                     "value": 16,
                                     "description": "The ID of the score."
                                 }
@@ -1304,7 +1304,8 @@
         "type": "bearer",
         "bearer": [
             {
-                "key": "key",
+                "key": "token",
+                "value": "{{bearer_token}}",
                 "type": "string"
             }
         ]

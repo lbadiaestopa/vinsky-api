@@ -1,0 +1,25 @@
+{
+    "name": "Local API",
+    "values": [
+        {
+            "key": "base_url",
+            "value": "http://localhost:8000",
+            "enabled": true
+        },
+        {
+            "key": "bearer_token",
+            "value": "",
+            "enabled": true
+        },
+        {
+            "key": "api_prefix",
+            "value": "/api",
+            "enabled": true
+        },
+        {
+            "key": "api_version",
+            "value": "v1",
+            "enabled": true
+        }
+    ]
+}
