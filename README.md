@@ -1,58 +1,181 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🎻 Vinsky API
+<img width="2488" height="622" alt="image" src="https://github.com/user-attachments/assets/fce67391-37a1-4d8d-b28d-94b91d2acea1" />
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A RESTful API for managing orchestras, their members, programs, events, and musical scores. It provides structured access control, allowing users to collaborate within orchestras, organize rehearsals and concerts, and manage shared sheet music through secure file uploads.
 
-## About Laravel
+## 🛠️ Tech Stack
+- **Backend:** PHP 8.5
+- **Framework:** Laravel 13
+- **Authentication:** Laravel Passport
+- **Database:** MySQL
+- **Testing:** Pest
+- **Documentation:** Scribe
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 🪄 Features
+- Orchestra and membership management
+- Project organization
+- Rehearsal and concert scheduling
+- Secure PDF score storage and access control
+- OAuth 2.0 authentication with Laravel Passport
+- Role-based authorization using Laravel Policies
+- RESTful JSON API
+- Automated API documentation with Scribe
+- Automated testing with Pest
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 🔌 Enpoints
+### Auth
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+| Method | Endpoint | Description |
+|---------|----------|-------------|
+| POST | `/register` | Register a new user |
+| POST | `/login` | Log in and get access token |
+| POST | `/logout` | Log out and revoke current access token |
 
-## Learning Laravel
+### Profile
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+| Method | Endpoint | Description |
+|---------|----------|-------------|
+| GET | `/me` | View profile |
+| PUT | `/me` | Edit profile details |
+| PUT | `/me/password` | Edit password |
+| DELETE | `/me` | Delete your account |
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Orchestras
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+| Method | Endpoint | Description |
+|---------|----------|-------------|
+| POST | `/orchestras` | Create new orchestra |
+| GET | `/orchestras` | List all user’s orchestras |
+| GET | `/orchestras/{orchestra}` | View orchestra details |
+| PUT | `/orchestras/{orchestra}` | Edit orchestra details |
+| DELETE | `/orchestras/{orchestra}` | Delete orchestra |
 
-## Agentic Development
+### Memberships
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+| Method | Endpoint | Description |
+|---------|----------|-------------|
+| POST | `/orchestras/{orchestra}/memberships` | Add membership to an orchestra |
+| GET | `/memberships` | List all orchestra members |
+| GET | `/memberships/{membership}` | List specific member |
+| PUT | `/memberships/{membership}` | Edit membership details |
+| DELETE | `/memberships/{membership}` | Delete membership |
 
+### Programs
+
+| Method | Endpoint | Description |
+|---------|----------|-------------|
+| POST | `/orchestras/{orchestra}/programs` | Create new program |
+| GET | `/orchestras/{orchestra}/programs` | List all programs |
+| GET | `/programs/{program}` | View program details |
+| PUT | `/programs/{program}` | Edit program details |
+| DELETE | `/programs/{program}` | Delete program |
+
+### Events
+
+| Method | Endpoint | Description |
+|---------|----------|-------------|
+| POST | `/programs/{program}/events` | Create new event |
+| GET | `/programs/{program}/events` | List all events |
+| GET | `/events/{event}` | View event details |
+| PUT | `/events/{event}` | Edit event details |
+| DELETE | `/events/{event}` | Delete event |
+
+### Scores
+
+| Method | Endpoint | Description |
+|---------|----------|-------------|
+| POST | `/programs/{program}/scores` | Add score |
+| GET | `/programs/{program}/scores` | View all scores |
+| GET | `/programs/{program}/scores/{score}/download` | Download score |
+| DELETE | `/programs/{program}/scores/{score}` | Delete score |
+
+## 🚧 Setup & Installation
+### Prerequisites
+- PHP 8.5+
+- Composer
+- MySQL 9.6+
+
+### Installation 
+1. Create the database (Laravel does not create it automatically)
+```sql
+CREATE DATABASE vinsky;
+```
+2. Clone the repository
 ```bash
-composer require laravel/boost --dev
+git clone https://github.com/lbadiaestopa/vinsky-api
+```
+```bash
+cd vinsky-api
+```
+3. Install dependencies
+```bash
+composer install
+```
+4. Configure environment variables
+```bash
+cp .env.example .env
+```
+```bash
+php artisan key:generate
+```
+5. Run migrations and seeders
+```bash
+php artisan migrate --seed
+```
+6. Install Passport
+```bash
+php artisan passport:install
+```
+7. Start the development server
+```bash
+php artisan serve
+```
+8. Demo accounts
 
-php artisan boost:install
+| Role | Email | Password |
+|------|--------|----------|
+| Admin | beethoven@admin.com | `password` |
+| Member | mozart@member.com | `password` |
+| Member | bach@member.com | `password` |
+
+### Base URL
+The API will be available at:
+```
+http://localhost:8000/api/v1/ 
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+## 🧪 Testing
 
-## Contributing
+Run the test suite using Pest:
+```bash
+php artisan test
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## 📖 Documentation
+To generate the documentation with Scribe run:
+```
+php artisan scribe:generate
+```
+```
+php artisan postman:fix
+```
 
-## Code of Conduct
+The interactive documentation will be available locally at:
+```
+http://localhost:8000/docs
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### 📮 Postman collection and environment
+The collection and environment are available at the /public/docs directory.
 
-## Security Vulnerabilities
+1. Import both files into Postman
+2. Use ```login``` (with the demo accounts credentials) or ```register```to obtain a token
+3. Paste the token on the bearer_token varaible in the value field
+Now it's ready to use
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### OpenAPI
+An openAPI file is also available at the /public/docs directory. Follow the same steps as for the Postman collection and environment, but use the OpenAPI file instead. (You may have to change the ```bearer_token``` variable name from the environment to ```bearerToken```)
 
-## License
+##
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+👨🏻‍💻 Project developed by **Lluc Badia Estopà** - [LinkedIn](https://www.linkedin.com/in/lbadiaestopa) · [Github](https://github.com/lbadiaestopa)
