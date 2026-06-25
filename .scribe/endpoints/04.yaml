@@ -17,7 +17,7 @@ endpoints:
       authenticated: true
       deprecated: false
     headers:
-      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Authorization: 'Bearer {{bearer_token}}'
       Content-Type: application/json
       Accept: application/json
     urlParameters:
@@ -100,7 +100,7 @@ endpoints:
       authenticated: true
       deprecated: false
     headers:
-      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Authorization: 'Bearer {{bearer_token}}'
       Content-Type: application/json
       Accept: application/json
     urlParameters:
@@ -156,7 +156,7 @@ endpoints:
       authenticated: true
       deprecated: false
     headers:
-      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Authorization: 'Bearer {{bearer_token}}'
       Content-Type: application/json
       Accept: application/json
     urlParameters:
@@ -212,7 +212,7 @@ endpoints:
       authenticated: true
       deprecated: false
     headers:
-      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Authorization: 'Bearer {{bearer_token}}'
       Content-Type: application/json
       Accept: application/json
     urlParameters:
@@ -295,7 +295,7 @@ endpoints:
       authenticated: true
       deprecated: false
     headers:
-      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Authorization: 'Bearer {{bearer_token}}'
       Content-Type: application/json
       Accept: application/json
     urlParameters:

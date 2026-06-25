@@ -37,7 +37,7 @@ class LoginRequest extends FormRequest
             ],
             'password' => [
                 'description' => "The user's password used at registration.",
-                'example' => 'securePassword123',
+                'example' => 'password',
             ],
         ];
     }
