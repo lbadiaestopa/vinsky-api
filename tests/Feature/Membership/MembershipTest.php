@@ -97,7 +97,7 @@ it('prevents duplicate membership', function () {
     $response->assertConflict();
 });
 
-it('allows an admin to view all memberships', function () {
+it('returns only memberships of the authenticated admin', function () {
 
     $admin = User::factory()->create();
     $user = User::factory()->create();
@@ -120,10 +120,14 @@ it('allows an admin to view all memberships', function () {
     $response = $this->getJson('/api/v1/memberships');
 
     $response->assertOk()
-        ->assertJsonCount(2, 'data');
+        ->assertJsonCount(1, 'data')
+        ->assertJsonFragment([
+            'role' => 'admin',
+        ])
+        ->assertJsonPath('data.0.user.id', $admin->id);
 });
 
-it('allows a member to view all memberships', function () {
+it('returns only memberships of the authenticated member', function () {
 
     $admin = User::factory()->create();
     $member = User::factory()->create();
@@ -146,7 +150,11 @@ it('allows a member to view all memberships', function () {
     $response = $this->getJson('/api/v1/memberships');
 
     $response->assertOk()
-        ->assertJsonCount(2, 'data');
+        ->assertJsonCount(1, 'data')
+        ->assertJsonFragment([
+            'role' => 'member',
+        ])
+        ->assertJsonPath('data.0.user.id', $member->id);
 });
 
 it('forbids unauthenticated users from viewing memberships', function () {
