@@ -30,7 +30,10 @@ class MembershipService
 
     public function index()
     {
+        $user = auth()->user();
+
         return Membership::query()
+            ->where('user_id', $user->id)
             ->with(['user', 'orchestra'])
             ->get();
     }
