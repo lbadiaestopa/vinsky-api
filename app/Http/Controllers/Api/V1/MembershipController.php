@@ -7,14 +7,15 @@ use App\Http\Requests\Api\V1\Membership\StoreMembershipRequest;
 use App\Http\Requests\Api\V1\Membership\UpdateMembershipRequest;
 use App\Http\Resources\MembershipResource;
 use App\Models\Membership;
+use App\Models\Orchestra;
 use App\Services\Memberships\MembershipService;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Request;
 
 /**
-* @group Memberships
-* Endpoints for managing orchestras. Orchestras can contain programs.
-*/
+ * @group Memberships
+ * Endpoints for managing orchestras. Orchestras can contain programs.
+ */
 class MembershipController extends Controller
 {
     use AuthorizesRequests;
@@ -40,9 +41,7 @@ class MembershipController extends Controller
     }
 
     /**
-     * List all memberships
-     * 
-     * Lists all memberships of a user.
+     * List all memberships from a user
      */
     public function index(Request $request)
     {
@@ -51,6 +50,18 @@ class MembershipController extends Controller
         $memberships = $this->service->index();
 
         return MembershipResource::collection($memberships);
+    }
+
+    /**
+     * List all memberships from an orchestra
+     */
+    public function listMemberships(Orchestra $orchestra)
+    {
+        $this->authorize('viewMemberships', $orchestra);
+
+        return MembershipResource::collection(
+            $this->service->getByOrchestra($orchestra)
+        );
     }
 
     /**
