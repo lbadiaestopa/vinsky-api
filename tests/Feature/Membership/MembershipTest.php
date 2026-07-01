@@ -497,3 +497,117 @@ it('prevents an admin from deleting their own membership', function () {
 
     $response->assertForbidden();
 });
+
+it('requires authentication to list an orchestra memberships', function () {
+
+    $orchestra = Orchestra::factory()->create();
+
+    $this->getJson("/api/v1/orchestras/{$orchestra->id}/memberships")
+        ->assertUnauthorized();
+});
+
+it('allows an orchestra admin to list all memberships', function () {
+    $admin = User::factory()->create();
+
+    $orchestra = Orchestra::factory()->create();
+
+    Membership::create([
+        'user_id' => $admin->id,
+        'orchestra_id' => $orchestra->id,
+        'role' => 'admin',
+    ]);
+
+    Membership::factory()->count(4)->create([
+        'orchestra_id' => $orchestra->id,
+    ]);
+
+    Passport::actingAs($admin);
+
+    $response = $this->getJson("/api/v1/orchestras/{$orchestra->id}/memberships");
+
+    $response
+        ->assertOk()
+        ->assertJsonCount(5, 'data');
+});
+
+it('forbids non admin members from listing memberships', function () {
+    $user = User::factory()->create();
+
+    $orchestra = Orchestra::factory()->create();
+
+    Membership::create([
+        'user_id' => $user->id,
+        'orchestra_id' => $orchestra->id,
+        'role' => 'member',
+    ]);
+
+    Passport::actingAs($user);
+
+    $this->getJson("/api/v1/orchestras/{$orchestra->id}/memberships")
+        ->assertForbidden();
+});
+
+it('returns all memberships belonging to the orchestra', function () {
+    $admin = User::factory()->create();
+
+    $orchestra = Orchestra::factory()->create();
+
+    Membership::create([
+        'user_id' => $admin->id,
+        'orchestra_id' => $orchestra->id,
+        'role' => 'admin',
+    ]);
+
+    $memberships = Membership::factory()->count(3)->create([
+        'orchestra_id' => $orchestra->id,
+    ]);
+
+    Passport::actingAs($admin);
+
+    $response = $this->getJson("/api/v1/orchestras/{$orchestra->id}/memberships");
+
+    $response
+        ->assertOk()
+        ->assertJsonCount(4, 'data')
+        ->assertJsonFragment([
+            'id' => $memberships[0]->id,
+        ])
+        ->assertJsonFragment([
+            'id' => $memberships[1]->id,
+        ])
+        ->assertJsonFragment([
+            'id' => $memberships[2]->id,
+        ]);
+});
+
+it('does not return memberships from other orchestras', function () {
+    $admin = User::factory()->create();
+
+    $orchestra = Orchestra::factory()->create();
+    $otherOrchestra = Orchestra::factory()->create();
+
+    Membership::create([
+        'user_id' => $admin->id,
+        'orchestra_id' => $orchestra->id,
+        'role' => 'admin',
+    ]);
+
+    Membership::factory()->count(2)->create([
+        'orchestra_id' => $orchestra->id,
+    ]);
+
+    $foreignMembership = Membership::factory()->create([
+        'orchestra_id' => $otherOrchestra->id,
+    ]);
+
+    Passport::actingAs($admin);
+
+    $response = $this->getJson("/api/v1/orchestras/{$orchestra->id}/memberships");
+
+    $response
+        ->assertOk()
+        ->assertJsonCount(3, 'data')
+        ->assertJsonMissing([
+            'id' => $foreignMembership->id,
+        ]);
+});
