@@ -42,7 +42,7 @@ class MembershipController extends Controller
     /**
      * List all memberships
      * 
-     * Lists all mermberships of an orcchestra.
+     * Lists all memberships of a user.
      */
     public function index(Request $request)
     {
@@ -56,7 +56,7 @@ class MembershipController extends Controller
     /**
      * Get a membership
      * 
-     * Lists one mermberships of an orcchestra.
+     * Lists one membership of an orchestra.
      */
     public function show(Membership $membership)
     {
