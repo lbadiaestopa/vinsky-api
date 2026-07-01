@@ -20,6 +20,14 @@ class OrchestraPolicy
             ->exists();
     }
 
+    public function viewMemberships(User $user, Orchestra $orchestra): bool
+    {
+        return $orchestra->memberships()
+            ->where('user_id', $user->id)
+            ->where('role', 'admin')
+            ->exists();
+    }
+
     public function view(User $user, Orchestra $orchestra): bool
     {
         return Membership::where('user_id', $user->id)

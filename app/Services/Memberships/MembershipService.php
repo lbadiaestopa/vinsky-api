@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Orchestra;
 use App\Models\Membership;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Database\Eloquent\Collection;
 
 class MembershipService
 {
@@ -36,6 +37,11 @@ class MembershipService
             ->where('user_id', $user->id)
             ->with(['user', 'orchestra'])
             ->get();
+    }
+
+    public function getByOrchestra(Orchestra $orchestra): Collection
+    {
+        return $orchestra->memberships()->get();
     }
 
     private function ensureNotDuplicate(int $userId, int $orchestraId): void
