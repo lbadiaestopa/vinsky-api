@@ -41,7 +41,9 @@ class MembershipService
 
     public function getByOrchestra(Orchestra $orchestra): Collection
     {
-        return $orchestra->memberships()->get();
+        return $orchestra->memberships()
+            ->with('user')
+            ->get();
     }
 
     private function ensureNotDuplicate(int $userId, int $orchestraId): void

@@ -11,9 +11,11 @@ class MembershipResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            
+
             'user' => [
                 'id' => $this->user?->id,
+                'name' => $this->user->name,
+                'last_name' => $this->user->last_name,
                 'email' => $this->user?->email,
             ],
 
