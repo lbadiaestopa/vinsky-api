@@ -54,6 +54,8 @@ class MembershipController extends Controller
 
     /**
      * List all memberships from an orchestra
+     * 
+     * Lists all memberships from an orchestra and its related user data.
      */
     public function listMemberships(Orchestra $orchestra)
     {
