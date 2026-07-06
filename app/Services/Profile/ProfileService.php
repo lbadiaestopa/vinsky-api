@@ -5,6 +5,7 @@ namespace App\Services\Profile;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
+use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 
 class ProfileService
 {
@@ -26,6 +27,11 @@ class ProfileService
 
     public function delete(User $user): void
     {
+        if ($user->membership()->where('role', 'admin')->exists()) {
+            throw new ConflictHttpException(
+                'You cannot delete your account while you are an administrator of an orchestra.'
+            );
+        }
         DB::table('oauth_access_tokens')
             ->where('user_id', $user->id)
             ->update([

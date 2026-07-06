@@ -1,6 +1,8 @@
 <?php
 
 use App\Models\User;
+use App\Models\Orchestra;
+use App\Models\Membership;
 use Laravel\Passport\Passport;
 use Illuminate\Support\Facades\Hash;
 
@@ -204,4 +206,67 @@ it('invalidates user tokens after account deletion', function () {
         ->getJson('/api/v1/me');
 
     $meResponse->assertUnauthorized();
+});
+
+it('deletes the user and all their memberships if they are not an admin', function () {
+    $user = User::factory()->create();
+
+    $orchestra1 = Orchestra::factory()->create();
+    $orchestra2 = Orchestra::factory()->create();
+
+    $membership1 = Membership::create([
+        'user_id' => $user->id,
+        'orchestra_id' => $orchestra1->id,
+        'role' => 'member',
+    ]);
+
+    $membership2 = Membership::create([
+        'user_id' => $user->id,
+        'orchestra_id' => $orchestra2->id,
+        'role' => 'member',
+    ]);
+
+    Passport::actingAs($user);
+
+    $response = $this->deleteJson("/api/v1/me");
+
+    $response->assertNoContent();
+
+    $this->assertDatabaseMissing('users', [
+        'id' => $user->id,
+    ]);
+
+    $this->assertDatabaseMissing('memberships', [
+        'id' => $membership1->id,
+    ]);
+
+    $this->assertDatabaseMissing('memberships', [
+        'id' => $membership2->id,
+    ]);
+});
+
+it('does not allow an admin to delete their account', function () {
+    $user = User::factory()->create();
+
+    $orchestra = Orchestra::factory()->create();
+
+    $membership = Membership::create([
+        'user_id' => $user->id,
+        'orchestra_id' => $orchestra->id,
+        'role' => 'admin',
+    ]);
+
+    Passport::actingAs($user);
+
+    $response = $this->deleteJson("/api/v1/me");
+
+    $response->assertStatus(409);
+
+    $this->assertDatabaseHas('users', [
+        'id' => $user->id,
+    ]);
+
+    $this->assertDatabaseHas('memberships', [
+        'id' => $membership->id,
+    ]);
 });
