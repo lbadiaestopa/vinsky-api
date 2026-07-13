@@ -22,7 +22,7 @@ A RESTful API for managing orchestras, their members, programs, events, and musi
 - Automated API documentation with Scribe
 - Automated testing with Pest
 
-## 🔌 Enpoints
+## 🔌 Endpoints
 ### Auth
 
 | Method | Endpoint | Description |
