@@ -96,41 +96,39 @@ A RESTful API for managing orchestras, their members, programs, events, and musi
 - MySQL 9.6+
 
 ### Installation 
-1. Create the database (Laravel does not create it automatically)
-```sql
-CREATE DATABASE vinsky;
-```
-2. Clone the repository
+1. Clone the repository
 ```bash
 git clone https://github.com/lbadiaestopa/vinsky-api
 ```
 ```bash
 cd vinsky-api
 ```
-3. Install dependencies
+2. Install dependencies
 ```bash
 composer install
 ```
-4. Configure environment variables
+3. Configure environment variables
 ```bash
 cp .env.example .env
 ```
 ```bash
 php artisan key:generate
 ```
-5. Run migrations and seeders
+Edit the `.env` file and configure your local environment, especially your database credentials (`DB_HOST`, `DB_PORT`, `DB_DATABASE`, `DB_USERNAME`, and `DB_PASSWORD`).
+
+4. Run migrations and seeders
 ```bash
-php artisan migrate --seed
+php artisan migrate:fresh --seed
 ```
-6. Install Passport
+5. Install Passport
 ```bash
 php artisan passport:install
 ```
-7. Start the development server
+6. Start the development server
 ```bash
 php artisan serve
 ```
-8. Demo accounts
+7. Demo accounts
 
 | Role | Email | Password |
 |------|--------|----------|
