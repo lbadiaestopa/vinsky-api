@@ -120,11 +120,8 @@ Edit the `.env` file and configure your local environment, especially your datab
 ```bash
 php artisan migrate:fresh --seed
 ```
-5. Install Passport
-```bash
-php artisan passport:install
-```
-6. Start the development server
+
+5. Start the development server
 ```bash
 php artisan serve
 ```
@@ -146,7 +143,7 @@ http://localhost:8000/api/v1/
 
 Run the test suite using Pest:
 ```bash
-php artisan test
+php artisan test tests/Feature
 ```
 
 ## 📖 Documentation
