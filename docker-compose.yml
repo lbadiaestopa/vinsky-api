@@ -32,5 +32,4 @@ services:
 
 volumes:
   db_data:
-    external: true
     name: sprint-5_db_data
