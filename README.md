@@ -151,6 +151,9 @@ The project is fully dockerized using Docker Compose, providing the Laravel API,
 
 Clone both repositories into the same parent directory:
 
+- [Vinsky API](https://github.com/lbadiaestopa/vinsky-api)
+- [Vinsky Frontend](https://github.com/lbadiaestopa/vinsky-front)
+
 ```text
 parent-directory/
 ├── vinsky-api/
