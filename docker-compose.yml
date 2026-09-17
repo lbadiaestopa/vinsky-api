@@ -22,7 +22,15 @@ services:
       DB_PASSWORD: root
     depends_on:
       - db
+  
+  frontend:
+    build: ../vinsky-front
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
 
 volumes:
   db_data:
+    external: true
     name: sprint-5_db_data
