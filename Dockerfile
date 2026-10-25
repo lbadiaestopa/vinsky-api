@@ -1,5 +1,7 @@
 FROM php:8.5-cli
 
+RUN php -v
+
 WORKDIR /var/www/html
 
 RUN apt-get update \
