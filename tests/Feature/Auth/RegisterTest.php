@@ -88,3 +88,41 @@ it('fails when email format is invalid', function () {
     $response->assertStatus(422);
     $response->assertJsonValidationErrors(['email']);
 });
+
+
+it('registers a user when password confirmation matches', function () {
+
+    $response = $this->postJson('/api/v1/register', [
+        'name' => 'John',
+        'last_name' => 'Doe',
+        'email' => 'john@example.com',
+        'password' => 'password123',
+        'password_confirmation' => 'password123',
+    ]);
+
+    $response->assertStatus(201);
+
+    $this->assertDatabaseHas('users', [
+        'email' => 'john@example.com',
+    ]);
+
+    $this->assertNotEmpty($response->json('token'));
+});
+
+it('fails when password confirmation does not match', function () {
+
+    $response = $this->postJson('/api/v1/register', [
+        'name' => 'John',
+        'last_name' => 'Doe',
+        'email' => 'john@example.com',
+        'password' => 'password123',
+        'password_confirmation' => 'different123',
+    ]);
+
+    $response->assertStatus(422);
+    $response->assertJsonValidationErrors(['password']);
+
+    $this->assertDatabaseMissing('users', [
+        'email' => 'john@example.com',
+    ]);
+});
