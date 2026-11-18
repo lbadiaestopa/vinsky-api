@@ -20,6 +20,14 @@ services:
       DB_DATABASE: vinsky
       DB_USERNAME: root
       DB_PASSWORD: root
+      MAIL_MAILER: ${MAIL_MAILER}
+      MAIL_SCHEME: ${MAIL_SCHEME}
+      MAIL_HOST: ${MAIL_HOST}
+      MAIL_PORT: ${MAIL_PORT}
+      MAIL_USERNAME: ${MAIL_USERNAME}
+      MAIL_PASSWORD: ${MAIL_PASSWORD}
+      MAIL_FROM_ADDRESS: ${MAIL_FROM_ADDRESS}
+      MAIL_FROM_NAME: ${MAIL_FROM_NAME}
     depends_on:
       - db
   
