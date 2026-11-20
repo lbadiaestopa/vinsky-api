@@ -32,6 +32,12 @@ class LoginController extends Controller
             ], 401);
         }
 
+        if (! $user->hasVerifiedEmail()) {
+            return response()->json([
+                'message' => 'Please verify your email address before logging in.',
+            ], 403);
+        }
+
         $token = $this->authService->issueToken($user);
 
         return response()->json([
