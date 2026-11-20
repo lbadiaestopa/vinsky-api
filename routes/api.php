@@ -20,6 +20,9 @@ Route::prefix('v1')->group(function () {
     Route::get('/email/verify/{id}/{hash}', [EmailVerificationController::class, 'verify'])
         ->middleware('signed')
         ->name('verification.verify');
+        
+    Route::post('/email/verification-notification', [EmailVerificationController::class, 'resend'])
+        ->middleware('throttle:3,1');
 
     Route::middleware('auth:api', 'verified')->group(function () {
 
