@@ -27,7 +27,7 @@ class EmailVerificationController extends Controller
             event(new Verified($user));
         }
 
-        return redirect('http://localhost:5173/email/verified');
+        return redirect(config('app.frontend_url') . '/email/verified');
     }
 
     public function resend(Request $request)

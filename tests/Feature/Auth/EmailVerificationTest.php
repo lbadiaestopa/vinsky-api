@@ -27,7 +27,7 @@ it('verifies a user email successfully', function () {
 
     $response = $this->get($verificationUrl);
 
-    $response->assertRedirect('http://localhost:5173/email/verified');
+    $response->assertRedirect(config('app.frontend_url') . '/email/verified');
 
     expect($user->fresh()->hasVerifiedEmail())->toBeTrue();
 
