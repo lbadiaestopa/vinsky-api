@@ -2,10 +2,14 @@
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Notification;
+use Illuminate\Auth\Notifications\VerifyEmail;
 
 uses(RefreshDatabase::class);
 
-it('registers a user successfully', function () {
+it('registers an unverified user successfully', function () {
+
+    Notification::fake();
 
     $response = $this->postJson('/api/v1/register', [
         'name' => 'John',
@@ -18,21 +22,25 @@ it('registers a user successfully', function () {
     $response->assertStatus(201);
 
     $response->assertJsonStructure([
+        'message',
         'user' => [
             'id',
             'name',
             'email',
         ],
-        'token',
     ]);
+
+    $response->assertJsonMissingPath('token');
 
     $this->assertDatabaseHas('users', [
         'email' => 'john@example.com',
+        'email_verified_at' => null,
     ]);
 
     $user = User::where('email', 'john@example.com')->first();
 
     expect($user)->not->toBeNull();
+    expect($user->hasVerifiedEmail())->toBeFalse();
 
     $response->assertJson([
         'user' => [
@@ -40,7 +48,7 @@ it('registers a user successfully', function () {
         ],
     ]);
 
-    $this->assertNotEmpty($response->json('token'));
+    Notification::assertSentTo($user, VerifyEmail::class);
 });
 
 it('fails when email already exists', function () {
@@ -87,26 +95,6 @@ it('fails when email format is invalid', function () {
 
     $response->assertStatus(422);
     $response->assertJsonValidationErrors(['email']);
-});
-
-
-it('registers a user when password confirmation matches', function () {
-
-    $response = $this->postJson('/api/v1/register', [
-        'name' => 'John',
-        'last_name' => 'Doe',
-        'email' => 'john@example.com',
-        'password' => 'password123',
-        'password_confirmation' => 'password123',
-    ]);
-
-    $response->assertStatus(201);
-
-    $this->assertDatabaseHas('users', [
-        'email' => 'john@example.com',
-    ]);
-
-    $this->assertNotEmpty($response->json('token'));
 });
 
 it('fails when password confirmation does not match', function () {
