@@ -10,13 +10,21 @@ use App\Http\Controllers\Api\V1\MembershipController;
 use App\Http\Controllers\Api\V1\ProgramController;
 use App\Http\Controllers\Api\V1\EventController;
 use App\Http\Controllers\Api\V1\ScoreController;
+use App\Http\Controllers\Api\V1\Auth\EmailVerificationController;
 
 Route::prefix('v1')->group(function () {
 
     Route::post('/register', [RegisterController::class, 'store']);
     Route::post('/login', [LoginController::class, 'store']);
 
-    Route::middleware('auth:api')->group(function () {
+    Route::get('/email/verify/{id}/{hash}', [EmailVerificationController::class, 'verify'])
+        ->middleware('signed')
+        ->name('verification.verify');
+        
+    Route::post('/email/verification-notification', [EmailVerificationController::class, 'resend'])
+        ->middleware('throttle:3,1');
+
+    Route::middleware('auth:api', 'verified')->group(function () {
 
         Route::post('/logout', [LogoutController::class, 'store']);
 

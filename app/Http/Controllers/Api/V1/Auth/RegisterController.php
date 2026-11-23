@@ -6,24 +6,23 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\V1\Auth\RegisterRequest;
 use App\Services\Auth\RegisterService;
 use App\Http\Resources\UserResource;
-use App\Services\Auth\AuthService;
 
 /**
-* @group Authentication
-* Endpoints for user registration, login and logout.
-* Registration and login do not require authentication.
-*/
+ * @group Authentication
+ * Endpoints for user registration, login and logout.
+ * Registration and login do not require authentication.
+ */
 class RegisterController extends Controller
 {
     public function __construct(
         private RegisterService $registerService,
-        private AuthService $authService
     ) {}
 
     /**
      * Register a new user
-     * 
-     * Creates a new user account and returns an access token.
+     *
+     * Creates a new user account and sends an email verification link.
+     * The user must verify their email address before logging in.
      *
      * @unauthenticated
      */
@@ -33,11 +32,11 @@ class RegisterController extends Controller
             $request->validated()
         );
 
-        $token = $this->authService->issueToken($user);
+        $user->sendEmailVerificationNotification();
 
         return response()->json([
+            'message' => 'Registration successful. Please verify your email address.',
             'user' => new UserResource($user),
-            'token' => $token,
         ], 201);
     }
 }
