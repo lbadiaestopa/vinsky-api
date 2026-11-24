@@ -19,7 +19,9 @@ endpoints:
       subgroup: ''
       subgroupDescription: ''
       title: 'Register a new user'
-      description: 'Creates a new user account and returns an access token.'
+      description: |-
+        Creates a new user account and sends an email verification link.
+        The user must verify their email address before logging in.
       authenticated: false
       deprecated: false
     headers:

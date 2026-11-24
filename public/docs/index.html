@@ -82,6 +82,19 @@
                             </li>
                                                                         </ul>
                             </ul>
+                    <ul id="tocify-header-endpoints" class="tocify-header">
+                <li class="tocify-item level-1" data-unique="endpoints">
+                    <a href="#endpoints">Endpoints</a>
+                </li>
+                                    <ul id="tocify-subheader-endpoints" class="tocify-subheader">
+                                                    <li class="tocify-item level-2" data-unique="endpoints-GETapi-v1-email-verify--id---hash-">
+                                <a href="#endpoints-GETapi-v1-email-verify--id---hash-">GET api/v1/email/verify/{id}/{hash}</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="endpoints-POSTapi-v1-email-verification-notification">
+                                <a href="#endpoints-POSTapi-v1-email-verification-notification">POST api/v1/email/verification-notification</a>
+                            </li>
+                                                                        </ul>
+                            </ul>
                     <ul id="tocify-header-events" class="tocify-header">
                 <li class="tocify-item level-1" data-unique="events">
                     <a href="#events">Events</a>
@@ -113,7 +126,10 @@
                                 <a href="#memberships-POSTapi-v1-memberships">Create a membership</a>
                             </li>
                                                                                 <li class="tocify-item level-2" data-unique="memberships-GETapi-v1-memberships">
-                                <a href="#memberships-GETapi-v1-memberships">List all memberships</a>
+                                <a href="#memberships-GETapi-v1-memberships">List all memberships from a user</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="memberships-GETapi-v1-orchestras--orchestra_id--memberships">
+                                <a href="#memberships-GETapi-v1-orchestras--orchestra_id--memberships">List all memberships from an orchestra</a>
                             </li>
                                                                                 <li class="tocify-item level-2" data-unique="memberships-GETapi-v1-memberships--membership_id-">
                                 <a href="#memberships-GETapi-v1-memberships--membership_id-">Get a membership</a>
@@ -217,7 +233,7 @@
     </ul>
 
     <ul class="toc-footer" id="last-updated">
-        <li>Last updated: June 25, 2026</li>
+        <li>Last updated: November 24, 2026</li>
     </ul>
 </div>
 
@@ -249,7 +265,8 @@ Registration and login do not require authentication.</p>
 <p>
 </p>
 
-<p>Creates a new user account and returns an access token.</p>
+<p>Creates a new user account and sends an email verification link.
+The user must verify their email address before logging in.</p>
 
 <span id="example-requests-POSTapi-v1-register">
 <blockquote>Example request:</blockquote>
@@ -689,6 +706,324 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <p>Example: <code>application/json</code></p>
             </div>
                         </form>
+
+                <h1 id="endpoints">Endpoints</h1>
+
+    
+
+                                <h2 id="endpoints-GETapi-v1-email-verify--id---hash-">GET api/v1/email/verify/{id}/{hash}</h2>
+
+<p>
+<small class="badge badge-darkred">requires authentication</small>
+</p>
+
+
+
+<span id="example-requests-GETapi-v1-email-verify--id---hash-">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request GET \
+    --get "http://localhost:8000/api/v1/email/verify/architecto/architecto" \
+    --header "Authorization: Bearer {{bearer_token}}" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/v1/email/verify/architecto/architecto"
+);
+
+const headers = {
+    "Authorization": "Bearer {{bearer_token}}",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-GETapi-v1-email-verify--id---hash-">
+            <blockquote>
+            <p>Example response (403):</p>
+        </blockquote>
+                <details class="annotation">
+            <summary style="cursor: pointer;">
+                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
+            </summary>
+            <pre><code class="language-http">cache-control: no-cache, private
+content-type: application/json
+access-control-allow-origin: *
+ </code></pre></details>         <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;message&quot;: &quot;Invalid signature.&quot;
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-GETapi-v1-email-verify--id---hash-" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETapi-v1-email-verify--id---hash-"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETapi-v1-email-verify--id---hash-"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-GETapi-v1-email-verify--id---hash-" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETapi-v1-email-verify--id---hash-">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-GETapi-v1-email-verify--id---hash-" data-method="GET"
+      data-path="api/v1/email/verify/{id}/{hash}"
+      data-authed="1"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETapi-v1-email-verify--id---hash-', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETapi-v1-email-verify--id---hash-"
+                    onclick="tryItOut('GETapi-v1-email-verify--id---hash-');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETapi-v1-email-verify--id---hash-"
+                    onclick="cancelTryOut('GETapi-v1-email-verify--id---hash-');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETapi-v1-email-verify--id---hash-"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>api/v1/email/verify/{id}/{hash}</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Authorization</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Authorization" class="auth-value"               data-endpoint="GETapi-v1-email-verify--id---hash-"
+               value="Bearer {{bearer_token}}"
+               data-component="header">
+    <br>
+<p>Example: <code>Bearer {{bearer_token}}</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="GETapi-v1-email-verify--id---hash-"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="GETapi-v1-email-verify--id---hash-"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>id</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="id"                data-endpoint="GETapi-v1-email-verify--id---hash-"
+               value="architecto"
+               data-component="url">
+    <br>
+<p>The ID of the verify. Example: <code>architecto</code></p>
+            </div>
+                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>hash</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="hash"                data-endpoint="GETapi-v1-email-verify--id---hash-"
+               value="architecto"
+               data-component="url">
+    <br>
+<p>Example: <code>architecto</code></p>
+            </div>
+                    </form>
+
+                    <h2 id="endpoints-POSTapi-v1-email-verification-notification">POST api/v1/email/verification-notification</h2>
+
+<p>
+<small class="badge badge-darkred">requires authentication</small>
+</p>
+
+
+
+<span id="example-requests-POSTapi-v1-email-verification-notification">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "http://localhost:8000/api/v1/email/verification-notification" \
+    --header "Authorization: Bearer {{bearer_token}}" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json" \
+    --data "{
+    \"email\": \"gbailey@example.net\"
+}"
+</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/v1/email/verification-notification"
+);
+
+const headers = {
+    "Authorization": "Bearer {{bearer_token}}",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "email": "gbailey@example.net"
+};
+
+fetch(url, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTapi-v1-email-verification-notification">
+</span>
+<span id="execution-results-POSTapi-v1-email-verification-notification" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-v1-email-verification-notification"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-v1-email-verification-notification"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-POSTapi-v1-email-verification-notification" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-v1-email-verification-notification">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-POSTapi-v1-email-verification-notification" data-method="POST"
+      data-path="api/v1/email/verification-notification"
+      data-authed="1"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-v1-email-verification-notification', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTapi-v1-email-verification-notification"
+                    onclick="tryItOut('POSTapi-v1-email-verification-notification');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTapi-v1-email-verification-notification"
+                    onclick="cancelTryOut('POSTapi-v1-email-verification-notification');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTapi-v1-email-verification-notification"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/v1/email/verification-notification</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Authorization</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Authorization" class="auth-value"               data-endpoint="POSTapi-v1-email-verification-notification"
+               value="Bearer {{bearer_token}}"
+               data-component="header">
+    <br>
+<p>Example: <code>Bearer {{bearer_token}}</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="POSTapi-v1-email-verification-notification"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="POSTapi-v1-email-verification-notification"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>email</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="email"                data-endpoint="POSTapi-v1-email-verification-notification"
+               value="gbailey@example.net"
+               data-component="body">
+    <br>
+<p>Must be a valid email address. Example: <code>gbailey@example.net</code></p>
+        </div>
+        </form>
 
                 <h1 id="events">Events</h1>
 
@@ -1856,13 +2191,13 @@ Must be one of:
         </div>
         </form>
 
-                    <h2 id="memberships-GETapi-v1-memberships">List all memberships</h2>
+                    <h2 id="memberships-GETapi-v1-memberships">List all memberships from a user</h2>
 
 <p>
 <small class="badge badge-darkred">requires authentication</small>
 </p>
 
-<p>Lists all mermberships of an orcchestra.</p>
+
 
 <span id="example-requests-GETapi-v1-memberships">
 <blockquote>Example request:</blockquote>
@@ -1998,13 +2333,168 @@ You can check the Dev Tools console for debugging information.</code></pre>
             </div>
                         </form>
 
+                    <h2 id="memberships-GETapi-v1-orchestras--orchestra_id--memberships">List all memberships from an orchestra</h2>
+
+<p>
+<small class="badge badge-darkred">requires authentication</small>
+</p>
+
+<p>Lists all memberships from an orchestra and its related user data.</p>
+
+<span id="example-requests-GETapi-v1-orchestras--orchestra_id--memberships">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request GET \
+    --get "http://localhost:8000/api/v1/orchestras/1/memberships" \
+    --header "Authorization: Bearer {{bearer_token}}" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/v1/orchestras/1/memberships"
+);
+
+const headers = {
+    "Authorization": "Bearer {{bearer_token}}",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-GETapi-v1-orchestras--orchestra_id--memberships">
+            <blockquote>
+            <p>Example response (401):</p>
+        </blockquote>
+                <details class="annotation">
+            <summary style="cursor: pointer;">
+                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
+            </summary>
+            <pre><code class="language-http">cache-control: no-cache, private
+content-type: application/json
+access-control-allow-origin: *
+ </code></pre></details>         <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;message&quot;: &quot;Unauthenticated.&quot;
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-GETapi-v1-orchestras--orchestra_id--memberships" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETapi-v1-orchestras--orchestra_id--memberships"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETapi-v1-orchestras--orchestra_id--memberships"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-GETapi-v1-orchestras--orchestra_id--memberships" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETapi-v1-orchestras--orchestra_id--memberships">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-GETapi-v1-orchestras--orchestra_id--memberships" data-method="GET"
+      data-path="api/v1/orchestras/{orchestra_id}/memberships"
+      data-authed="1"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETapi-v1-orchestras--orchestra_id--memberships', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETapi-v1-orchestras--orchestra_id--memberships"
+                    onclick="tryItOut('GETapi-v1-orchestras--orchestra_id--memberships');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETapi-v1-orchestras--orchestra_id--memberships"
+                    onclick="cancelTryOut('GETapi-v1-orchestras--orchestra_id--memberships');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETapi-v1-orchestras--orchestra_id--memberships"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>api/v1/orchestras/{orchestra_id}/memberships</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Authorization</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Authorization" class="auth-value"               data-endpoint="GETapi-v1-orchestras--orchestra_id--memberships"
+               value="Bearer {{bearer_token}}"
+               data-component="header">
+    <br>
+<p>Example: <code>Bearer {{bearer_token}}</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="GETapi-v1-orchestras--orchestra_id--memberships"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="GETapi-v1-orchestras--orchestra_id--memberships"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>orchestra_id</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="orchestra_id"                data-endpoint="GETapi-v1-orchestras--orchestra_id--memberships"
+               value="1"
+               data-component="url">
+    <br>
+<p>The ID of the orchestra. Example: <code>1</code></p>
+            </div>
+                    </form>
+
                     <h2 id="memberships-GETapi-v1-memberships--membership_id-">Get a membership</h2>
 
 <p>
 <small class="badge badge-darkred">requires authentication</small>
 </p>
 
-<p>Lists one mermberships of an orcchestra.</p>
+<p>Lists one membership of an orchestra.</p>
 
 <span id="example-requests-GETapi-v1-memberships--membership_id-">
 <blockquote>Example request:</blockquote>
@@ -4127,7 +4617,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Content-Type: multipart/form-data" \
     --header "Accept: application/json" \
     --form "original_name=Beethoven_Symphony_No_5.pdf"\
-    --form "file=@/private/var/folders/xk/8qfdvcmd4k1fqf2dkwj_1dz00000gn/T/phpvq9vstssgodleyxpd0I" </code></pre></div>
+    --form "file=@/private/var/folders/xk/8qfdvcmd4k1fqf2dkwj_1dz00000gn/T/php3al67krdarhv0lngA7y" </code></pre></div>
 
 
 <div class="javascript-example">
@@ -4262,7 +4752,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
                value=""
                data-component="body">
     <br>
-<p>The PDF file containing the musical score. Must be a file. Must not be greater than 10240 kilobytes. Example: <code>/private/var/folders/xk/8qfdvcmd4k1fqf2dkwj_1dz00000gn/T/phpvq9vstssgodleyxpd0I</code></p>
+<p>The PDF file containing the musical score. Must be a file. Must not be greater than 10240 kilobytes. Example: <code>/private/var/folders/xk/8qfdvcmd4k1fqf2dkwj_1dz00000gn/T/php3al67krdarhv0lngA7y</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>original_name</code></b>&nbsp;&nbsp;
