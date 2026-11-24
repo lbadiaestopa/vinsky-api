@@ -3,7 +3,7 @@
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Notification;
-use Illuminate\Auth\Notifications\VerifyEmail;
+use App\Notifications\VerifyEmailNotification;
 
 uses(RefreshDatabase::class);
 
@@ -48,7 +48,7 @@ it('registers an unverified user successfully', function () {
         ],
     ]);
 
-    Notification::assertSentTo($user, VerifyEmail::class);
+    Notification::assertSentTo($user, VerifyEmailNotification::class);
 });
 
 it('fails when email already exists', function () {
