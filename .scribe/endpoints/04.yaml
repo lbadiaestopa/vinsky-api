@@ -1,79 +1,137 @@
-name: Programs
-description: 'Endpoints for managing programs. Programs belong to an orchestra and can contain events.'
+name: Memberships
+description: 'Endpoints for managing orchestras. Orchestras can contain programs.'
 endpoints:
   -
     custom: []
     httpMethods:
       - POST
-    uri: 'api/v1/orchestras/{orchestra_id}/programs'
+    uri: api/v1/memberships
     metadata:
       custom: []
-      groupName: Programs
-      groupDescription: 'Endpoints for managing programs. Programs belong to an orchestra and can contain events.'
+      groupName: Memberships
+      groupDescription: 'Endpoints for managing orchestras. Orchestras can contain programs.'
       subgroup: ''
       subgroupDescription: ''
-      title: 'Create a program'
-      description: 'User must have a membership linked to the orchestra containing the program with an admin role to create it.'
+      title: 'Create a membership'
+      description: 'User must have a membership linked to the orchestras in order to create another membership.'
       authenticated: true
       deprecated: false
     headers:
       Authorization: 'Bearer {{bearer_token}}'
       Content-Type: application/json
       Accept: application/json
-    urlParameters:
-      orchestra_id:
-        custom: []
-        name: orchestra_id
-        description: 'The ID of the orchestra.'
-        required: true
-        example: 1
-        type: integer
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-    cleanUrlParameters:
-      orchestra_id: 1
+    urlParameters: []
+    cleanUrlParameters: []
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
-      name:
+      email:
         custom: []
-        name: name
-        description: 'Must not be greater than 255 characters.'
+        name: email
+        description: 'The email address of the user to add to the orchestra. The user must already exist. Must be a valid email address. Must match an existing stored value.'
         required: true
-        example: 'Beethoven Cycle 2026'
+        example: beethoven@example.com
         type: string
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         deprecated: false
-      start_date:
+      orchestra_name:
         custom: []
-        name: start_date
-        description: 'Must be a valid date.'
+        name: orchestra_name
+        description: 'The orchestra name. Must match an existing stored value.'
         required: true
-        example: '2026-07-14'
+        example: 'Barcelona Symphony Orchestra'
         type: string
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         deprecated: false
-      end_date:
+      role:
         custom: []
-        name: end_date
-        description: 'Must be a valid date. Must be a date after or equal to <code>start_date</code>.'
-        required: true
-        example: '2026-07-21'
+        name: role
+        description: 'The member role within the orchestra.'
+        required: false
+        example: member
+        type: string
+        enumValues:
+          - admin
+          - member
+        exampleWasSpecified: false
+        nullable: true
+        deprecated: false
+      member_type:
+        custom: []
+        name: member_type
+        description: 'The type of membership.'
+        required: false
+        example: core
+        type: string
+        enumValues:
+          - core
+          - substitute
+          - guest
+        exampleWasSpecified: false
+        nullable: true
+        deprecated: false
+      instrument:
+        custom: []
+        name: instrument
+        description: 'The member instrument. Must not be greater than 255 characters.'
+        required: false
+        example: Violin
         type: string
         enumValues: []
         exampleWasSpecified: false
-        nullable: false
+        nullable: true
+        deprecated: false
+      section:
+        custom: []
+        name: section
+        description: 'The orchestra section assigned to the member.'
+        required: false
+        example: violin_1
+        type: string
+        enumValues:
+          - violin_1
+          - violin_2
+          - viola
+          - cello
+          - double_bass
+          - french_horn
+          - trumpet
+          - trombone
+          - tuba
+          - flute
+          - oboe
+          - clarinet
+          - bassoon
+          - percussion
+          - mallet
+          - vocal
+          - other
+        exampleWasSpecified: false
+        nullable: true
+        deprecated: false
+      joined_at:
+        custom: []
+        name: joined_at
+        description: 'The date when the member joined the orchestra. Must be a valid date.'
+        required: false
+        example: '2026-06-22'
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: true
         deprecated: false
     cleanBodyParameters:
-      name: 'Beethoven Cycle 2026'
-      start_date: '2026-07-14'
-      end_date: '2026-07-21'
+      email: beethoven@example.com
+      orchestra_name: 'Barcelona Symphony Orchestra'
+      role: member
+      member_type: core
+      instrument: Violin
+      section: violin_1
+      joined_at: '2026-06-22'
     fileParameters: []
     responses: []
     responseFields: []
@@ -88,15 +146,59 @@ endpoints:
     custom: []
     httpMethods:
       - GET
-    uri: 'api/v1/orchestras/{orchestra_id}/programs'
+    uri: api/v1/memberships
     metadata:
       custom: []
-      groupName: Programs
-      groupDescription: 'Endpoints for managing programs. Programs belong to an orchestra and can contain events.'
+      groupName: Memberships
+      groupDescription: 'Endpoints for managing orchestras. Orchestras can contain programs.'
       subgroup: ''
       subgroupDescription: ''
-      title: 'List all programs'
-      description: 'User must have a membership linked to the orchestra containing the programs to see them.'
+      title: 'List all memberships from a user'
+      description: ''
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {{bearer_token}}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 401
+        content: '{"message":"Unauthenticated."}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          access-control-allow-origin: '*'
+        description: null
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: 'api/v1/orchestras/{orchestra_id}/memberships'
+    metadata:
+      custom: []
+      groupName: Memberships
+      groupDescription: 'Endpoints for managing orchestras. Orchestras can contain programs.'
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'List all memberships from an orchestra'
+      description: 'Lists all memberships from an orchestra and its related user data.'
       authenticated: true
       deprecated: false
     headers:
@@ -144,15 +246,15 @@ endpoints:
     custom: []
     httpMethods:
       - GET
-    uri: 'api/v1/programs/{program_id}'
+    uri: 'api/v1/memberships/{membership_id}'
     metadata:
       custom: []
-      groupName: Programs
-      groupDescription: 'Endpoints for managing programs. Programs belong to an orchestra and can contain events.'
+      groupName: Memberships
+      groupDescription: 'Endpoints for managing orchestras. Orchestras can contain programs.'
       subgroup: ''
       subgroupDescription: ''
-      title: 'Get a program'
-      description: 'User must have a membership linked to the orchestra containing the program to see it.'
+      title: 'Get a membership'
+      description: 'Lists one membership of an orchestra.'
       authenticated: true
       deprecated: false
     headers:
@@ -160,10 +262,10 @@ endpoints:
       Content-Type: application/json
       Accept: application/json
     urlParameters:
-      program_id:
+      membership_id:
         custom: []
-        name: program_id
-        description: 'The ID of the program.'
+        name: membership_id
+        description: 'The ID of the membership.'
         required: true
         example: 1
         type: integer
@@ -172,7 +274,7 @@ endpoints:
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      program_id: 1
+      membership_id: 1
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -200,15 +302,15 @@ endpoints:
     custom: []
     httpMethods:
       - PUT
-    uri: 'api/v1/programs/{program_id}'
+    uri: 'api/v1/memberships/{membership_id}'
     metadata:
       custom: []
-      groupName: Programs
-      groupDescription: 'Endpoints for managing programs. Programs belong to an orchestra and can contain events.'
+      groupName: Memberships
+      groupDescription: 'Endpoints for managing orchestras. Orchestras can contain programs.'
       subgroup: ''
       subgroupDescription: ''
-      title: 'Update a program'
-      description: 'User must have a membership linked to the orchestra containing the orchestra with an admin role to update it.'
+      title: 'Update membership'
+      description: 'User must have a membership linked to the an orchestra with a role of admin in order to update the membership.'
       authenticated: true
       deprecated: false
     headers:
@@ -216,10 +318,10 @@ endpoints:
       Content-Type: application/json
       Accept: application/json
     urlParameters:
-      program_id:
+      membership_id:
         custom: []
-        name: program_id
-        description: 'The ID of the program.'
+        name: membership_id
+        description: 'The ID of the membership.'
         required: true
         example: 1
         type: integer
@@ -228,47 +330,81 @@ endpoints:
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      program_id: 1
+      membership_id: 1
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
-      name:
+      role:
         custom: []
-        name: name
-        description: 'The program name. Must not be greater than 255 characters.'
-        required: true
-        example: 'Beethoven Cycle 2026'
+        name: role
+        description: 'The member role within the orchestra.'
+        required: false
+        example: member
+        type: string
+        enumValues:
+          - admin
+          - member
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      member_type:
+        custom: []
+        name: member_type
+        description: 'The type of membership.'
+        required: false
+        example: core
+        type: string
+        enumValues:
+          - core
+          - substitute
+          - guest
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      instrument:
+        custom: []
+        name: instrument
+        description: 'The member instrument.'
+        required: false
+        example: Violin
         type: string
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         deprecated: false
-      start_date:
+      section:
         custom: []
-        name: start_date
-        description: 'Must be a valid date.'
-        required: true
-        example: '2026-07-14'
+        name: section
+        description: 'The orchestra section assigned to the member.'
+        required: false
+        example: violin_1
         type: string
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-      end_date:
-        custom: []
-        name: end_date
-        description: 'Must be a valid date. Must be a date after or equal to <code>start_date</code>.'
-        required: true
-        example: '2026-07-21'
-        type: string
-        enumValues: []
+        enumValues:
+          - violin_1
+          - violin_2
+          - viola
+          - cello
+          - double_bass
+          - french_horn
+          - trumpet
+          - trombone
+          - tuba
+          - flute
+          - oboe
+          - clarinet
+          - bassoon
+          - percussion
+          - mallet
+          - vocal
+          - other
         exampleWasSpecified: false
         nullable: false
         deprecated: false
     cleanBodyParameters:
-      name: 'Beethoven Cycle 2026'
-      start_date: '2026-07-14'
-      end_date: '2026-07-21'
+      role: member
+      member_type: core
+      instrument: Violin
+      section: violin_1
     fileParameters: []
     responses: []
     responseFields: []
@@ -283,15 +419,15 @@ endpoints:
     custom: []
     httpMethods:
       - DELETE
-    uri: 'api/v1/programs/{program_id}'
+    uri: 'api/v1/memberships/{membership_id}'
     metadata:
       custom: []
-      groupName: Programs
-      groupDescription: 'Endpoints for managing programs. Programs belong to an orchestra and can contain events.'
+      groupName: Memberships
+      groupDescription: 'Endpoints for managing orchestras. Orchestras can contain programs.'
       subgroup: ''
       subgroupDescription: ''
-      title: 'Delete a program'
-      description: 'User must have a membership linked to the orchestra containing the orchestra with an admin role to delete it.'
+      title: 'Delete membership'
+      description: 'User must have a membership linked to the an orchestra with a role of admin in order to delete the membership.'
       authenticated: true
       deprecated: false
     headers:
@@ -299,10 +435,10 @@ endpoints:
       Content-Type: application/json
       Accept: application/json
     urlParameters:
-      program_id:
+      membership_id:
         custom: []
-        name: program_id
-        description: 'The ID of the program.'
+        name: membership_id
+        description: 'The ID of the membership.'
         required: true
         example: 1
         type: integer
@@ -311,7 +447,7 @@ endpoints:
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      program_id: 1
+      membership_id: 1
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []

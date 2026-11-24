@@ -10,7 +10,7 @@
     ],
     "info": {
         "name": "Vinsky API Documentation",
-        "_postman_id": "24558310-55ac-4915-8170-4c5f1716efe7",
+        "_postman_id": "01267f0e-7ea3-446c-b798-ecd60a2ecfff",
         "description": "A RESTful API for managing orchestras, their members, programs, events, and musical scores. It provides structured access control, allowing authenticated users to collaborate within orchestras, organize rehearsals and concerts, and manage shared sheet music through secure file uploads.",
         "schema": "https:\/\/schema.getpostman.com\/json\/collection\/v2.1.0\/collection.json"
     },
@@ -43,7 +43,7 @@
                             "mode": "raw",
                             "raw": "{\"name\":\"Ludwig\",\"last_name\":\"van Beethoven\",\"email\":\"beethoven@admin.com\",\"password\":\"password\"}"
                         },
-                        "description": "Creates a new user account and returns an access token.",
+                        "description": "Creates a new user account and sends an email verification link.\nThe user must verify their email address before logging in.",
                         "auth": {
                             "type": "noauth"
                         }
@@ -102,6 +102,99 @@
                             }
                         ],
                         "body": null,
+                        "description": ""
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Endpoints",
+            "description": "",
+            "item": [
+                {
+                    "name": "GET api\/v1\/email\/verify\/{id}\/{hash}",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/email\/verify\/:id\/:hash",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/email\/verify\/:id\/:hash",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "architecto",
+                                    "description": "The ID of the verify."
+                                },
+                                {
+                                    "id": "hash",
+                                    "key": "hash",
+                                    "value": "architecto",
+                                    "description": ""
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 403,
+                            "body": "{\n    \"message\": \"Invalid signature.\"\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "POST api\/v1\/email\/verification-notification",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/email\/verification-notification",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/email\/verification-notification"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"email\":\"gbailey@example.net\"}"
+                        },
                         "description": ""
                     },
                     "response": []
@@ -376,7 +469,7 @@
                     "response": []
                 },
                 {
-                    "name": "List all memberships",
+                    "name": "List all memberships from a user",
                     "request": {
                         "url": {
                             "host": "{{baseUrl}}",
@@ -396,7 +489,60 @@
                             }
                         ],
                         "body": null,
-                        "description": "Lists all mermberships of an orcchestra."
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 401,
+                            "body": "{\"message\":\"Unauthenticated.\"}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "List all memberships from an orchestra",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/orchestras\/:orchestra\/memberships",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/orchestras\/:orchestra\/memberships",
+                            "variable": [
+                                {
+                                    "id": "orchestra",
+                                    "key": "orchestra",
+                                    "value": 1,
+                                    "description": "The ID of the orchestra."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Lists all memberships from an orchestra and its related user data."
                     },
                     "response": [
                         {
@@ -449,7 +595,7 @@
                             }
                         ],
                         "body": null,
-                        "description": "Lists one mermberships of an orcchestra."
+                        "description": "Lists one membership of an orchestra."
                     },
                     "response": [
                         {
