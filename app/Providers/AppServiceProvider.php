@@ -3,13 +3,11 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use App\Models\Orchestra;
-use App\Policies\OrchestraPolicy;
-use App\Models\Program;
-use App\Policies\ProgramPolicy;
 use App\Models\Event;
 use App\Policies\EventPolicy;
 use Illuminate\Support\Facades\Gate;
+use App\Mail\GmailTransport;
+use Illuminate\Support\Facades\Mail;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -27,5 +25,9 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Gate::policy(Event::class, EventPolicy::class);
+
+        Mail::extend('gmail', function (array $config = []) {
+            return new GmailTransport();
+        });
     }
 }
