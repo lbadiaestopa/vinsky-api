@@ -5,7 +5,7 @@ use Illuminate\Auth\Events\Verified;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\URL;
-use Illuminate\Auth\Notifications\VerifyEmail;
+use App\Notifications\VerifyEmailNotification;
 use Illuminate\Support\Facades\Notification;
 
 uses(RefreshDatabase::class);
@@ -92,7 +92,7 @@ it('resends the verification email to an unverified user', function () {
         'message' => 'If your email address is registered and not verified, a verification link has been sent.',
     ]);
 
-    Notification::assertSentTo($user, VerifyEmail::class);
+    Notification::assertSentTo($user, VerifyEmailNotification::class);
 });
 
 it('does not resend verification emails to verified or nonexistent users', function ($userExists) {
