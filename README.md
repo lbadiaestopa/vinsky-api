@@ -8,6 +8,7 @@ A RESTful API for managing orchestras, their members, programs, events, and musi
 - **Framework:** Laravel 13
 - **Authentication:** Laravel Passport
 - **Database:** MySQL
+- **Email Delivery:** Gmail API with OAuth 2.0
 - **Testing:** Pest
 - **Documentation:** Scribe
 
@@ -17,19 +18,56 @@ A RESTful API for managing orchestras, their members, programs, events, and musi
 - Rehearsal and concert scheduling
 - Secure PDF score storage and access control
 - OAuth 2.0 authentication with Laravel Passport
+- Email verification with signed and expiring URLs
 - Role-based authorization using Laravel Policies
 - RESTful JSON API
 - Automated API documentation with Scribe
 - Automated testing with Pest
+
+## ✉️ Email Verification & Delivery
+
+Vinsky implements an email verification system to ensure that users
+confirm their email address before accessing the application.
+
+### Email Verification
+
+- Password confirmation during registration.
+- Automatic delivery of verification emails upon registration.
+- Secure, signed verification URLs with configurable expiration.
+- Restricted authentication and API access for unverified users.
+- Rate-limited verification email resend with protection against
+  account enumeration.
+- Configurable frontend redirection after successful verification.
+
+### Email Delivery
+
+Emails are delivered through the Gmail REST API using OAuth 2.0,
+rather than traditional SMTP.
+
+The integration includes:
+
+- Custom Laravel mail transport built on Symfony Mailer.
+- Automatic OAuth 2.0 access token generation using a refresh token.
+- HTTPS-based email delivery without relying on SMTP ports.
+- Base64URL encoding of MIME email messages.
+- Error handling for authentication and email delivery failures.
+- Reusable Blade email templates with Vinsky branding.
+- Automated tests using mocked HTTP responses.
+
+The custom transport integrates with Laravel's native notification
+system, allowing future transactional emails to reuse the same
+delivery infrastructure.
 
 ## 🔌 Endpoints
 ### Auth
 
 | Method | Endpoint | Description |
 |---------|----------|-------------|
-| POST | `/register` | Register a new user |
-| POST | `/login` | Log in and get access token |
+| POST | `/register` | Register a new user and send a verification email |
+| POST | `/login` | Log in and get an access token (verified users only) |
 | POST | `/logout` | Log out and revoke current access token |
+| GET | `/email/verify/{id}/{hash}` | Verify an email address using a signed URL |
+| POST | `/email/verification-notification` | Resend the verification email |
 
 ### Profile
 
@@ -93,7 +131,7 @@ A RESTful API for managing orchestras, their members, programs, events, and musi
 ### Requirements
 - PHP 8.5+
 - Composer
-- MySQL 9.6+
+- MySQL 8.4+
 
 ### Installation 
 1. Clone the repository
@@ -116,16 +154,66 @@ php artisan key:generate
 ```
 Edit the `.env` file and configure your local environment, especially your database credentials (`DB_HOST`, `DB_PORT`, `DB_DATABASE`, `DB_USERNAME`, and `DB_PASSWORD`).
 
-4. Run migrations and seeders
+4. Email Configuration
+
+To enable email delivery through Gmail API, configure the following
+environment variables:
+
+```dotenv
+MAIL_MAILER=gmail
+MAIL_FROM_ADDRESS=your-email@gmail.com
+MAIL_FROM_NAME="Vinsky"
+
+GMAIL_CLIENT_ID=your-client-id
+GMAIL_CLIENT_SECRET=your-client-secret
+GMAIL_REFRESH_TOKEN=your-refresh-token
+
+APP_URL=http://localhost:8000
+FRONTEND_URL=http://localhost:5173
+```
+
+A Google Cloud project with the Gmail API enabled and OAuth 2.0
+credentials is required. The refresh token must be authorized with
+the following scope:
+
+```
+https://www.googleapis.com/auth/gmail.send
+```
+
+For local development without sending real emails, Laravel's log
+mailer can be used instead:
+
+```dotenv
+MAIL_MAILER=log
+```
+
+In production, `APP_URL` and `FRONTEND_URL` must point to their
+respective deployed applications.
+
+Never commit OAuth credentials or environment secrets to the repository.
+
+5. Run migrations and seeders
 ```bash
 php artisan migrate:fresh --seed
 ```
+6. Create a Passport personal access client
 
-5. Start the development server
+```bash
+php artisan passport:client --personal
+```
+
+Select `users` as the user provider if prompted. This client is
+required by Laravel Passport to generate personal access tokens
+during login.
+
+> **Note:** The personal access client must be recreated whenever
+> the database is reset using `migrate:fresh`.
+
+7. Start the development server
 ```bash
 php artisan serve
 ```
-7. Demo accounts
+8. Demo accounts
 
 | Role | Email | Password |
 |------|--------|----------|
@@ -205,6 +293,13 @@ docker compose up -d --build
 
 > **Note:** Removing the volume deletes all database data, including seeded data and Passport credentials.
 
+After resetting the database, recreate the Passport personal
+access client if it has not been created automatically:
+
+```bash
+docker compose exec backend php artisan passport:client --personal
+```
+
 ## 🧪 Testing
 
 Run the test suite using Pest:
@@ -227,12 +322,17 @@ http://localhost:8000/docs
 ```
 
 ### 📮 Postman collection and environment
-The collection and environment are available at the /public/docs directory.
 
-1. Import both files into Postman
-2. Use ```login``` (with the demo accounts credentials) or ```register```to obtain a token
-3. Paste the token on the bearer_token varaible in the value field
-Now it's ready to use
+The collection and environment are available in the `/public/docs`
+directory.
+
+1. Import both files into Postman.
+2. Log in using a verified account or register a new account and
+   complete the email verification process before logging in.
+3. Copy the access token returned by the login endpoint.
+4. Paste the token into the `bearer_token` environment variable.
+
+The collection is now ready to use.
 
 ### OpenAPI
 An openAPI file is also available at the /public/docs directory. Follow the same steps as for the Postman collection and environment, but use the OpenAPI file instead. (You may have to change the ```bearer_token``` variable name from the environment to ```bearerToken```)
